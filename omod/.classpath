@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" output="target/classes" path="src/main/java">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry excluding="**" kind="src" output="target/classes" path="src/main/resources">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry excluding="**" kind="src" output="target/classes" path="src/main/webapp">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/net.sourceforge.lpg.lpgjavaruntime_1.1.0.v200803061910.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.eclipse.emf.common_2.5.0.v200906151043.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.eclipse.emf.ecore_2.5.0.v200906151043.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.eclipse.ocl.ecore_1.3.0.v200905271400.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.eclipse.ocl_1.3.0.v200905271400.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.openhealthtools.mdht.uml.cda.ccd.source_1.0.0.201109121753.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.openhealthtools.mdht.uml.cda.ccd_1.0.0.201109121753.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.openhealthtools.mdht.uml.cda.cdt.source_1.0.0.201109121753.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.openhealthtools.mdht.uml.cda.cdt_1.0.0.201109121753.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.openhealthtools.mdht.uml.cda.hitsp.facade.source_0.7.0.201109121753.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.openhealthtools.mdht.uml.cda.hitsp.facade_0.7.0.201109121753.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.openhealthtools.mdht.uml.cda.hitsp.source_1.0.0.201109121753.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.openhealthtools.mdht.uml.cda.hitsp_1.0.0.201109121753.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.openhealthtools.mdht.uml.cda.ihe.source_1.0.0.201109121753.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.openhealthtools.mdht.uml.cda.ihe_1.0.0.201109121753.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.openhealthtools.mdht.uml.cda.toc.domain.source_0.1.0.201109121753.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.openhealthtools.mdht.uml.cda.toc.domain_0.1.0.201109121753.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.openhealthtools.mdht.uml.cda.toc.source_0.1.0.201109121753.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.openhealthtools.mdht.uml.cda.toc_0.1.0.201109121753.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.openhealthtools.mdht.uml.cda_1.0.0.201109121753.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.openhealthtools.mdht.uml.hl7.datatypes_1.0.0.201109121753.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.openhealthtools.mdht.uml.hl7.rim_1.0.0.201109121753.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.openhealthtools.mdht.uml.hl7.vocab_1.0.0.201109121753.jar"/>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>
