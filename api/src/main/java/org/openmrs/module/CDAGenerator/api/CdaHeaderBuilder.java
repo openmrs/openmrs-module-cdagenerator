@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.openhealthtools.mdht.uml.cda.AssignedAuthor;
 import org.openhealthtools.mdht.uml.cda.AssignedCustodian;
@@ -18,6 +19,7 @@ import org.openhealthtools.mdht.uml.cda.ClinicalDocument;
 import org.openhealthtools.mdht.uml.cda.Custodian;
 import org.openhealthtools.mdht.uml.cda.CustodianOrganization;
 import org.openhealthtools.mdht.uml.cda.DocumentationOf;
+import org.openhealthtools.mdht.uml.cda.Entry;
 import org.openhealthtools.mdht.uml.cda.InfrastructureRootTypeId;
 import org.openhealthtools.mdht.uml.cda.Organization;
 import org.openhealthtools.mdht.uml.cda.Participant1;
@@ -26,6 +28,7 @@ import org.openhealthtools.mdht.uml.cda.Performer1;
 import org.openhealthtools.mdht.uml.cda.Person;
 import org.openhealthtools.mdht.uml.cda.Section;
 import org.openhealthtools.mdht.uml.cda.ServiceEvent;
+import org.openhealthtools.mdht.uml.cda.StrucDocText;
 import org.openhealthtools.mdht.uml.hl7.datatypes.AD;
 import org.openhealthtools.mdht.uml.hl7.datatypes.CE;
 import org.openhealthtools.mdht.uml.hl7.datatypes.CS;
@@ -49,6 +52,10 @@ import org.openmrs.PersonAddress;
 import org.openmrs.Relationship;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.CDAGenerator.CDAHandlers.BaseCdaTypeHandler;
+import org.openmrs.module.CDAGenerator.SectionHandlers.ChiefComplaintSection;
+import org.openmrs.module.CDAGenerator.SectionHandlers.HistoryOfInfectionSection;
+import org.openmrs.module.CDAGenerator.SectionHandlers.HistoryOfPresentIllnessSection;
+import org.openmrs.module.CDAGenerator.SectionHandlers.SocialHistorySection;
 
 public class CdaHeaderBuilder 
 {
@@ -382,11 +389,18 @@ public class CdaHeaderBuilder
 	serviceEvent.getPerformers().add(performer);
 	dof.setServiceEvent(serviceEvent);
 	doc.getDocumentationOfs().add(dof);
-
-		
-		
-		
-		doc=buildSection(doc);		
+	
+	
+	
+	doc=buildHistoryOfPresentIllnessSection(doc);
+	
+	doc=buildChiefComplaintSection(doc);
+	
+	doc=buildSocialHistorySection(doc);
+	
+	doc=buildHistoryOfInfectionSection(doc);
+	
+	
 	return doc;
 	}
 	public IVL_TS  buildEffectiveTimeinIVL(Date d , Date d1)
@@ -530,10 +544,62 @@ public class CdaHeaderBuilder
 		return effectiveTime;
 	}
 	
-	public  ClinicalDocument buildSection(ClinicalDocument cd)
+	public ClinicalDocument buildChiefComplaintSection(ClinicalDocument cd)
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
-		section.setId(buildID("2.2.2.2.22222.2.2",null));
+        section.setSectionId(UUID.randomUUID().toString());
+        ChiefComplaintSection ccs=new ChiefComplaintSection();//this is bad approach though,just to test
+        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
+        text.addText("Text as described above");
+        section.setText(text);        
+		cd.addSection(section);
+		return cd;
+		
+	}
+	
+	public ClinicalDocument buildHistoryOfPresentIllnessSection(ClinicalDocument cd)
+	{
+		Section section=CDAFactory.eINSTANCE.createSection();
+        section.setSectionId(UUID.randomUUID().toString());
+        HistoryOfPresentIllnessSection ccs=new HistoryOfPresentIllnessSection();//this is bad approach though,just to test
+        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
+        text.addText("Text as described above");
+        section.setText(text);        
+		cd.addSection(section);
+		return cd;
+	}
+	public ClinicalDocument buildHistoryOfInfectionSection(ClinicalDocument cd)
+	{
+		Section section=CDAFactory.eINSTANCE.createSection();
+        section.setSectionId(UUID.randomUUID().toString());
+        HistoryOfInfectionSection ccs=new HistoryOfInfectionSection();//this is bad approach though,just to test
+        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
+        text.addText("Text as described above");
+        section.setText(text);        
+		cd.addSection(section);
+		return cd;
+	}
+	public ClinicalDocument buildSocialHistorySection(ClinicalDocument cd)
+	{
+		Section section=CDAFactory.eINSTANCE.createSection();
+        section.setSectionId(UUID.randomUUID().toString());
+        SocialHistorySection ccs=new SocialHistorySection();//this is bad approach though,just to test
+        section.getTemplateIds().add(buildTemplateID(ccs.getParentTemplateId(),null ,null ));
+        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
+        text.addText("Text as described above");
+        section.setText(text);        
 		cd.addSection(section);
 		return cd;
 	}

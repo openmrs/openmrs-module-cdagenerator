@@ -7,5 +7,6 @@ public ChiefComplaintSection()
 	this.sectionName="Chief Complaint";
 	this.templateid="1.3.6.1.4.1.19376.1.5.3.1.1.13.2.1";
 	this.sectionDescription="This contains a narrative description of the patient's chief complaint";
+	this.code="10154-3";
 }
 }
