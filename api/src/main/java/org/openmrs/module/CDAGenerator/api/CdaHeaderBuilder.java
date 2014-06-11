@@ -53,9 +53,15 @@ import org.openmrs.Relationship;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.CDAGenerator.CDAHandlers.BaseCdaTypeHandler;
 import org.openmrs.module.CDAGenerator.SectionHandlers.ChiefComplaintSection;
+import org.openmrs.module.CDAGenerator.SectionHandlers.GeneralAppearanceSection;
+import org.openmrs.module.CDAGenerator.SectionHandlers.HeadSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.HistoryOfInfectionSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.HistoryOfPresentIllnessSection;
+import org.openmrs.module.CDAGenerator.SectionHandlers.IntegumentarySystemSection;
+import org.openmrs.module.CDAGenerator.SectionHandlers.PhysicalExamSection;
+import org.openmrs.module.CDAGenerator.SectionHandlers.ReviewOfSystemsSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.SocialHistorySection;
+import org.openmrs.module.CDAGenerator.SectionHandlers.VisibleImplantedMedicalDevicesSection;
 
 public class CdaHeaderBuilder 
 {
@@ -247,8 +253,6 @@ public class CdaHeaderBuilder
 		doc.setCustodian(custodian);
 
 		
-		
-		
 		List<Relationship> relationShips= Context.getPersonService().getRelationshipsByPerson(p);
 		System.out.println(relationShips);
 		List<Participant1> participantList = new ArrayList<Participant1>(relationShips.size());
@@ -400,6 +404,10 @@ public class CdaHeaderBuilder
 	
 	doc=buildHistoryOfInfectionSection(doc);
 	
+	doc=buildReviewOfSystemsSection(doc);
+	
+	doc=buildPhysicalExamSection(doc);
+	
 	
 	return doc;
 	}
@@ -547,7 +555,7 @@ public class CdaHeaderBuilder
 	public ClinicalDocument buildChiefComplaintSection(ClinicalDocument cd)
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
-        section.setSectionId(UUID.randomUUID().toString());
+      //  section.setSectionId(UUID.randomUUID().toString());
         ChiefComplaintSection ccs=new ChiefComplaintSection();//this is bad approach though,just to test
         section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
         section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
@@ -563,7 +571,7 @@ public class CdaHeaderBuilder
 	public ClinicalDocument buildHistoryOfPresentIllnessSection(ClinicalDocument cd)
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
-        section.setSectionId(UUID.randomUUID().toString());
+     //   section.setSectionId(UUID.randomUUID().toString());
         HistoryOfPresentIllnessSection ccs=new HistoryOfPresentIllnessSection();//this is bad approach though,just to test
         section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
         section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
@@ -577,7 +585,7 @@ public class CdaHeaderBuilder
 	public ClinicalDocument buildHistoryOfInfectionSection(ClinicalDocument cd)
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
-        section.setSectionId(UUID.randomUUID().toString());
+   //     section.setSectionId(UUID.randomUUID().toString());
         HistoryOfInfectionSection ccs=new HistoryOfInfectionSection();//this is bad approach though,just to test
         section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
         section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
@@ -591,7 +599,7 @@ public class CdaHeaderBuilder
 	public ClinicalDocument buildSocialHistorySection(ClinicalDocument cd)
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
-        section.setSectionId(UUID.randomUUID().toString());
+   //     section.setSectionId(UUID.randomUUID().toString());
         SocialHistorySection ccs=new SocialHistorySection();//this is bad approach though,just to test
         section.getTemplateIds().add(buildTemplateID(ccs.getParentTemplateId(),null ,null ));
         section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
@@ -602,5 +610,107 @@ public class CdaHeaderBuilder
         section.setText(text);        
 		cd.addSection(section);
 		return cd;
+	}
+	
+	public ClinicalDocument buildReviewOfSystemsSection(ClinicalDocument cd)
+	{
+		Section section=CDAFactory.eINSTANCE.createSection();
+   //     section.setSectionId(UUID.randomUUID().toString());
+        ReviewOfSystemsSection ccs=new ReviewOfSystemsSection();//this is bad approach though,just to test
+        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
+        text.addText("Text as described above");
+        section.setText(text);        
+		cd.addSection(section);
+		return cd;
+	}
+	public  ClinicalDocument buildPhysicalExamSection(ClinicalDocument cd)
+	{
+		Section section=CDAFactory.eINSTANCE.createSection();
+		
+		
+       // section.setSectionId(UUID.randomUUID().toString());
+        PhysicalExamSection ccs=new PhysicalExamSection();//this is bad approach though,just to test
+        section.getTemplateIds().add(buildTemplateID(ccs.getParentTemplateId(),null ,null ));
+        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
+        text.addText("Text as described above");
+        section.setText(text);  
+        
+        Section OptionalSecs=CDAFactory.eINSTANCE.createSection();
+        
+        OptionalSecs=buildGeneralAppearanceSection();
+        section.addSection(OptionalSecs);
+        
+        OptionalSecs=buildVisibleImplantedMedicalDevicesSection();
+        section.addSection(OptionalSecs);
+        
+        OptionalSecs=buildIntegumentarySystemSection();
+        section.addSection(OptionalSecs);
+        
+        OptionalSecs=buildHeadSection();
+        section.addSection(OptionalSecs);
+        
+		cd.addSection(section);
+		
+			
+		
+		return cd;
+	}
+	public  Section buildGeneralAppearanceSection()
+	{
+		Section section=CDAFactory.eINSTANCE.createSection();
+		GeneralAppearanceSection ccs=new  GeneralAppearanceSection();//this is bad approach though,just to test
+        section.getTemplateIds().add(buildTemplateID(ccs.getParentTemplateId(),null ,null ));
+        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
+        text.addText("Text as described above");
+        section.setText(text);  
+		return section;
+	}
+	public  Section buildVisibleImplantedMedicalDevicesSection()
+	{
+		Section section=CDAFactory.eINSTANCE.createSection();
+		VisibleImplantedMedicalDevicesSection ccs=new  VisibleImplantedMedicalDevicesSection();//this is bad approach though,just to test
+        section.getTemplateIds().add(buildTemplateID(ccs.getParentTemplateId(),null ,null ));
+        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
+        text.addText("Text as described above");
+        section.setText(text);  
+		return section;
+	}
+	public  Section buildIntegumentarySystemSection()
+	{
+		Section section=CDAFactory.eINSTANCE.createSection();
+		IntegumentarySystemSection ccs=new  IntegumentarySystemSection();//this is bad approach though,just to test
+        section.getTemplateIds().add(buildTemplateID(ccs.getParentTemplateId(),null ,null ));
+        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
+        text.addText("Text as described above");
+        section.setText(text);  
+		return section;
+	}
+	public  Section buildHeadSection()
+	{
+		Section section=CDAFactory.eINSTANCE.createSection();
+		HeadSection ccs=new  HeadSection();//this is bad approach though,just to test
+        section.getTemplateIds().add(buildTemplateID(ccs.getParentTemplateId(),null ,null ));
+        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
+        text.addText("Text as described above");
+        section.setText(text);  
+		return section;
 	}
 }
