@@ -52,15 +52,34 @@ import org.openmrs.PersonAddress;
 import org.openmrs.Relationship;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.CDAGenerator.CDAHandlers.BaseCdaTypeHandler;
+import org.openmrs.module.CDAGenerator.SectionHandlers.AbdomenSection;
+import org.openmrs.module.CDAGenerator.SectionHandlers.BreastSection;
+import org.openmrs.module.CDAGenerator.SectionHandlers.ChestWallSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.ChiefComplaintSection;
+import org.openmrs.module.CDAGenerator.SectionHandlers.EarNoseMouthThroatSection;
+import org.openmrs.module.CDAGenerator.SectionHandlers.EarsSection;
+import org.openmrs.module.CDAGenerator.SectionHandlers.EndocrineSystemSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.GeneralAppearanceSection;
+import org.openmrs.module.CDAGenerator.SectionHandlers.GenitaliaSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.HeadSection;
+import org.openmrs.module.CDAGenerator.SectionHandlers.HeartSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.HistoryOfInfectionSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.HistoryOfPresentIllnessSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.IntegumentarySystemSection;
+import org.openmrs.module.CDAGenerator.SectionHandlers.LymphaticSystemSection;
+import org.openmrs.module.CDAGenerator.SectionHandlers.MouthThroatTeethSection;
+import org.openmrs.module.CDAGenerator.SectionHandlers.MusculoskeletalSystemSection;
+import org.openmrs.module.CDAGenerator.SectionHandlers.NeckSection;
+import org.openmrs.module.CDAGenerator.SectionHandlers.NeurologicSystemSection;
+import org.openmrs.module.CDAGenerator.SectionHandlers.NoseSection;
+import org.openmrs.module.CDAGenerator.SectionHandlers.OptionalEyesSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.PhysicalExamSection;
+import org.openmrs.module.CDAGenerator.SectionHandlers.RectumSection;
+import org.openmrs.module.CDAGenerator.SectionHandlers.RespiratorySystemSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.ReviewOfSystemsSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.SocialHistorySection;
+import org.openmrs.module.CDAGenerator.SectionHandlers.ThoraxLungsSection;
+import org.openmrs.module.CDAGenerator.SectionHandlers.VesselsSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.VisibleImplantedMedicalDevicesSection;
 
 public class CdaHeaderBuilder 
@@ -655,6 +674,63 @@ public class CdaHeaderBuilder
         OptionalSecs=buildHeadSection();
         section.addSection(OptionalSecs);
         
+        OptionalSecs=buildOptionalEyesSection();
+        section.addSection(OptionalSecs);
+        
+        OptionalSecs=buildEarNoseMouthThroatSection();
+        section.addSection(OptionalSecs);
+        
+        OptionalSecs=buildEarsSection();
+        section.addSection(OptionalSecs);
+
+        OptionalSecs=buildNoseSection();
+        section.addSection(OptionalSecs);
+
+        OptionalSecs=buildMouthThroatTeethSection();
+        section.addSection(OptionalSecs);
+        
+        OptionalSecs=buildNeckSection();
+        section.addSection(OptionalSecs);
+        
+        OptionalSecs=buildEndocrineSystemSection();
+        section.addSection(OptionalSecs);
+        
+        OptionalSecs=buildThoraxLungsSection();
+        section.addSection(OptionalSecs);
+        
+        OptionalSecs=buildThoraxLungsSection();
+        section.addSection(OptionalSecs);
+        
+        OptionalSecs=buildBreastSection();
+        section.addSection(OptionalSecs);
+        
+        OptionalSecs=buildHeartSection();
+        section.addSection(OptionalSecs);
+        
+        OptionalSecs=buildRespiratorySystemSection();
+        section.addSection(OptionalSecs);
+        
+       	OptionalSecs=buildAbdomenSection();
+       	section.addSection(OptionalSecs);
+       	
+       	OptionalSecs=buildLymphaticSystemSection();
+       	section.addSection(OptionalSecs);
+       	
+       	OptionalSecs=buildVesselsSection();
+       	section.addSection(OptionalSecs);
+       	
+       	OptionalSecs= buildMusculoskeletalSystemSection();
+       	section.addSection(OptionalSecs);
+       	
+       	OptionalSecs=buildNeurologicSystemSection();
+       	section.addSection(OptionalSecs);
+       	
+       	OptionalSecs=buildGenitaliaSection();
+       	section.addSection(OptionalSecs);
+       	
+       	OptionalSecs=buildRectumSection();
+       	section.addSection(OptionalSecs);
+       	
 		cd.addSection(section);
 		
 			
@@ -665,7 +741,6 @@ public class CdaHeaderBuilder
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
 		GeneralAppearanceSection ccs=new  GeneralAppearanceSection();//this is bad approach though,just to test
-        section.getTemplateIds().add(buildTemplateID(ccs.getParentTemplateId(),null ,null ));
         section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
         section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
         section.setTitle(buildTitle(ccs.getSectionDescription()));
@@ -678,7 +753,6 @@ public class CdaHeaderBuilder
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
 		VisibleImplantedMedicalDevicesSection ccs=new  VisibleImplantedMedicalDevicesSection();//this is bad approach though,just to test
-        section.getTemplateIds().add(buildTemplateID(ccs.getParentTemplateId(),null ,null ));
         section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
         section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
         section.setTitle(buildTitle(ccs.getSectionDescription()));
@@ -691,7 +765,6 @@ public class CdaHeaderBuilder
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
 		IntegumentarySystemSection ccs=new  IntegumentarySystemSection();//this is bad approach though,just to test
-        section.getTemplateIds().add(buildTemplateID(ccs.getParentTemplateId(),null ,null ));
         section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
         section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
         section.setTitle(buildTitle(ccs.getSectionDescription()));
@@ -704,7 +777,234 @@ public class CdaHeaderBuilder
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
 		HeadSection ccs=new  HeadSection();//this is bad approach though,just to test
-        section.getTemplateIds().add(buildTemplateID(ccs.getParentTemplateId(),null ,null ));
+        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
+        text.addText("Text as described above");
+        section.setText(text);  
+		return section;
+	}
+	public  Section buildOptionalEyesSection()
+	{
+		Section section=CDAFactory.eINSTANCE.createSection();
+		OptionalEyesSection ccs=new  OptionalEyesSection();//this is bad approach though,just to test
+        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
+        text.addText("Text as described above");
+        section.setText(text);  
+		return section;
+	}
+	public  Section buildEarNoseMouthThroatSection()
+	{
+		Section section=CDAFactory.eINSTANCE.createSection();
+		EarNoseMouthThroatSection ccs=new  EarNoseMouthThroatSection();//this is bad approach though,just to test
+        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
+        text.addText("Text as described above");
+        section.setText(text);  
+		return section;
+	}
+	public  Section buildEarsSection()
+	{
+		Section section=CDAFactory.eINSTANCE.createSection();
+		EarsSection ccs=new  EarsSection();//this is bad approach though,just to test
+        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
+        text.addText("Text as described above");
+        section.setText(text);  
+		return section;
+	}
+	public  Section buildNoseSection()
+	{
+		Section section=CDAFactory.eINSTANCE.createSection();
+		NoseSection ccs=new  NoseSection();//this is bad approach though,just to test
+        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
+        text.addText("Text as described above");
+        section.setText(text);  
+		return section;
+	}
+	public  Section buildMouthThroatTeethSection()
+	{
+		Section section=CDAFactory.eINSTANCE.createSection();
+		MouthThroatTeethSection ccs=new  MouthThroatTeethSection();//this is bad approach though,just to test
+        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
+        text.addText("Text as described above");
+        section.setText(text);  
+		return section;
+	}	
+	public  Section buildNeckSection()
+	{
+		Section section=CDAFactory.eINSTANCE.createSection();
+		NeckSection ccs=new  NeckSection();//this is bad approach though,just to test
+        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
+        text.addText("Text as described above");
+        section.setText(text);  
+		return section;
+	}	
+	public  Section buildEndocrineSystemSection()
+	{
+		Section section=CDAFactory.eINSTANCE.createSection();
+		EndocrineSystemSection ccs=new EndocrineSystemSection();//this is bad approach though,just to test
+        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
+        text.addText("Text as described above");
+        section.setText(text);  
+		return section;
+	}	
+	public  Section buildThoraxLungsSection()
+	{
+		Section section=CDAFactory.eINSTANCE.createSection();
+		ThoraxLungsSection ccs=new ThoraxLungsSection();//this is bad approach though,just to test
+        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
+        text.addText("Text as described above");
+        section.setText(text);  
+		return section;
+	}	
+	public  Section buildChestWallSection()
+	{
+		Section section=CDAFactory.eINSTANCE.createSection();
+		ChestWallSection ccs=new ChestWallSection();//this is bad approach though,just to test
+        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
+        text.addText("Text as described above");
+        section.setText(text);  
+		return section;
+	}	
+	public  Section buildBreastSection()
+	{
+		Section section=CDAFactory.eINSTANCE.createSection();
+		BreastSection ccs=new BreastSection();//this is bad approach though,just to test
+        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
+        text.addText("Text as described above");
+        section.setText(text);  
+		return section;
+	}
+	public  Section buildHeartSection()
+	{
+		Section section=CDAFactory.eINSTANCE.createSection();
+		HeartSection ccs=new HeartSection();//this is bad approach though,just to test
+        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
+        text.addText("Text as described above");
+        section.setText(text);  
+		return section;
+	}	
+	public  Section buildRespiratorySystemSection()
+	{
+		Section section=CDAFactory.eINSTANCE.createSection();
+		RespiratorySystemSection ccs=new RespiratorySystemSection();//this is bad approach though,just to test
+        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
+        text.addText("Text as described above");
+        section.setText(text);  
+		return section;
+	}
+	public  Section buildAbdomenSection()
+	{
+		Section section=CDAFactory.eINSTANCE.createSection();
+		AbdomenSection ccs=new AbdomenSection();//this is bad approach though,just to test
+        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
+        text.addText("Text as described above");
+        section.setText(text);  
+		return section;
+	}
+	public  Section buildLymphaticSystemSection()
+	{
+		Section section=CDAFactory.eINSTANCE.createSection();
+		LymphaticSystemSection ccs=new LymphaticSystemSection();//this is bad approach though,just to test
+        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
+        text.addText("Text as described above");
+        section.setText(text);  
+		return section;
+	}
+	public  Section buildVesselsSection()
+	{
+		Section section=CDAFactory.eINSTANCE.createSection();
+		VesselsSection ccs=new VesselsSection();//this is bad approach though,just to test
+        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
+        text.addText("Text as described above");
+        section.setText(text);  
+		return section;
+	}
+	public  Section buildMusculoskeletalSystemSection()
+	{
+		Section section=CDAFactory.eINSTANCE.createSection();
+		MusculoskeletalSystemSection ccs=new MusculoskeletalSystemSection();//this is bad approach though,just to test
+        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
+        text.addText("Text as described above");
+        section.setText(text);  
+		return section;
+	}
+	public  Section buildNeurologicSystemSection()
+	{
+		Section section=CDAFactory.eINSTANCE.createSection();
+		NeurologicSystemSection ccs=new NeurologicSystemSection();//this is bad approach though,just to test
+        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
+        text.addText("Text as described above");
+        section.setText(text);  
+		return section;
+	}
+	public  Section buildGenitaliaSection()
+	{
+		Section section=CDAFactory.eINSTANCE.createSection();
+		GenitaliaSection ccs=new GenitaliaSection();//this is bad approach though,just to test
+        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
+        text.addText("Text as described above");
+        section.setText(text);  
+		return section;
+	}
+	public  Section buildRectumSection()
+	{
+		Section section=CDAFactory.eINSTANCE.createSection();
+		RectumSection ccs=new RectumSection();//this is bad approach though,just to test
         section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
         section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
         section.setTitle(buildTitle(ccs.getSectionDescription()));
