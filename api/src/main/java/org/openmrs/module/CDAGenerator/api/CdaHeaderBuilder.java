@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import org.openhealthtools.mdht.uml.cda.Act;
 import org.openhealthtools.mdht.uml.cda.AssignedAuthor;
 import org.openhealthtools.mdht.uml.cda.AssignedCustodian;
 import org.openhealthtools.mdht.uml.cda.AssignedEntity;
@@ -21,14 +22,17 @@ import org.openhealthtools.mdht.uml.cda.Custodian;
 import org.openhealthtools.mdht.uml.cda.CustodianOrganization;
 import org.openhealthtools.mdht.uml.cda.DocumentationOf;
 import org.openhealthtools.mdht.uml.cda.Entry;
+import org.openhealthtools.mdht.uml.cda.EntryRelationship;
 import org.openhealthtools.mdht.uml.cda.InfrastructureRootTypeId;
 import org.openhealthtools.mdht.uml.cda.Observation;
+import org.openhealthtools.mdht.uml.cda.ObservationRange;
 import org.openhealthtools.mdht.uml.cda.Organization;
 import org.openhealthtools.mdht.uml.cda.Organizer;
 import org.openhealthtools.mdht.uml.cda.Participant1;
 import org.openhealthtools.mdht.uml.cda.PatientRole;
 import org.openhealthtools.mdht.uml.cda.Performer1;
 import org.openhealthtools.mdht.uml.cda.Person;
+import org.openhealthtools.mdht.uml.cda.ReferenceRange;
 import org.openhealthtools.mdht.uml.cda.RelatedSubject;
 import org.openhealthtools.mdht.uml.cda.Section;
 import org.openhealthtools.mdht.uml.cda.ServiceEvent;
@@ -36,6 +40,7 @@ import org.openhealthtools.mdht.uml.cda.StrucDocText;
 import org.openhealthtools.mdht.uml.cda.Subject;
 import org.openhealthtools.mdht.uml.cda.SubjectPerson;
 import org.openhealthtools.mdht.uml.hl7.datatypes.AD;
+import org.openhealthtools.mdht.uml.hl7.datatypes.CD;
 import org.openhealthtools.mdht.uml.hl7.datatypes.CE;
 import org.openhealthtools.mdht.uml.hl7.datatypes.CS;
 import org.openhealthtools.mdht.uml.hl7.datatypes.DatatypesFactory;
@@ -56,8 +61,11 @@ import org.openhealthtools.mdht.uml.hl7.vocab.NullFlavor;
 import org.openhealthtools.mdht.uml.hl7.vocab.ParticipationTargetSubject;
 import org.openhealthtools.mdht.uml.hl7.vocab.ParticipationType;
 import org.openhealthtools.mdht.uml.hl7.vocab.RoleClassAssociative;
+import org.openhealthtools.mdht.uml.hl7.vocab.x_ActClassDocumentEntryAct;
 import org.openhealthtools.mdht.uml.hl7.vocab.x_ActClassDocumentEntryOrganizer;
 import org.openhealthtools.mdht.uml.hl7.vocab.x_ActMoodDocumentObservation;
+import org.openhealthtools.mdht.uml.hl7.vocab.x_ActRelationshipEntryRelationship;
+import org.openhealthtools.mdht.uml.hl7.vocab.x_DocumentActMood;
 import org.openhealthtools.mdht.uml.hl7.vocab.x_ServiceEventPerformer;
 import org.openmrs.Patient;
 import org.openmrs.PersonAddress;
@@ -69,6 +77,7 @@ import org.openmrs.module.CDAGenerator.SectionHandlers.BreastSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.ChestWallSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.ChiefComplaintSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.CodedFamilyMedicalHistorySection;
+import org.openmrs.module.CDAGenerator.SectionHandlers.CodedVitalSignsSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.EarNoseMouthThroatSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.EarsSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.EndocrineSystemSection;
@@ -78,6 +87,7 @@ import org.openmrs.module.CDAGenerator.SectionHandlers.GenitaliaSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.HeadSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.HeartSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.HistoryOfInfectionSection;
+import org.openmrs.module.CDAGenerator.SectionHandlers.HistoryOfPastIllnessSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.HistoryOfPresentIllnessSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.IntegumentarySystemSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.LymphaticSystemSection;
@@ -96,6 +106,7 @@ import org.openmrs.module.CDAGenerator.SectionHandlers.SocialHistorySection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.ThoraxLungsSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.VesselsSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.VisibleImplantedMedicalDevicesSection;
+import org.openmrs.module.CDAGenerator.SectionHandlers.VitalSignsSection;
 
 public class CdaHeaderBuilder 
 {
@@ -438,6 +449,8 @@ public class CdaHeaderBuilder
 	
 	doc=buildHistoryOfInfectionSection(doc);
 	
+	doc=buildHistoryOfPastIllnessSection(doc);
+	
 	doc=buildPregnancyHistorySection(doc);
 	
 	doc=buildCodedFamilyMedicalHistorySection(doc);
@@ -578,6 +591,28 @@ public class CdaHeaderBuilder
 		return e;
 
 	}
+	public CD buildCodeCD(String code , String codeSystem, String displayString, String codeSystemName)
+	{
+		CD e = DatatypesFactory.eINSTANCE.createCD();
+		if(code!=null)
+		{
+		e.setCode(code);
+		}
+		if(codeSystem!=null)
+		{
+		e.setCodeSystem(codeSystem);
+		}
+		if(displayString!=null)
+		{
+		e.setDisplayName(displayString);
+		}
+		if(displayString!=null)
+		{
+		e.setCodeSystemName(codeSystemName);
+		}
+		return e;
+
+	}
 	public  TS buildEffectiveTime(Date d)
 	{
 		TS effectiveTime = DatatypesFactory.eINSTANCE.createTS();
@@ -670,6 +705,182 @@ public class CdaHeaderBuilder
         section.setText(text);        
 		cd.addSection(section);
 		return cd;
+	}
+	public ClinicalDocument buildHistoryOfPastIllnessSection(ClinicalDocument cd)
+	{
+	Section section=CDAFactory.eINSTANCE.createSection();
+	HistoryOfPastIllnessSection ccs=new HistoryOfPastIllnessSection();
+	section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
+	section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+	section.setTitle(buildTitle(ccs.getSectionDescription()));
+	StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
+    text.addText("Text as described above");
+    section.setText(text); 
+    
+    Entry e=CDAFactory.eINSTANCE.createEntry();
+    Act act=CDAFactory.eINSTANCE.createAct();
+    act.setClassCode(x_ActClassDocumentEntryAct.ACT);
+    act.setMoodCode(x_DocumentActMood.EVN);
+    act.getTemplateIds().add(buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.5.2",null,null));
+    act.getTemplateIds().add(buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.5.1",null,null));
+    act.getTemplateIds().add(buildTemplateID("2.16.840.1.113883.10.20.1.27",null,null));
+    act.getIds().add(buildID("id",null));
+    CD code=DatatypesFactory.eINSTANCE.createCD();
+    CS cs=DatatypesFactory.eINSTANCE.createCS();
+    cs.setCode("active");
+    code.setNullFlavor(NullFlavor.NA);
+    act.setCode(code);
+    act.setStatusCode(cs);
+    IVL_TS effectiveTime=DatatypesFactory.eINSTANCE.createIVL_TS();
+    IVXB_TS low=DatatypesFactory.eINSTANCE.createIVXB_TS();
+    low.setValue("20071011");
+    IVXB_TS high=DatatypesFactory.eINSTANCE.createIVXB_TS();
+    high.setValue("20071012");
+    effectiveTime.setLow(low);
+    effectiveTime.setLow(high);
+    act.setEffectiveTime(effectiveTime);
+    
+    EntryRelationship entryRelationship1=CDAFactory.eINSTANCE.createEntryRelationship();
+    entryRelationship1.setTypeCode(x_ActRelationshipEntryRelationship.SUBJ);
+    entryRelationship1.setInversionInd(false);
+    
+    Observation observation1=CDAFactory.eINSTANCE.createObservation();
+    observation1.setClassCode(ActClassObservation.OBS);
+    observation1.setMoodCode(x_ActMoodDocumentObservation.EVN);
+    observation1.setNegationInd(false);
+    observation1.getTemplateIds().add(buildTemplateID("2.16.840.1.113883.10.20.1.28",null,null));
+    observation1.getTemplateIds().add(buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.5",null,null));
+    observation1.getIds().add(buildID("2.1.160",null));
+    observation1.setCode(buildCodeCD("64572001","2.16.840.1.113883.6.96",null,null));
+    cs.setCode("completed");
+    observation1.setStatusCode(cs);
+    
+    IVL_TS effectiveTime1=DatatypesFactory.eINSTANCE.createIVL_TS();
+    IVXB_TS low1=DatatypesFactory.eINSTANCE.createIVXB_TS();
+    low1.setNullFlavor(NullFlavor.UNK);
+    observation1.setEffectiveTime(effectiveTime1);
+    
+    CD codecd=DatatypesFactory.eINSTANCE.createCD();
+    codecd.setCode("thing");
+    codecd.setCodeSystem("thing");
+    codecd.setDisplayName("myname");
+    codecd.setCodeSystemName("myname");
+    observation1.getValues().add(codecd);
+    entryRelationship1.setObservation(observation1);
+    
+    EntryRelationship entryRelationship2=CDAFactory.eINSTANCE.createEntryRelationship();
+    entryRelationship2.setTypeCode(x_ActRelationshipEntryRelationship.REFR);
+    entryRelationship2.setInversionInd(false);
+    
+    Observation observation2=CDAFactory.eINSTANCE.createObservation();
+    observation2.setClassCode(ActClassObservation.OBS);
+    observation2.setMoodCode(x_ActMoodDocumentObservation.EVN);
+    observation2.getTemplateIds().add(buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.1.2",null,null));
+    observation2.getTemplateIds().add(buildTemplateID("2.16.840.1.113883.10.20.1.51",null,null));
+    observation2.setCode(buildCodeCD("11323-3","2.16.840.1.113883.6.1","Health Status","LOINC"));
+    observation2.setText(buildEDText("#ignore"));
+    observation2.setStatusCode(cs);
+    observation2.getValues().add(buildCodeCE("81323004","2.16.840.1.113883.6.96","Alive and well","SNOMED CT"));
+    entryRelationship2.setObservation(observation2);
+    
+    
+    EntryRelationship entryRelationship3=CDAFactory.eINSTANCE.createEntryRelationship();
+    entryRelationship3.setTypeCode(x_ActRelationshipEntryRelationship.SUBJ);
+    entryRelationship3.setInversionInd(true);
+    
+    Observation observation3=CDAFactory.eINSTANCE.createObservation();
+    observation3.setClassCode(ActClassObservation.OBS);
+    observation3.setMoodCode(x_ActMoodDocumentObservation.EVN);
+    observation3.getTemplateIds().add(buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.1",null,null));
+    observation3.getTemplateIds().add(buildTemplateID("2.16.840.1.113883.10.20.1.55",null,null));
+    observation3.setCode(buildCodeCD("SEV","2.16.840.1.113883.5.4",null,null));
+    observation3.setText(buildEDText("#ignore"));
+    observation3.setStatusCode(cs);
+    observation3.getValues().add(buildCodeCD("H","2.16.840.1.113883.5.1063",null,null));
+    entryRelationship3.setObservation(observation3);
+    
+    
+    EntryRelationship entryRelationship4=CDAFactory.eINSTANCE.createEntryRelationship();
+    entryRelationship4.setTypeCode(x_ActRelationshipEntryRelationship.REFR);
+    
+    Observation observation4=CDAFactory.eINSTANCE.createObservation();
+    observation4.setClassCode(ActClassObservation.OBS);
+    observation4.setMoodCode(x_ActMoodDocumentObservation.EVN);
+    observation4.getTemplateIds().add(buildTemplateID("2.16.840.1.113883.10.20.1.57",null,null));
+    observation4.getTemplateIds().add(buildTemplateID("2.16.840.1.113883.10.20.1.50",null,null));
+    observation4.getTemplateIds().add(buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.1.1",null,null));
+    observation4.setCode(buildCodeCE("33999-4","2.16.840.1.113883.6.1",null,null));
+    observation4.setText(buildEDText("#ignore"));
+    observation4.setStatusCode(cs);
+    observation4.getValues().add(buildCodeCE("55561003","2.16.840.1.113883.6.96"," ","SNOMED CT"));
+    entryRelationship4.setObservation(observation4);
+    
+    EntryRelationship entryRelationship5=CDAFactory.eINSTANCE.createEntryRelationship();
+    Act act1=CDAFactory.eINSTANCE.createAct();
+    act1.setClassCode(x_ActClassDocumentEntryAct.ACT);
+    act1.setMoodCode(x_DocumentActMood.EVN);
+    act1.getTemplateIds().add(buildTemplateID("2.16.840.1.113883.10.20.1.40",null,null));
+    act1.getTemplateIds().add(buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.2",null,null));
+    act1.setCode(buildCodeCD("48767-8","2.16.840.1.113883.6.1","Annotation Comment","LOINC"));
+    act1.setText(buildEDText("#ignore"));
+    act1.setStatusCode(cs);   
+    
+        Author author = CDAFactory.eINSTANCE.createAuthor();
+		author.setTime(buildEffectiveTime(new Date()));
+		AssignedAuthor assignedAuthor = CDAFactory.eINSTANCE.createAssignedAuthor();
+				
+		AD assignedAuthorAddress=DatatypesFactory.eINSTANCE.createAD();
+		assignedAuthorAddress.addCountry(" ");
+		TEL assignedAuthorTelecon = DatatypesFactory.eINSTANCE.createTEL();
+		assignedAuthorTelecon.setNullFlavor(NullFlavor.UNK);
+		
+		assignedAuthor.getAddrs().add(assignedAuthorAddress);
+		assignedAuthor.getTelecoms().add(assignedAuthorTelecon);
+		
+		Person assignedPerson = CDAFactory.eINSTANCE.createPerson(); //assigned person must be system
+		PN assignedPersonName = DatatypesFactory.eINSTANCE.createPN();
+		assignedPerson.getNames().add(assignedPersonName);
+		assignedAuthor.setAssignedPerson(assignedPerson);
+  		
+		Organization representedOrganization = CDAFactory.eINSTANCE.createOrganization();
+		ON representedOrganizationName=DatatypesFactory.eINSTANCE.createON();
+		representedOrganizationName.addText(Context.getAdministrationService().getImplementationId().getName());
+		representedOrganization.getNames().add(representedOrganizationName);
+		AD representedOrganizationAddress = DatatypesFactory.eINSTANCE.createAD();
+		representedOrganizationAddress.addCounty(" ");
+		representedOrganization.getAddrs().add(representedOrganizationAddress);
+		TEL representedOrganizationTelecon = DatatypesFactory.eINSTANCE.createTEL();
+		representedOrganizationTelecon.setNullFlavor(NullFlavor.UNK);
+		representedOrganization.getTelecoms().add(representedOrganizationTelecon);
+		assignedAuthor.setRepresentedOrganization(representedOrganization);
+		
+		author.setAssignedAuthor(assignedAuthor);
+		act1.getAuthors().add(author);
+		entryRelationship5.setAct(act1);
+
+		EntryRelationship entryRelationship6=CDAFactory.eINSTANCE.createEntryRelationship();
+	    entryRelationship6.setTypeCode(x_ActRelationshipEntryRelationship.SUBJ);
+	    
+	    Observation observation5=CDAFactory.eINSTANCE.createObservation();
+	    observation5.setClassCode(ActClassObservation.OBS);
+	    observation5.setMoodCode(x_ActMoodDocumentObservation.EVN);
+	    observation5.getTemplateIds().add(buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.5.3",null,null));
+	    observation5.getTemplateIds().add(buildTemplateID("2.16.840.1.113883.10.20.1.27",null,null));
+	    entryRelationship6.setObservation(observation5);
+	    
+		
+       act.getEntryRelationships().add(entryRelationship1);
+       act.getEntryRelationships().add(entryRelationship2);
+       act.getEntryRelationships().add(entryRelationship3);
+       act.getEntryRelationships().add(entryRelationship4);
+       act.getEntryRelationships().add(entryRelationship5);
+       act.getEntryRelationships().add(entryRelationship6);
+       
+       e.setAct(act);
+       section.getEntries().add(e);
+       cd.addSection(section);
+          
+	return cd;
 	}
 	public ClinicalDocument buildPregnancyHistorySection(ClinicalDocument cd)
 	{
@@ -812,6 +1023,9 @@ public class CdaHeaderBuilder
         
         Section OptionalSecs=CDAFactory.eINSTANCE.createSection();
         
+        OptionalSecs=buildCodedVitalSignsSection();
+        section.addSection(OptionalSecs);
+        
         OptionalSecs=buildGeneralAppearanceSection();
         section.addSection(OptionalSecs);
         
@@ -884,6 +1098,7 @@ public class CdaHeaderBuilder
 		cd.addSection(section);		
 		return cd;
 	}
+	
 	public  Section buildGeneralAppearanceSection()
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
@@ -1158,6 +1373,90 @@ public class CdaHeaderBuilder
         StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
         text.addText("Text as described above");
         section.setText(text);  
+		return section;
+	}
+	public Section buildCodedVitalSignsSection()
+	{
+		Section section=CDAFactory.eINSTANCE.createSection();
+		VitalSignsSection vss=new VitalSignsSection();
+		CodedVitalSignsSection ccs=new CodedVitalSignsSection();
+		section.getTemplateIds().add(buildTemplateID(vss.getParentTemplateId(),null ,null ));
+		section.getTemplateIds().add(buildTemplateID(ccs.getParentTemplateId(),null ,null ));
+		section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
+		section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
+        text.addText("Text as described above");
+        section.setText(text);
+        
+        Entry e=CDAFactory.eINSTANCE.createEntry();
+        Organizer organizer=CDAFactory.eINSTANCE.createOrganizer();
+        organizer.setClassCode(x_ActClassDocumentEntryOrganizer.CLUSTER);
+        organizer.setMoodCode(ActMood.EVN);
+        
+        organizer.getTemplateIds().add(buildTemplateID("2.16.840.1.113883.10.20.1.32",null,null));
+        organizer.getTemplateIds().add(buildTemplateID("2.16.840.1.113883.10.20.1.35",null,null));
+        organizer.getTemplateIds().add(buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.13.1",null,null));
+        organizer.getIds().add(buildID("id",null));
+        organizer.setCode(buildCodeCD("46680005","2.16.840.1.113883.6.96","Vital signs","SNOMED CT"));
+        CS cs= DatatypesFactory.eINSTANCE.createCS();
+    	cs.setCode("completed");
+    	organizer.setStatusCode(cs);
+    	
+    	IVL_TS effectiveTime = DatatypesFactory.eINSTANCE.createIVL_TS();
+     	Date d=new Date();
+     	SimpleDateFormat s = new SimpleDateFormat("yyyyMMddhhmmss");
+     	String creationDate = s.format(d);
+     	effectiveTime.setValue(creationDate);
+     	effectiveTime.setNullFlavor(NullFlavor.UNK);
+     	organizer.setEffectiveTime(effectiveTime);
+    	
+     	Author author = CDAFactory.eINSTANCE.createAuthor();
+		author.setTime(buildEffectiveTime(new Date()));
+		AssignedAuthor assignedAuthor = CDAFactory.eINSTANCE.createAssignedAuthor();
+				
+		AD assignedAuthorAddress=DatatypesFactory.eINSTANCE.createAD();
+		assignedAuthorAddress.addCountry(" ");
+		TEL assignedAuthorTelecon = DatatypesFactory.eINSTANCE.createTEL();
+		assignedAuthorTelecon.setNullFlavor(NullFlavor.UNK);
+		
+		assignedAuthor.getAddrs().add(assignedAuthorAddress);
+		assignedAuthor.getTelecoms().add(assignedAuthorTelecon);
+		
+		Person assignedPerson = CDAFactory.eINSTANCE.createPerson(); //assigned person must be system
+		PN assignedPersonName = DatatypesFactory.eINSTANCE.createPN();
+		assignedPerson.getNames().add(assignedPersonName);
+		assignedAuthor.setAssignedPerson(assignedPerson);
+  			
+		author.setAssignedAuthor(assignedAuthor);
+		organizer.getAuthors().add(author);
+		
+		Component4 component=CDAFactory.eINSTANCE.createComponent4();
+        
+        Observation observation=CDAFactory.eINSTANCE.createObservation();
+     	observation.setClassCode(ActClassObservation.OBS);
+     	observation.setMoodCode(x_ActMoodDocumentObservation.EVN);
+     	observation.getTemplateIds().add(buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.13",null,null));
+     	observation.getTemplateIds().add(buildTemplateID("2.16.840.1.113883.10.20.1.31",null,null));
+     	observation.getTemplateIds().add(buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.13.2",null,null));
+     	observation.getIds().add(buildTemplateID("id",null,null));
+     	observation.setCode(buildCodeCE("9279-1","2.16.840.1.113883.6.1",null,"LOINC"));
+     	observation.setText(buildEDText("#ignore"));
+     	observation.setStatusCode(cs);
+     	IVL_TS effectiveTime1 = DatatypesFactory.eINSTANCE.createIVL_TS();
+     	effectiveTime1.setNullFlavor(NullFlavor.UNK);
+     	observation.setEffectiveTime(effectiveTime1);
+     	
+     	ReferenceRange referenceRange=CDAFactory.eINSTANCE.createReferenceRange();
+     	ObservationRange observationRange=CDAFactory.eINSTANCE.createObservationRange();
+     	observationRange.setText(buildEDText("Reference Range Text Here"));
+     	referenceRange.setObservationRange(observationRange);
+     	observation.getReferenceRanges().add(referenceRange);
+     	component.setObservation(observation);    	
+        organizer.getComponents().add(component);
+        e.setOrganizer(organizer);
+		section.getEntries().add(e); 	   
+		
 		return section;
 	}
 }
