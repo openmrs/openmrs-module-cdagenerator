@@ -16,23 +16,30 @@ import org.openhealthtools.mdht.uml.cda.Author;
 import org.openhealthtools.mdht.uml.cda.AuthoringDevice;
 import org.openhealthtools.mdht.uml.cda.CDAFactory;
 import org.openhealthtools.mdht.uml.cda.ClinicalDocument;
+import org.openhealthtools.mdht.uml.cda.Component4;
 import org.openhealthtools.mdht.uml.cda.Custodian;
 import org.openhealthtools.mdht.uml.cda.CustodianOrganization;
 import org.openhealthtools.mdht.uml.cda.DocumentationOf;
 import org.openhealthtools.mdht.uml.cda.Entry;
 import org.openhealthtools.mdht.uml.cda.InfrastructureRootTypeId;
+import org.openhealthtools.mdht.uml.cda.Observation;
 import org.openhealthtools.mdht.uml.cda.Organization;
+import org.openhealthtools.mdht.uml.cda.Organizer;
 import org.openhealthtools.mdht.uml.cda.Participant1;
 import org.openhealthtools.mdht.uml.cda.PatientRole;
 import org.openhealthtools.mdht.uml.cda.Performer1;
 import org.openhealthtools.mdht.uml.cda.Person;
+import org.openhealthtools.mdht.uml.cda.RelatedSubject;
 import org.openhealthtools.mdht.uml.cda.Section;
 import org.openhealthtools.mdht.uml.cda.ServiceEvent;
 import org.openhealthtools.mdht.uml.cda.StrucDocText;
+import org.openhealthtools.mdht.uml.cda.Subject;
+import org.openhealthtools.mdht.uml.cda.SubjectPerson;
 import org.openhealthtools.mdht.uml.hl7.datatypes.AD;
 import org.openhealthtools.mdht.uml.hl7.datatypes.CE;
 import org.openhealthtools.mdht.uml.hl7.datatypes.CS;
 import org.openhealthtools.mdht.uml.hl7.datatypes.DatatypesFactory;
+import org.openhealthtools.mdht.uml.hl7.datatypes.ED;
 import org.openhealthtools.mdht.uml.hl7.datatypes.II;
 import org.openhealthtools.mdht.uml.hl7.datatypes.IVL_TS;
 import org.openhealthtools.mdht.uml.hl7.datatypes.IVXB_TS;
@@ -42,10 +49,15 @@ import org.openhealthtools.mdht.uml.hl7.datatypes.SC;
 import org.openhealthtools.mdht.uml.hl7.datatypes.ST;
 import org.openhealthtools.mdht.uml.hl7.datatypes.TEL;
 import org.openhealthtools.mdht.uml.hl7.datatypes.TS;
+import org.openhealthtools.mdht.uml.hl7.vocab.ActClassObservation;
 import org.openhealthtools.mdht.uml.hl7.vocab.ActClassRoot;
+import org.openhealthtools.mdht.uml.hl7.vocab.ActMood;
 import org.openhealthtools.mdht.uml.hl7.vocab.NullFlavor;
+import org.openhealthtools.mdht.uml.hl7.vocab.ParticipationTargetSubject;
 import org.openhealthtools.mdht.uml.hl7.vocab.ParticipationType;
 import org.openhealthtools.mdht.uml.hl7.vocab.RoleClassAssociative;
+import org.openhealthtools.mdht.uml.hl7.vocab.x_ActClassDocumentEntryOrganizer;
+import org.openhealthtools.mdht.uml.hl7.vocab.x_ActMoodDocumentObservation;
 import org.openhealthtools.mdht.uml.hl7.vocab.x_ServiceEventPerformer;
 import org.openmrs.Patient;
 import org.openmrs.PersonAddress;
@@ -56,9 +68,11 @@ import org.openmrs.module.CDAGenerator.SectionHandlers.AbdomenSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.BreastSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.ChestWallSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.ChiefComplaintSection;
+import org.openmrs.module.CDAGenerator.SectionHandlers.CodedFamilyMedicalHistorySection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.EarNoseMouthThroatSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.EarsSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.EndocrineSystemSection;
+import org.openmrs.module.CDAGenerator.SectionHandlers.FamilyMedicalHistorySection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.GeneralAppearanceSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.GenitaliaSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.HeadSection;
@@ -74,6 +88,7 @@ import org.openmrs.module.CDAGenerator.SectionHandlers.NeurologicSystemSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.NoseSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.OptionalEyesSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.PhysicalExamSection;
+import org.openmrs.module.CDAGenerator.SectionHandlers.PregnancyHistorySection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.RectumSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.RespiratorySystemSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.ReviewOfSystemsSection;
@@ -423,6 +438,10 @@ public class CdaHeaderBuilder
 	
 	doc=buildHistoryOfInfectionSection(doc);
 	
+	doc=buildPregnancyHistorySection(doc);
+	
+	doc=buildCodedFamilyMedicalHistorySection(doc);
+	
 	doc=buildReviewOfSystemsSection(doc);
 	
 	doc=buildPhysicalExamSection(doc);
@@ -571,6 +590,13 @@ public class CdaHeaderBuilder
 		return effectiveTime;
 	}
 	
+	public ED buildEDText(String value)
+	{
+		ED text = DatatypesFactory.eINSTANCE.createED();
+		text.addText("<reference value=\""+value+"\"/>");
+		return text;
+	}
+	
 	public ClinicalDocument buildChiefComplaintSection(ClinicalDocument cd)
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
@@ -645,6 +671,130 @@ public class CdaHeaderBuilder
 		cd.addSection(section);
 		return cd;
 	}
+	public ClinicalDocument buildPregnancyHistorySection(ClinicalDocument cd)
+	{
+	Section section=CDAFactory.eINSTANCE.createSection();
+	PregnancyHistorySection ccs=new PregnancyHistorySection();
+	section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
+	section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+	Entry e=CDAFactory.eINSTANCE.createEntry();
+	Observation o=CDAFactory.eINSTANCE.createObservation();
+	o.setClassCode(ActClassObservation.OBS);
+	o.setMoodCode(x_ActMoodDocumentObservation.EVN);
+	o.getTemplateIds().add(buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.13",null,null));
+	o.getTemplateIds().add(buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.13.5",null,null));
+	o.getIds().add(buildTemplateID("pregid",null,null));
+	o.setCode(buildCodeCE("48767-8","2.16.840.1.113883.6.1","Annotation Comment","LOINC"));
+	
+	o.setText(buildEDText("#xxx"));
+	e.setObservation(o);
+	CS cs= DatatypesFactory.eINSTANCE.createCS();
+	cs.setCode("completed");
+	o.setStatusCode(cs);
+	
+	IVL_TS effectiveTime = DatatypesFactory.eINSTANCE.createIVL_TS();
+	Date d=new Date();
+	SimpleDateFormat s = new SimpleDateFormat("yyyyMMddhhmmss");
+	String creationDate = s.format(d);
+	effectiveTime.setValue(creationDate);
+	
+	o.setEffectiveTime(effectiveTime);
+	CE ce= DatatypesFactory.eINSTANCE.createCE();
+	o.getValues().add(ce);
+	
+	e.setObservation(o);
+	section.getEntries().add(e);
+	
+	cd.addSection(section);
+	return cd;
+	}
+	
+	public ClinicalDocument buildCodedFamilyMedicalHistorySection(ClinicalDocument cd)
+	{
+		Section section=CDAFactory.eINSTANCE.createSection();
+		CodedFamilyMedicalHistorySection ccs=new CodedFamilyMedicalHistorySection();
+		FamilyMedicalHistorySection fmhs=new FamilyMedicalHistorySection();
+		section.getTemplateIds().add(buildTemplateID(ccs.getParentTemplateId(),null ,null ));
+		section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
+		section.getTemplateIds().add(buildTemplateID(fmhs.getParentTemplateId(),null ,null ));
+		section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
+        text.addText("Text as described above");
+        section.setText(text);  
+
+        Entry e=CDAFactory.eINSTANCE.createEntry();
+        Organizer organizer=CDAFactory.eINSTANCE.createOrganizer();
+        organizer.setClassCode(x_ActClassDocumentEntryOrganizer.CLUSTER);
+        organizer.setMoodCode(ActMood.EVN);
+        
+        organizer.getTemplateIds().add(buildTemplateID("2.16.840.1.113883.10.20.1.23",null,null));
+        organizer.getTemplateIds().add(buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.15",null,null));
+    	
+    	CS cs= DatatypesFactory.eINSTANCE.createCS();
+    	cs.setCode("completed");
+    	organizer.setStatusCode(cs);
+    	
+    	Subject subject=CDAFactory.eINSTANCE.createSubject();
+         subject.setTypeCode(ParticipationTargetSubject.SBJ);
+         
+         RelatedSubject relatedSubject=CDAFactory.eINSTANCE.createRelatedSubject();
+         relatedSubject.setCode(buildCodeCE("ignore","2.16.840.1.113883.5.111",null,"RoleCode"));
+         
+         AD relatedSubjectAddress=DatatypesFactory.eINSTANCE.createAD();
+         relatedSubjectAddress.addCountry(" ");
+         TEL relatedSubjectTelecon=DatatypesFactory.eINSTANCE.createTEL();
+         relatedSubjectTelecon.setNullFlavor(NullFlavor.UNK);
+         
+         relatedSubject.getAddrs().add(relatedSubjectAddress);
+         relatedSubject.getTelecoms().add(relatedSubjectTelecon);
+         
+         SubjectPerson subjectperson=CDAFactory.eINSTANCE.createSubjectPerson();
+         CE administartivegender=DatatypesFactory.eINSTANCE.createCE();
+         PN names=DatatypesFactory.eINSTANCE.createPN();
+         administartivegender.setCode("A");
+         subjectperson.setAdministrativeGenderCode(administartivegender);
+         subjectperson.getNames().add(names);
+         relatedSubject.setSubject(subjectperson);
+         
+         subject.setRelatedSubject(relatedSubject);
+         organizer.setSubject(subject);
+         
+         Component4 component=CDAFactory.eINSTANCE.createComponent4();
+         
+        Observation observation=CDAFactory.eINSTANCE.createObservation();
+     	observation.setClassCode(ActClassObservation.OBS);
+     	observation.setMoodCode(x_ActMoodDocumentObservation.EVN);
+     	observation.getTemplateIds().add(buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.13.3",null,null));
+     	observation.getTemplateIds().add(buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.13",null,null));
+     	observation.getTemplateIds().add(buildTemplateID("2.16.840.1.113883.10.20.1.22",null,null));
+     	observation.getIds().add(buildTemplateID("id",null,null));
+     	observation.setCode(buildCodeCE("64572001",null,null,null));
+     	observation.setText(buildEDText("#ignore"));
+     	observation.setStatusCode(cs);
+     	
+     	
+     	IVL_TS effectiveTime = DatatypesFactory.eINSTANCE.createIVL_TS();
+     	Date d=new Date();
+     	SimpleDateFormat s = new SimpleDateFormat("yyyyMMddhhmmss");
+     	String creationDate = s.format(d);
+     	effectiveTime.setValue(creationDate);
+     	effectiveTime.setNullFlavor(NullFlavor.UNK);
+     	observation.setEffectiveTime(effectiveTime);
+     	
+     	CE ce= DatatypesFactory.eINSTANCE.createCE();
+     	ce.setCodeSystem("2.16.840.1.113883.6.26");
+     	observation.getValues().add(ce);
+         
+     	component.setObservation(observation); 
+        organizer.getComponents().add(component);
+    	
+        e.setOrganizer(organizer);
+		section.getEntries().add(e);
+	    cd.addSection(section);
+		return cd;
+	}
+	
 	public  ClinicalDocument buildPhysicalExamSection(ClinicalDocument cd)
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
@@ -731,10 +881,7 @@ public class CdaHeaderBuilder
        	OptionalSecs=buildRectumSection();
        	section.addSection(OptionalSecs);
        	
-		cd.addSection(section);
-		
-			
-		
+		cd.addSection(section);		
 		return cd;
 	}
 	public  Section buildGeneralAppearanceSection()
