@@ -441,7 +441,7 @@ public class CdaHeaderBuilder
 	
 	
 	
-	doc=buildHistoryOfPresentIllnessSection(doc);
+	/*doc=buildHistoryOfPresentIllnessSection(doc);
 	
 	doc=buildChiefComplaintSection(doc);
 	
@@ -457,7 +457,7 @@ public class CdaHeaderBuilder
 	
 	doc=buildReviewOfSystemsSection(doc);
 	
-	doc=buildPhysicalExamSection(doc);
+	doc=buildPhysicalExamSection(doc);*/
 	
 	
 	return doc;
@@ -632,23 +632,9 @@ public class CdaHeaderBuilder
 		return text;
 	}
 	
-	public ClinicalDocument buildChiefComplaintSection(ClinicalDocument cd)
-	{
-		Section section=CDAFactory.eINSTANCE.createSection();
-      //  section.setSectionId(UUID.randomUUID().toString());
-        ChiefComplaintSection ccs=new ChiefComplaintSection();//this is bad approach though,just to test
-        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
-        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
-        section.setTitle(buildTitle(ccs.getSectionDescription()));
-        StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
-        text.addText("Text as described above");
-        section.setText(text);        
-		cd.addSection(section);
-		return cd;
-		
-	}
 	
-	public ClinicalDocument buildHistoryOfPresentIllnessSection(ClinicalDocument cd)
+	
+	/*public ClinicalDocument buildHistoryOfPresentIllnessSection(ClinicalDocument cd)
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
      //   section.setSectionId(UUID.randomUUID().toString());
@@ -816,6 +802,7 @@ public class CdaHeaderBuilder
     entryRelationship4.setObservation(observation4);
     
     EntryRelationship entryRelationship5=CDAFactory.eINSTANCE.createEntryRelationship();
+    entryRelationship5.setTypeCode(x_ActRelationshipEntryRelationship.SUBJ);
     Act act1=CDAFactory.eINSTANCE.createAct();
     act1.setClassCode(x_ActClassDocumentEntryAct.ACT);
     act1.setMoodCode(x_DocumentActMood.EVN);
@@ -828,7 +815,9 @@ public class CdaHeaderBuilder
         Author author = CDAFactory.eINSTANCE.createAuthor();
 		author.setTime(buildEffectiveTime(new Date()));
 		AssignedAuthor assignedAuthor = CDAFactory.eINSTANCE.createAssignedAuthor();
-				
+		II authorId = DatatypesFactory.eINSTANCE.createII();
+		authorId.setRoot(Context.getAdministrationService().getImplementationId().getImplementationId());
+		assignedAuthor.getIds().add(authorId);		
 		AD assignedAuthorAddress=DatatypesFactory.eINSTANCE.createAD();
 		assignedAuthorAddress.addCountry(" ");
 		TEL assignedAuthorTelecon = DatatypesFactory.eINSTANCE.createTEL();
@@ -866,6 +855,7 @@ public class CdaHeaderBuilder
 	    observation5.setMoodCode(x_ActMoodDocumentObservation.EVN);
 	    observation5.getTemplateIds().add(buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.5.3",null,null));
 	    observation5.getTemplateIds().add(buildTemplateID("2.16.840.1.113883.10.20.1.27",null,null));
+	    observation5.setStatusCode(cs);
 	    entryRelationship6.setObservation(observation5);
 	    
 		
@@ -947,8 +937,8 @@ public class CdaHeaderBuilder
     	organizer.setStatusCode(cs);
     	
     	Subject subject=CDAFactory.eINSTANCE.createSubject();
-         subject.setTypeCode(ParticipationTargetSubject.SBJ);
-         
+        subject.setTypeCode(ParticipationTargetSubject.SBJ);
+      
          RelatedSubject relatedSubject=CDAFactory.eINSTANCE.createRelatedSubject();
          relatedSubject.setCode(buildCodeCE("ignore","2.16.840.1.113883.5.111",null,"RoleCode"));
          
@@ -1062,7 +1052,7 @@ public class CdaHeaderBuilder
         OptionalSecs=buildThoraxLungsSection();
         section.addSection(OptionalSecs);
         
-        OptionalSecs=buildThoraxLungsSection();
+        OptionalSecs=buildChestWallSection();
         section.addSection(OptionalSecs);
         
         OptionalSecs=buildBreastSection();
@@ -1374,89 +1364,5 @@ public class CdaHeaderBuilder
         text.addText("Text as described above");
         section.setText(text);  
 		return section;
+	}*/
 	}
-	public Section buildCodedVitalSignsSection()
-	{
-		Section section=CDAFactory.eINSTANCE.createSection();
-		VitalSignsSection vss=new VitalSignsSection();
-		CodedVitalSignsSection ccs=new CodedVitalSignsSection();
-		section.getTemplateIds().add(buildTemplateID(vss.getParentTemplateId(),null ,null ));
-		section.getTemplateIds().add(buildTemplateID(ccs.getParentTemplateId(),null ,null ));
-		section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
-		section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
-        section.setTitle(buildTitle(ccs.getSectionDescription()));
-        StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
-        text.addText("Text as described above");
-        section.setText(text);
-        
-        Entry e=CDAFactory.eINSTANCE.createEntry();
-        Organizer organizer=CDAFactory.eINSTANCE.createOrganizer();
-        organizer.setClassCode(x_ActClassDocumentEntryOrganizer.CLUSTER);
-        organizer.setMoodCode(ActMood.EVN);
-        
-        organizer.getTemplateIds().add(buildTemplateID("2.16.840.1.113883.10.20.1.32",null,null));
-        organizer.getTemplateIds().add(buildTemplateID("2.16.840.1.113883.10.20.1.35",null,null));
-        organizer.getTemplateIds().add(buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.13.1",null,null));
-        organizer.getIds().add(buildID("id",null));
-        organizer.setCode(buildCodeCD("46680005","2.16.840.1.113883.6.96","Vital signs","SNOMED CT"));
-        CS cs= DatatypesFactory.eINSTANCE.createCS();
-    	cs.setCode("completed");
-    	organizer.setStatusCode(cs);
-    	
-    	IVL_TS effectiveTime = DatatypesFactory.eINSTANCE.createIVL_TS();
-     	Date d=new Date();
-     	SimpleDateFormat s = new SimpleDateFormat("yyyyMMddhhmmss");
-     	String creationDate = s.format(d);
-     	effectiveTime.setValue(creationDate);
-     	effectiveTime.setNullFlavor(NullFlavor.UNK);
-     	organizer.setEffectiveTime(effectiveTime);
-    	
-     	Author author = CDAFactory.eINSTANCE.createAuthor();
-		author.setTime(buildEffectiveTime(new Date()));
-		AssignedAuthor assignedAuthor = CDAFactory.eINSTANCE.createAssignedAuthor();
-				
-		AD assignedAuthorAddress=DatatypesFactory.eINSTANCE.createAD();
-		assignedAuthorAddress.addCountry(" ");
-		TEL assignedAuthorTelecon = DatatypesFactory.eINSTANCE.createTEL();
-		assignedAuthorTelecon.setNullFlavor(NullFlavor.UNK);
-		
-		assignedAuthor.getAddrs().add(assignedAuthorAddress);
-		assignedAuthor.getTelecoms().add(assignedAuthorTelecon);
-		
-		Person assignedPerson = CDAFactory.eINSTANCE.createPerson(); //assigned person must be system
-		PN assignedPersonName = DatatypesFactory.eINSTANCE.createPN();
-		assignedPerson.getNames().add(assignedPersonName);
-		assignedAuthor.setAssignedPerson(assignedPerson);
-  			
-		author.setAssignedAuthor(assignedAuthor);
-		organizer.getAuthors().add(author);
-		
-		Component4 component=CDAFactory.eINSTANCE.createComponent4();
-        
-        Observation observation=CDAFactory.eINSTANCE.createObservation();
-     	observation.setClassCode(ActClassObservation.OBS);
-     	observation.setMoodCode(x_ActMoodDocumentObservation.EVN);
-     	observation.getTemplateIds().add(buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.13",null,null));
-     	observation.getTemplateIds().add(buildTemplateID("2.16.840.1.113883.10.20.1.31",null,null));
-     	observation.getTemplateIds().add(buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.13.2",null,null));
-     	observation.getIds().add(buildTemplateID("id",null,null));
-     	observation.setCode(buildCodeCE("9279-1","2.16.840.1.113883.6.1",null,"LOINC"));
-     	observation.setText(buildEDText("#ignore"));
-     	observation.setStatusCode(cs);
-     	IVL_TS effectiveTime1 = DatatypesFactory.eINSTANCE.createIVL_TS();
-     	effectiveTime1.setNullFlavor(NullFlavor.UNK);
-     	observation.setEffectiveTime(effectiveTime1);
-     	
-     	ReferenceRange referenceRange=CDAFactory.eINSTANCE.createReferenceRange();
-     	ObservationRange observationRange=CDAFactory.eINSTANCE.createObservationRange();
-     	observationRange.setText(buildEDText("Reference Range Text Here"));
-     	referenceRange.setObservationRange(observationRange);
-     	observation.getReferenceRanges().add(referenceRange);
-     	component.setObservation(observation);    	
-        organizer.getComponents().add(component);
-        e.setOrganizer(organizer);
-		section.getEntries().add(e); 	   
-		
-		return section;
-	}
-}
