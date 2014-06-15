@@ -122,14 +122,14 @@ public class CdaHeaderBuilder
 		doc.getTemplateIds().clear();
 		doc.getTemplateIds().add(CDAHelper.buildTemplateID("2.16.840.1.113883.10","IMPL_CDAR2_LEVEL1",null));
 		doc.getTemplateIds().add(CDAHelper.buildTemplateID("2.16.840.1.113883.10.20.3",null,null));
-		doc.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.1.1",null,null));//Medical Documents 
-		doc.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.1.2",null,null));//Medical Summary
+		doc.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.1.1",null,null));
+		doc.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.1.2",null,null));
 		doc.getTemplateIds().add(CDAHelper.buildTemplateID(bh.templateid,null,null));//
 		
 		
-		doc.setId(CDAHelper.buildID(Context.getAdministrationService().getImplementationId().getImplementationId(),bh.documentShortName));//need to generate dynamically
+		doc.setId(CDAHelper.buildID(Context.getAdministrationService().getImplementationId().getImplementationId(),bh.documentShortName));
 		
-		doc.setCode(CDAHelper.buildCodeCE("34117-2","2.16.840.1.113883.6.1",null,"LOINC"));//need to generate dynamically template id according loinc code system if we choose snomed then it would be diffrent
+		doc.setCode(CDAHelper.buildCodeCE("34117-2","2.16.840.1.113883.6.1",null,"LOINC"));
 		
 		doc.setTitle(CDAHelper.buildTitle(bh.documentFullName));
 		
@@ -152,7 +152,7 @@ public class CdaHeaderBuilder
 		
 		PatientRole patientRole = CDAFactory.eINSTANCE.createPatientRole();
 		patientRole.getIds().add(CDAHelper.buildID(Context.getAdministrationService().getImplementationId().getImplementationId(),
-				p.getPatientIdentifier().getIdentifier()));//get dynamically from patient service
+				p.getPatientIdentifier().getIdentifier()));
 		
 		Set<PersonAddress> addresses = p.getAddresses();
 		
@@ -172,7 +172,7 @@ public class CdaHeaderBuilder
 		{
 			name.addPrefix(p.getPersonName().getFamilyNamePrefix());
 		}
-		name.addGiven(p.getPersonName().getGivenName());/* dynamically get patient name*/
+		name.addGiven(p.getPersonName().getGivenName());
 		name.addFamily(p.getPersonName().getFamilyName());
 		if(p.getPersonName().getFamilyNameSuffix()!=null)
 		{
@@ -182,7 +182,7 @@ public class CdaHeaderBuilder
 
 		
 		CE gender = DatatypesFactory.eINSTANCE.createCE();
-		gender.setCode(p.getGender());//dynamic
+		gender.setCode(p.getGender());
 		gender.setCodeSystem("2.16.840.1.113883.5.1");//fixed
 		cdapatient.setAdministrativeGenderCode(gender);
 		
@@ -519,8 +519,7 @@ public class CdaHeaderBuilder
 	public ClinicalDocument buildChiefComplaintSection(ClinicalDocument cd)
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
-      //  section.setSectionId(UUID.randomUUID().toString());
-        ChiefComplaintSection ccs=new ChiefComplaintSection();//this is bad approach though,just to test
+        ChiefComplaintSection ccs=new ChiefComplaintSection();
         section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
         section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
         section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
@@ -535,7 +534,6 @@ public class CdaHeaderBuilder
 	public ClinicalDocument buildHistoryOfPresentIllnessSection(ClinicalDocument cd)
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
-     //   section.setSectionId(UUID.randomUUID().toString());
         HistoryOfPresentIllnessSection ccs=new HistoryOfPresentIllnessSection();//this is bad approach though,just to test
         section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
         section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
@@ -549,7 +547,6 @@ public class CdaHeaderBuilder
 	public ClinicalDocument buildHistoryOfInfectionSection(ClinicalDocument cd)
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
-   //     section.setSectionId(UUID.randomUUID().toString());
         HistoryOfInfectionSection ccs=new HistoryOfInfectionSection();//this is bad approach though,just to test
         section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
         section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
@@ -563,7 +560,6 @@ public class CdaHeaderBuilder
 	public ClinicalDocument buildSocialHistorySection(ClinicalDocument cd)
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
-   //     section.setSectionId(UUID.randomUUID().toString());
         SocialHistorySection ccs=new SocialHistorySection();//this is bad approach though,just to test
         section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getParentTemplateId(),null ,null ));
         section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
@@ -579,7 +575,6 @@ public class CdaHeaderBuilder
 	public ClinicalDocument buildReviewOfSystemsSection(ClinicalDocument cd)
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
-   //     section.setSectionId(UUID.randomUUID().toString());
         ReviewOfSystemsSection ccs=new ReviewOfSystemsSection();//this is bad approach though,just to test
         section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
         section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
@@ -986,7 +981,7 @@ public class CdaHeaderBuilder
 	public  Section buildGeneralAppearanceSection()
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
-		GeneralAppearanceSection ccs=new  GeneralAppearanceSection();//this is bad approach though,just to test
+		GeneralAppearanceSection ccs=new  GeneralAppearanceSection();
         section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
         section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
         section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
@@ -998,7 +993,7 @@ public class CdaHeaderBuilder
 	public  Section buildVisibleImplantedMedicalDevicesSection()
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
-		VisibleImplantedMedicalDevicesSection ccs=new  VisibleImplantedMedicalDevicesSection();//this is bad approach though,just to test
+		VisibleImplantedMedicalDevicesSection ccs=new  VisibleImplantedMedicalDevicesSection();
         section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
         section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
         section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
@@ -1010,7 +1005,7 @@ public class CdaHeaderBuilder
 	public  Section buildIntegumentarySystemSection()
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
-		IntegumentarySystemSection ccs=new  IntegumentarySystemSection();//this is bad approach though,just to test
+		IntegumentarySystemSection ccs=new  IntegumentarySystemSection();
         section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
         section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
         section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
@@ -1022,7 +1017,7 @@ public class CdaHeaderBuilder
 	public  Section buildHeadSection()
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
-		HeadSection ccs=new  HeadSection();//this is bad approach though,just to test
+		HeadSection ccs=new  HeadSection();
         section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
         section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
         section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
@@ -1034,7 +1029,7 @@ public class CdaHeaderBuilder
 	public  Section buildOptionalEyesSection()
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
-		OptionalEyesSection ccs=new  OptionalEyesSection();//this is bad approach though,just to test
+		OptionalEyesSection ccs=new  OptionalEyesSection();
         section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
         section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
         section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
@@ -1046,7 +1041,7 @@ public class CdaHeaderBuilder
 	public  Section buildEarNoseMouthThroatSection()
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
-		EarNoseMouthThroatSection ccs=new  EarNoseMouthThroatSection();//this is bad approach though,just to test
+		EarNoseMouthThroatSection ccs=new  EarNoseMouthThroatSection();
         section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
         section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
         section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
@@ -1058,7 +1053,7 @@ public class CdaHeaderBuilder
 	public  Section buildEarsSection()
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
-		EarsSection ccs=new  EarsSection();//this is bad approach though,just to test
+		EarsSection ccs=new  EarsSection();
         section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
         section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
         section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
@@ -1070,7 +1065,7 @@ public class CdaHeaderBuilder
 	public  Section buildNoseSection()
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
-		NoseSection ccs=new  NoseSection();//this is bad approach though,just to test
+		NoseSection ccs=new  NoseSection();
         section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
         section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
         section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
@@ -1082,7 +1077,7 @@ public class CdaHeaderBuilder
 	public  Section buildMouthThroatTeethSection()
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
-		MouthThroatTeethSection ccs=new  MouthThroatTeethSection();//this is bad approach though,just to test
+		MouthThroatTeethSection ccs=new  MouthThroatTeethSection();
         section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
         section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
         section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
@@ -1094,7 +1089,7 @@ public class CdaHeaderBuilder
 	public  Section buildNeckSection()
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
-		NeckSection ccs=new  NeckSection();//this is bad approach though,just to test
+		NeckSection ccs=new  NeckSection();
         section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
         section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
         section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
@@ -1106,7 +1101,7 @@ public class CdaHeaderBuilder
 	public  Section buildEndocrineSystemSection()
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
-		EndocrineSystemSection ccs=new EndocrineSystemSection();//this is bad approach though,just to test
+		EndocrineSystemSection ccs=new EndocrineSystemSection();
         section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
         section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
         section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
@@ -1118,7 +1113,7 @@ public class CdaHeaderBuilder
 	public  Section buildThoraxLungsSection()
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
-		ThoraxLungsSection ccs=new ThoraxLungsSection();//this is bad approach though,just to test
+		ThoraxLungsSection ccs=new ThoraxLungsSection();
         section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
         section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
         section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
@@ -1130,7 +1125,7 @@ public class CdaHeaderBuilder
 	public  Section buildChestWallSection()
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
-		ChestWallSection ccs=new ChestWallSection();//this is bad approach though,just to test
+		ChestWallSection ccs=new ChestWallSection();
         section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
         section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
         section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
@@ -1142,7 +1137,7 @@ public class CdaHeaderBuilder
 	public  Section buildBreastSection()
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
-		BreastSection ccs=new BreastSection();//this is bad approach though,just to test
+		BreastSection ccs=new BreastSection();
         section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
         section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
         section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
@@ -1154,7 +1149,7 @@ public class CdaHeaderBuilder
 	public  Section buildHeartSection()
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
-		HeartSection ccs=new HeartSection();//this is bad approach though,just to test
+		HeartSection ccs=new HeartSection();
         section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
         section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
         section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
@@ -1166,7 +1161,7 @@ public class CdaHeaderBuilder
 	public  Section buildRespiratorySystemSection()
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
-		RespiratorySystemSection ccs=new RespiratorySystemSection();//this is bad approach though,just to test
+		RespiratorySystemSection ccs=new RespiratorySystemSection();
         section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
         section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
         section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
@@ -1178,7 +1173,7 @@ public class CdaHeaderBuilder
 	public  Section buildAbdomenSection()
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
-		AbdomenSection ccs=new AbdomenSection();//this is bad approach though,just to test
+		AbdomenSection ccs=new AbdomenSection();
         section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
         section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
         section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
@@ -1190,7 +1185,7 @@ public class CdaHeaderBuilder
 	public  Section buildLymphaticSystemSection()
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
-		LymphaticSystemSection ccs=new LymphaticSystemSection();//this is bad approach though,just to test
+		LymphaticSystemSection ccs=new LymphaticSystemSection();
         section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
         section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
         section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
@@ -1202,7 +1197,7 @@ public class CdaHeaderBuilder
 	public  Section buildVesselsSection()
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
-		VesselsSection ccs=new VesselsSection();//this is bad approach though,just to test
+		VesselsSection ccs=new VesselsSection();
         section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
         section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
         section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
@@ -1214,7 +1209,7 @@ public class CdaHeaderBuilder
 	public  Section buildMusculoskeletalSystemSection()
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
-		MusculoskeletalSystemSection ccs=new MusculoskeletalSystemSection();//this is bad approach though,just to test
+		MusculoskeletalSystemSection ccs=new MusculoskeletalSystemSection();
         section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
         section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
         section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
@@ -1226,7 +1221,7 @@ public class CdaHeaderBuilder
 	public  Section buildNeurologicSystemSection()
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
-		NeurologicSystemSection ccs=new NeurologicSystemSection();//this is bad approach though,just to test
+		NeurologicSystemSection ccs=new NeurologicSystemSection();
         section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
         section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
         section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
@@ -1238,7 +1233,7 @@ public class CdaHeaderBuilder
 	public  Section buildGenitaliaSection()
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
-		GenitaliaSection ccs=new GenitaliaSection();//this is bad approach though,just to test
+		GenitaliaSection ccs=new GenitaliaSection();
         section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
         section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
         section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
@@ -1250,7 +1245,7 @@ public class CdaHeaderBuilder
 	public  Section buildRectumSection()
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
-		RectumSection ccs=new RectumSection();//this is bad approach though,just to test
+		RectumSection ccs=new RectumSection();
         section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
         section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
         section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));

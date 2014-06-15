@@ -1,11 +1,5 @@
 package org.openmrs.module.CDAGenerator.CDAHandlers;
 
-import org.openhealthtools.mdht.uml.cda.CDAFactory;
-import org.openhealthtools.mdht.uml.cda.ClinicalDocument;
-import org.openmrs.Patient;
-import org.openmrs.module.CDAGenerator.SectionHandlers.ChiefComplaintSection;
-import org.openmrs.module.CDAGenerator.api.CdaHeaderBuilder;
-
 public class APSHandler extends BaseCdaTypeHandler
 {
 	
