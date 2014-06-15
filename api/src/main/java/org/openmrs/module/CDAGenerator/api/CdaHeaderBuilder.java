@@ -816,6 +816,7 @@ public class CdaHeaderBuilder
     entryRelationship4.setObservation(observation4);
     
     EntryRelationship entryRelationship5=CDAFactory.eINSTANCE.createEntryRelationship();
+    entryRelationship5.setTypeCode(x_ActRelationshipEntryRelationship.SUBJ);
     Act act1=CDAFactory.eINSTANCE.createAct();
     act1.setClassCode(x_ActClassDocumentEntryAct.ACT);
     act1.setMoodCode(x_DocumentActMood.EVN);
@@ -828,6 +829,10 @@ public class CdaHeaderBuilder
         Author author = CDAFactory.eINSTANCE.createAuthor();
 		author.setTime(buildEffectiveTime(new Date()));
 		AssignedAuthor assignedAuthor = CDAFactory.eINSTANCE.createAssignedAuthor();
+		II authorId = DatatypesFactory.eINSTANCE.createII();
+		authorId.setRoot(Context.getAdministrationService().getImplementationId().getImplementationId());
+		assignedAuthor.getIds().add(authorId);
+
 				
 		AD assignedAuthorAddress=DatatypesFactory.eINSTANCE.createAD();
 		assignedAuthorAddress.addCountry(" ");
@@ -938,7 +943,6 @@ public class CdaHeaderBuilder
         Organizer organizer=CDAFactory.eINSTANCE.createOrganizer();
         organizer.setClassCode(x_ActClassDocumentEntryOrganizer.CLUSTER);
         organizer.setMoodCode(ActMood.EVN);
-        
         organizer.getTemplateIds().add(buildTemplateID("2.16.840.1.113883.10.20.1.23",null,null));
         organizer.getTemplateIds().add(buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.15",null,null));
     	
@@ -947,8 +951,8 @@ public class CdaHeaderBuilder
     	organizer.setStatusCode(cs);
     	
     	Subject subject=CDAFactory.eINSTANCE.createSubject();
-         subject.setTypeCode(ParticipationTargetSubject.SBJ);
-         
+        subject.setTypeCode(ParticipationTargetSubject.SBJ);
+                 
          RelatedSubject relatedSubject=CDAFactory.eINSTANCE.createRelatedSubject();
          relatedSubject.setCode(buildCodeCE("ignore","2.16.840.1.113883.5.111",null,"RoleCode"));
          
@@ -1062,7 +1066,7 @@ public class CdaHeaderBuilder
         OptionalSecs=buildThoraxLungsSection();
         section.addSection(OptionalSecs);
         
-        OptionalSecs=buildThoraxLungsSection();
+        OptionalSecs=buildChestWallSection();
         section.addSection(OptionalSecs);
         
         OptionalSecs=buildBreastSection();
@@ -1414,7 +1418,10 @@ public class CdaHeaderBuilder
      	Author author = CDAFactory.eINSTANCE.createAuthor();
 		author.setTime(buildEffectiveTime(new Date()));
 		AssignedAuthor assignedAuthor = CDAFactory.eINSTANCE.createAssignedAuthor();
-				
+		II authorId = DatatypesFactory.eINSTANCE.createII();
+		authorId.setRoot(Context.getAdministrationService().getImplementationId().getImplementationId());
+		assignedAuthor.getIds().add(authorId);
+
 		AD assignedAuthorAddress=DatatypesFactory.eINSTANCE.createAD();
 		assignedAuthorAddress.addCountry(" ");
 		TEL assignedAuthorTelecon = DatatypesFactory.eINSTANCE.createTEL();
