@@ -11,5 +11,4 @@ public class APSHandler extends BaseCdaTypeHandler
 	this.templateid="1.3.6.1.4.19376.1.5.3.1.1.11.2";
 	this.formatCode="urn:ihe:pcc:aps:2007";
 	}
-	
 }

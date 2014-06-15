@@ -14,8 +14,15 @@
 package org.openmrs.module.CDAGenerator.api;
 
 import static org.junit.Assert.*;
+
+import org.eclipse.emf.common.util.Diagnostic;
 import org.junit.Test;
+import org.openhealthtools.mdht.uml.cda.ClinicalDocument;
+import org.openhealthtools.mdht.uml.cda.util.BasicValidationHandler;
+import org.openhealthtools.mdht.uml.cda.util.CDAUtil;
+import org.openmrs.Patient;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.CDAGenerator.CDAHandlers.BaseCdaTypeHandler;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 
 /**
@@ -24,7 +31,8 @@ import org.openmrs.test.BaseModuleContextSensitiveTest;
 public class  CDAGeneratorServiceTest extends BaseModuleContextSensitiveTest {
 	
 	@Test
-	public void shouldSetupContext() {
+	public void shouldSetupContext() 
+	{
 		assertNotNull(Context.getService(CDAGeneratorService.class));
 	}
 }
