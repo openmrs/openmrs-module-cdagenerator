@@ -17,15 +17,4 @@ public class APSHandler extends BaseCdaTypeHandler
 	this.templateid="1.3.6.1.4.19376.1.5.3.1.1.11.2";
 	this.formatCode="urn:ihe:pcc:aps:2007";
 	}
-
-	public ClinicalDocument ApsCdaMessage(Patient patient,BaseCdaTypeHandler basecdatypehandler)
-	{ 
-		ClinicalDocument doc = CDAFactory.eINSTANCE.createClinicalDocument();
-		CdaHeaderBuilder header=new CdaHeaderBuilder();
-		doc=header.buildHeader(doc, basecdatypehandler, patient);
-		
-		 ChiefComplaintSection cheifcomplaintsection=new ChiefComplaintSection();
-		 doc=cheifcomplaintsection.buildChiefComplaintSection(doc);
-		 return doc;
-	}
 }

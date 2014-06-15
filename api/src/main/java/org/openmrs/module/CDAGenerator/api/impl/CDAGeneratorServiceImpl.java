@@ -23,8 +23,6 @@ import org.openmrs.Patient;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openmrs.module.CDAGenerator.CDAHandlers.APHPHandler;
-import org.openmrs.module.CDAGenerator.CDAHandlers.APSHandler;
 import org.openmrs.module.CDAGenerator.CDAHandlers.BaseCdaTypeHandler;
 import org.openmrs.module.CDAGenerator.SectionHandlers.BaseCdaSectionHandler;
 import org.openmrs.module.CDAGenerator.api.CDAGeneratorService;
@@ -144,23 +142,10 @@ ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCand
 	@Override
 	public ClinicalDocument produceCDA(Patient p, BaseCdaTypeHandler bh) 
 	{
-		ClinicalDocument doc;
-		if(bh.getTemplateid().equals("1.3.6.1.4.19376.1.5.3.1.1.16.1.1"))
-		{
-		APHPHandler aphpmes=new APHPHandler();
-		doc=aphpmes.AphpCdaMessage(p, bh);		
+		ClinicalDocument doc = CDAFactory.eINSTANCE.createClinicalDocument();
+		CdaHeaderBuilder header=new CdaHeaderBuilder();
+		doc=header.buildHeader(doc, bh, p);
 		return doc;
-		}
-		else if(bh.getTemplateid().equals("1.3.6.1.4.19376.1.5.3.1.1.11.2"))
-		{
-			APSHandler apsmes=new APSHandler();
-		    doc=apsmes.ApsCdaMessage(p, bh);		
-			return doc;
-		}
-		else
-			return null;
-			
-		
 	}
 	
 }

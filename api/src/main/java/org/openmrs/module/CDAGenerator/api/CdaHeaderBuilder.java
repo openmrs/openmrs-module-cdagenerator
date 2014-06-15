@@ -120,21 +120,21 @@ public class CdaHeaderBuilder
 		doc.setTypeId(typeId);
 		
 		doc.getTemplateIds().clear();
-		doc.getTemplateIds().add(buildTemplateID("2.16.840.1.113883.10","IMPL_CDAR2_LEVEL1",null));
-		doc.getTemplateIds().add(buildTemplateID("2.16.840.1.113883.10.20.3",null,null));
-		doc.getTemplateIds().add(buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.1.1",null,null));//Medical Documents 
-		doc.getTemplateIds().add(buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.1.2",null,null));//Medical Summary
-		doc.getTemplateIds().add(buildTemplateID(bh.templateid,null,null));//
+		doc.getTemplateIds().add(CDAHelper.buildTemplateID("2.16.840.1.113883.10","IMPL_CDAR2_LEVEL1",null));
+		doc.getTemplateIds().add(CDAHelper.buildTemplateID("2.16.840.1.113883.10.20.3",null,null));
+		doc.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.1.1",null,null));//Medical Documents 
+		doc.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.1.2",null,null));//Medical Summary
+		doc.getTemplateIds().add(CDAHelper.buildTemplateID(bh.templateid,null,null));//
 		
 		
-		doc.setId(buildID(Context.getAdministrationService().getImplementationId().getImplementationId(),bh.documentShortName));//need to generate dynamically
+		doc.setId(CDAHelper.buildID(Context.getAdministrationService().getImplementationId().getImplementationId(),bh.documentShortName));//need to generate dynamically
 		
-		doc.setCode(buildCodeCE("34117-2","2.16.840.1.113883.6.1",null,"LOINC"));//need to generate dynamically template id according loinc code system if we choose snomed then it would be diffrent
+		doc.setCode(CDAHelper.buildCodeCE("34117-2","2.16.840.1.113883.6.1",null,"LOINC"));//need to generate dynamically template id according loinc code system if we choose snomed then it would be diffrent
 		
-		doc.setTitle(buildTitle(bh.documentFullName));
+		doc.setTitle(CDAHelper.buildTitle(bh.documentFullName));
 		
 		Date d = new Date();
-		doc.setEffectiveTime(buildEffectiveTime(d));
+		doc.setEffectiveTime(CDAHelper.buildEffectiveTime(d));
 		
 		CE confidentialityCode = DatatypesFactory.eINSTANCE.createCE();
 		confidentialityCode.setCode("N");//this can change N,M,L,R,V
@@ -151,7 +151,7 @@ public class CdaHeaderBuilder
 		
 		
 		PatientRole patientRole = CDAFactory.eINSTANCE.createPatientRole();
-		patientRole.getIds().add(buildID(Context.getAdministrationService().getImplementationId().getImplementationId(),
+		patientRole.getIds().add(CDAHelper.buildID(Context.getAdministrationService().getImplementationId().getImplementationId(),
 				p.getPatientIdentifier().getIdentifier()));//get dynamically from patient service
 		
 		Set<PersonAddress> addresses = p.getAddresses();
@@ -207,7 +207,7 @@ public class CdaHeaderBuilder
 		Organization providerOrganization = CDAFactory.eINSTANCE.createOrganization();
 		AD providerOrganizationAddress = DatatypesFactory.eINSTANCE.createAD();
 		providerOrganizationAddress.addCounty(" ");
-		providerOrganization.getIds().add(buildID(Context.getAdministrationService().getImplementationId().getImplementationId(),null));
+		providerOrganization.getIds().add(CDAHelper.buildID(Context.getAdministrationService().getImplementationId().getImplementationId(),null));
 		providerOrganization.getAddrs().add(providerOrganizationAddress);
 
 		ON organizationName = DatatypesFactory.eINSTANCE.createON();
@@ -226,7 +226,7 @@ public class CdaHeaderBuilder
 		
 		
 		Author author = CDAFactory.eINSTANCE.createAuthor();
-		author.setTime(buildEffectiveTime(new Date()));
+		author.setTime(CDAHelper.buildEffectiveTime(new Date()));
 		//in this case we consider the assigned author is the one generating the document i.e the logged in user exporting the document
 		AssignedAuthor assignedAuthor = CDAFactory.eINSTANCE.createAssignedAuthor();
 		II authorId = DatatypesFactory.eINSTANCE.createII();
@@ -251,7 +251,7 @@ public class CdaHeaderBuilder
 		assignedPerson.getNames().add(assignedPersonName);
 		assignedAuthor.setAssignedPerson(assignedPerson);
 		Organization representedOrganization = CDAFactory.eINSTANCE.createOrganization();
-		representedOrganization.getIds().add(buildID("2.16.840.1.113883.19.5",null));
+		representedOrganization.getIds().add(CDAHelper.buildID("2.16.840.1.113883.19.5",null));
 		ON representedOrganizationName=DatatypesFactory.eINSTANCE.createON();
 		representedOrganizationName.addText(Context.getAdministrationService().getImplementationId().getName());
 		representedOrganization.getNames().add(representedOrganizationName);
@@ -412,12 +412,12 @@ public class CdaHeaderBuilder
 	ServiceEvent serviceEvent=CDAFactory.eINSTANCE.createServiceEvent();
 	serviceEvent.setClassCode(ActClassRoot.PCPR);
 	
-	serviceEvent.setEffectiveTime(buildEffectiveTimeinIVL(new Date(),new Date()));
+	serviceEvent.setEffectiveTime(CDAHelper.buildEffectiveTimeinIVL(new Date(),new Date()));
 	Performer1 performer=CDAFactory.eINSTANCE.createPerformer1();
 	
 	performer.setTypeCode(x_ServiceEventPerformer.PPRF);
-	performer.setFunctionCode(buildCodeCE("PCP","2.16.840.1.113883.5.88",null,null));
-	performer.setTime(buildEffectiveTimeinIVL(new Date(),new Date()));
+	performer.setFunctionCode(CDAHelper.buildCodeCE("PCP","2.16.840.1.113883.5.88",null,null));
+	performer.setTime(CDAHelper.buildEffectiveTimeinIVL(new Date(),new Date()));
 	
 	AssignedEntity assignedEntity=CDAFactory.eINSTANCE.createAssignedEntity();
 	II  assignedEntityId= DatatypesFactory.eINSTANCE.createII();
@@ -441,7 +441,7 @@ public class CdaHeaderBuilder
 	
 	
 	
-	/*doc=buildHistoryOfPresentIllnessSection(doc);
+	doc=buildHistoryOfPresentIllnessSection(doc);
 	
 	doc=buildChiefComplaintSection(doc);
 	
@@ -457,25 +457,12 @@ public class CdaHeaderBuilder
 	
 	doc=buildReviewOfSystemsSection(doc);
 	
-	doc=buildPhysicalExamSection(doc);*/
+	doc=buildPhysicalExamSection(doc);
 	
 	
 	return doc;
 	}
-	public IVL_TS  buildEffectiveTimeinIVL(Date d , Date d1)
-	{
-		IVL_TS effectiveTime = DatatypesFactory.eINSTANCE.createIVL_TS();
-		SimpleDateFormat s = new SimpleDateFormat("yyyyMMddhhmmss");
-		String creationDate = s.format(d);
-		IVXB_TS low = DatatypesFactory.eINSTANCE.createIVXB_TS();
-		low.setValue(creationDate);
-		effectiveTime.setLow(low);
-		IVXB_TS high = DatatypesFactory.eINSTANCE.createIVXB_TS();
-		if(d1 != null)
-			high.setValue(s.format(d1));
-		effectiveTime.setHigh(high);
-		return effectiveTime;
-	}
+	
 	public AD buildAddresses(AD documentAddress,Set<PersonAddress> addresses)
 	{
 		for(PersonAddress address : addresses)
@@ -527,121 +514,32 @@ public class CdaHeaderBuilder
 
 		return documentAddress;
 	}
-	public   II buildTemplateID(String root , String extension ,String assigningAuthorityName)
+	
+	
+	public ClinicalDocument buildChiefComplaintSection(ClinicalDocument cd)
 	{
-
-			II templateID = DatatypesFactory.eINSTANCE.createII();
-			if(root!=null)
-			{
-			templateID.setRoot(root);
-			}
-			if(extension!=null)
-			{
-			templateID.setExtension(extension);
-			}
-			if(assigningAuthorityName!=null)
-			{
-			templateID.setAssigningAuthorityName(assigningAuthorityName);
-			}
-			
-			return templateID;
-
-	}
-	public ST buildTitle(String title)
-	{
-		ST displayTitle = DatatypesFactory.eINSTANCE.createST();
-		displayTitle.addText(title);
-		return displayTitle;
-	}
-
-	public II buildID(String root , String extension)
-	{
-		II id = DatatypesFactory.eINSTANCE.createII();
-		if(root!=null)
-		{
-		id.setRoot(root);
-		}
-		if(extension!=null)
-		{
-		id.setExtension(extension);
-		}
-		return id;
+		Section section=CDAFactory.eINSTANCE.createSection();
+      //  section.setSectionId(UUID.randomUUID().toString());
+        ChiefComplaintSection ccs=new ChiefComplaintSection();//this is bad approach though,just to test
+        section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
+        StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
+        text.addText("Text as described above");
+        section.setText(text);        
+		cd.addSection(section);
+		return cd;
 		
 	}
 	
-	public CE buildCodeCE(String code , String codeSystem, String displayString, String codeSystemName)
-	{
-		CE e = DatatypesFactory.eINSTANCE.createCE();
-		if(code!=null)
-		{
-		e.setCode(code);
-		}
-		if(codeSystem!=null)
-		{
-		e.setCodeSystem(codeSystem);
-		}
-		if(displayString!=null)
-		{
-		e.setDisplayName(displayString);
-		}
-		if(displayString!=null)
-		{
-		e.setCodeSystemName(codeSystemName);
-		}
-		return e;
-
-	}
-	public CD buildCodeCD(String code , String codeSystem, String displayString, String codeSystemName)
-	{
-		CD e = DatatypesFactory.eINSTANCE.createCD();
-		if(code!=null)
-		{
-		e.setCode(code);
-		}
-		if(codeSystem!=null)
-		{
-		e.setCodeSystem(codeSystem);
-		}
-		if(displayString!=null)
-		{
-		e.setDisplayName(displayString);
-		}
-		if(displayString!=null)
-		{
-		e.setCodeSystemName(codeSystemName);
-		}
-		return e;
-
-	}
-	public  TS buildEffectiveTime(Date d)
-	{
-		TS effectiveTime = DatatypesFactory.eINSTANCE.createTS();
-		SimpleDateFormat s = new SimpleDateFormat("yyyyMMddhhmmss");
-		
-		String creationDate = s.format(d);
-	
-		effectiveTime.setValue(creationDate);
-		
-		return effectiveTime;
-	}
-	
-	public ED buildEDText(String value)
-	{
-		ED text = DatatypesFactory.eINSTANCE.createED();
-		text.addText("<reference value=\""+value+"\"/>");
-		return text;
-	}
-	
-	
-	
-	/*public ClinicalDocument buildHistoryOfPresentIllnessSection(ClinicalDocument cd)
+	public ClinicalDocument buildHistoryOfPresentIllnessSection(ClinicalDocument cd)
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
      //   section.setSectionId(UUID.randomUUID().toString());
         HistoryOfPresentIllnessSection ccs=new HistoryOfPresentIllnessSection();//this is bad approach though,just to test
-        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
-        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
-        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
         StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
         text.addText("Text as described above");
         section.setText(text);        
@@ -653,9 +551,9 @@ public class CdaHeaderBuilder
 		Section section=CDAFactory.eINSTANCE.createSection();
    //     section.setSectionId(UUID.randomUUID().toString());
         HistoryOfInfectionSection ccs=new HistoryOfInfectionSection();//this is bad approach though,just to test
-        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
-        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
-        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
         StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
         text.addText("Text as described above");
         section.setText(text);        
@@ -667,10 +565,10 @@ public class CdaHeaderBuilder
 		Section section=CDAFactory.eINSTANCE.createSection();
    //     section.setSectionId(UUID.randomUUID().toString());
         SocialHistorySection ccs=new SocialHistorySection();//this is bad approach though,just to test
-        section.getTemplateIds().add(buildTemplateID(ccs.getParentTemplateId(),null ,null ));
-        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
-        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
-        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getParentTemplateId(),null ,null ));
+        section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
         StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
         text.addText("Text as described above");
         section.setText(text);        
@@ -683,9 +581,9 @@ public class CdaHeaderBuilder
 		Section section=CDAFactory.eINSTANCE.createSection();
    //     section.setSectionId(UUID.randomUUID().toString());
         ReviewOfSystemsSection ccs=new ReviewOfSystemsSection();//this is bad approach though,just to test
-        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
-        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
-        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
         StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
         text.addText("Text as described above");
         section.setText(text);        
@@ -696,9 +594,9 @@ public class CdaHeaderBuilder
 	{
 	Section section=CDAFactory.eINSTANCE.createSection();
 	HistoryOfPastIllnessSection ccs=new HistoryOfPastIllnessSection();
-	section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
-	section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
-	section.setTitle(buildTitle(ccs.getSectionDescription()));
+	section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
+	section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+	section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
 	StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
     text.addText("Text as described above");
     section.setText(text); 
@@ -707,10 +605,10 @@ public class CdaHeaderBuilder
     Act act=CDAFactory.eINSTANCE.createAct();
     act.setClassCode(x_ActClassDocumentEntryAct.ACT);
     act.setMoodCode(x_DocumentActMood.EVN);
-    act.getTemplateIds().add(buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.5.2",null,null));
-    act.getTemplateIds().add(buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.5.1",null,null));
-    act.getTemplateIds().add(buildTemplateID("2.16.840.1.113883.10.20.1.27",null,null));
-    act.getIds().add(buildID("id",null));
+    act.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.5.2",null,null));
+    act.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.5.1",null,null));
+    act.getTemplateIds().add(CDAHelper.buildTemplateID("2.16.840.1.113883.10.20.1.27",null,null));
+    act.getIds().add(CDAHelper.buildID("id",null));
     CD code=DatatypesFactory.eINSTANCE.createCD();
     CS cs=DatatypesFactory.eINSTANCE.createCS();
     cs.setCode("active");
@@ -734,10 +632,10 @@ public class CdaHeaderBuilder
     observation1.setClassCode(ActClassObservation.OBS);
     observation1.setMoodCode(x_ActMoodDocumentObservation.EVN);
     observation1.setNegationInd(false);
-    observation1.getTemplateIds().add(buildTemplateID("2.16.840.1.113883.10.20.1.28",null,null));
-    observation1.getTemplateIds().add(buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.5",null,null));
-    observation1.getIds().add(buildID("2.1.160",null));
-    observation1.setCode(buildCodeCD("64572001","2.16.840.1.113883.6.96",null,null));
+    observation1.getTemplateIds().add(CDAHelper.buildTemplateID("2.16.840.1.113883.10.20.1.28",null,null));
+    observation1.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.5",null,null));
+    observation1.getIds().add(CDAHelper.buildID("2.1.160",null));
+    observation1.setCode(CDAHelper.buildCodeCD("64572001","2.16.840.1.113883.6.96",null,null));
     cs.setCode("completed");
     observation1.setStatusCode(cs);
     
@@ -761,12 +659,12 @@ public class CdaHeaderBuilder
     Observation observation2=CDAFactory.eINSTANCE.createObservation();
     observation2.setClassCode(ActClassObservation.OBS);
     observation2.setMoodCode(x_ActMoodDocumentObservation.EVN);
-    observation2.getTemplateIds().add(buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.1.2",null,null));
-    observation2.getTemplateIds().add(buildTemplateID("2.16.840.1.113883.10.20.1.51",null,null));
-    observation2.setCode(buildCodeCD("11323-3","2.16.840.1.113883.6.1","Health Status","LOINC"));
-    observation2.setText(buildEDText("#ignore"));
+    observation2.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.1.2",null,null));
+    observation2.getTemplateIds().add(CDAHelper.buildTemplateID("2.16.840.1.113883.10.20.1.51",null,null));
+    observation2.setCode(CDAHelper.buildCodeCD("11323-3","2.16.840.1.113883.6.1","Health Status","LOINC"));
+    observation2.setText(CDAHelper.buildEDText("#ignore"));
     observation2.setStatusCode(cs);
-    observation2.getValues().add(buildCodeCE("81323004","2.16.840.1.113883.6.96","Alive and well","SNOMED CT"));
+    observation2.getValues().add(CDAHelper.buildCodeCE("81323004","2.16.840.1.113883.6.96","Alive and well","SNOMED CT"));
     entryRelationship2.setObservation(observation2);
     
     
@@ -777,12 +675,12 @@ public class CdaHeaderBuilder
     Observation observation3=CDAFactory.eINSTANCE.createObservation();
     observation3.setClassCode(ActClassObservation.OBS);
     observation3.setMoodCode(x_ActMoodDocumentObservation.EVN);
-    observation3.getTemplateIds().add(buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.1",null,null));
-    observation3.getTemplateIds().add(buildTemplateID("2.16.840.1.113883.10.20.1.55",null,null));
-    observation3.setCode(buildCodeCD("SEV","2.16.840.1.113883.5.4",null,null));
-    observation3.setText(buildEDText("#ignore"));
+    observation3.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.1",null,null));
+    observation3.getTemplateIds().add(CDAHelper.buildTemplateID("2.16.840.1.113883.10.20.1.55",null,null));
+    observation3.setCode(CDAHelper.buildCodeCD("SEV","2.16.840.1.113883.5.4",null,null));
+    observation3.setText(CDAHelper.buildEDText("#ignore"));
     observation3.setStatusCode(cs);
-    observation3.getValues().add(buildCodeCD("H","2.16.840.1.113883.5.1063",null,null));
+    observation3.getValues().add(CDAHelper.buildCodeCD("H","2.16.840.1.113883.5.1063",null,null));
     entryRelationship3.setObservation(observation3);
     
     
@@ -792,32 +690,29 @@ public class CdaHeaderBuilder
     Observation observation4=CDAFactory.eINSTANCE.createObservation();
     observation4.setClassCode(ActClassObservation.OBS);
     observation4.setMoodCode(x_ActMoodDocumentObservation.EVN);
-    observation4.getTemplateIds().add(buildTemplateID("2.16.840.1.113883.10.20.1.57",null,null));
-    observation4.getTemplateIds().add(buildTemplateID("2.16.840.1.113883.10.20.1.50",null,null));
-    observation4.getTemplateIds().add(buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.1.1",null,null));
-    observation4.setCode(buildCodeCE("33999-4","2.16.840.1.113883.6.1",null,null));
-    observation4.setText(buildEDText("#ignore"));
+    observation4.getTemplateIds().add(CDAHelper.buildTemplateID("2.16.840.1.113883.10.20.1.57",null,null));
+    observation4.getTemplateIds().add(CDAHelper.buildTemplateID("2.16.840.1.113883.10.20.1.50",null,null));
+    observation4.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.1.1",null,null));
+    observation4.setCode(CDAHelper.buildCodeCE("33999-4","2.16.840.1.113883.6.1",null,null));
+    observation4.setText(CDAHelper.buildEDText("#ignore"));
     observation4.setStatusCode(cs);
-    observation4.getValues().add(buildCodeCE("55561003","2.16.840.1.113883.6.96"," ","SNOMED CT"));
+    observation4.getValues().add(CDAHelper.buildCodeCE("55561003","2.16.840.1.113883.6.96"," ","SNOMED CT"));
     entryRelationship4.setObservation(observation4);
     
     EntryRelationship entryRelationship5=CDAFactory.eINSTANCE.createEntryRelationship();
-    entryRelationship5.setTypeCode(x_ActRelationshipEntryRelationship.SUBJ);
     Act act1=CDAFactory.eINSTANCE.createAct();
     act1.setClassCode(x_ActClassDocumentEntryAct.ACT);
     act1.setMoodCode(x_DocumentActMood.EVN);
-    act1.getTemplateIds().add(buildTemplateID("2.16.840.1.113883.10.20.1.40",null,null));
-    act1.getTemplateIds().add(buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.2",null,null));
-    act1.setCode(buildCodeCD("48767-8","2.16.840.1.113883.6.1","Annotation Comment","LOINC"));
-    act1.setText(buildEDText("#ignore"));
+    act1.getTemplateIds().add(CDAHelper.buildTemplateID("2.16.840.1.113883.10.20.1.40",null,null));
+    act1.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.2",null,null));
+    act1.setCode(CDAHelper.buildCodeCD("48767-8","2.16.840.1.113883.6.1","Annotation Comment","LOINC"));
+    act1.setText(CDAHelper.buildEDText("#ignore"));
     act1.setStatusCode(cs);   
     
         Author author = CDAFactory.eINSTANCE.createAuthor();
-		author.setTime(buildEffectiveTime(new Date()));
+		author.setTime(CDAHelper.buildEffectiveTime(new Date()));
 		AssignedAuthor assignedAuthor = CDAFactory.eINSTANCE.createAssignedAuthor();
-		II authorId = DatatypesFactory.eINSTANCE.createII();
-		authorId.setRoot(Context.getAdministrationService().getImplementationId().getImplementationId());
-		assignedAuthor.getIds().add(authorId);		
+				
 		AD assignedAuthorAddress=DatatypesFactory.eINSTANCE.createAD();
 		assignedAuthorAddress.addCountry(" ");
 		TEL assignedAuthorTelecon = DatatypesFactory.eINSTANCE.createTEL();
@@ -853,9 +748,8 @@ public class CdaHeaderBuilder
 	    Observation observation5=CDAFactory.eINSTANCE.createObservation();
 	    observation5.setClassCode(ActClassObservation.OBS);
 	    observation5.setMoodCode(x_ActMoodDocumentObservation.EVN);
-	    observation5.getTemplateIds().add(buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.5.3",null,null));
-	    observation5.getTemplateIds().add(buildTemplateID("2.16.840.1.113883.10.20.1.27",null,null));
-	    observation5.setStatusCode(cs);
+	    observation5.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.5.3",null,null));
+	    observation5.getTemplateIds().add(CDAHelper.buildTemplateID("2.16.840.1.113883.10.20.1.27",null,null));
 	    entryRelationship6.setObservation(observation5);
 	    
 		
@@ -876,18 +770,18 @@ public class CdaHeaderBuilder
 	{
 	Section section=CDAFactory.eINSTANCE.createSection();
 	PregnancyHistorySection ccs=new PregnancyHistorySection();
-	section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
-	section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+	section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
+	section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
 	Entry e=CDAFactory.eINSTANCE.createEntry();
 	Observation o=CDAFactory.eINSTANCE.createObservation();
 	o.setClassCode(ActClassObservation.OBS);
 	o.setMoodCode(x_ActMoodDocumentObservation.EVN);
-	o.getTemplateIds().add(buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.13",null,null));
-	o.getTemplateIds().add(buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.13.5",null,null));
-	o.getIds().add(buildTemplateID("pregid",null,null));
-	o.setCode(buildCodeCE("48767-8","2.16.840.1.113883.6.1","Annotation Comment","LOINC"));
+	o.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.13",null,null));
+	o.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.13.5",null,null));
+	o.getIds().add(CDAHelper.buildTemplateID("pregid",null,null));
+	o.setCode(CDAHelper.buildCodeCE("48767-8","2.16.840.1.113883.6.1","Annotation Comment","LOINC"));
 	
-	o.setText(buildEDText("#xxx"));
+	o.setText(CDAHelper.buildEDText("#xxx"));
 	e.setObservation(o);
 	CS cs= DatatypesFactory.eINSTANCE.createCS();
 	cs.setCode("completed");
@@ -915,11 +809,11 @@ public class CdaHeaderBuilder
 		Section section=CDAFactory.eINSTANCE.createSection();
 		CodedFamilyMedicalHistorySection ccs=new CodedFamilyMedicalHistorySection();
 		FamilyMedicalHistorySection fmhs=new FamilyMedicalHistorySection();
-		section.getTemplateIds().add(buildTemplateID(ccs.getParentTemplateId(),null ,null ));
-		section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
-		section.getTemplateIds().add(buildTemplateID(fmhs.getParentTemplateId(),null ,null ));
-		section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
-        section.setTitle(buildTitle(ccs.getSectionDescription()));
+		section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getParentTemplateId(),null ,null ));
+		section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
+		section.getTemplateIds().add(CDAHelper.buildTemplateID(fmhs.getParentTemplateId(),null ,null ));
+		section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
         StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
         text.addText("Text as described above");
         section.setText(text);  
@@ -929,18 +823,18 @@ public class CdaHeaderBuilder
         organizer.setClassCode(x_ActClassDocumentEntryOrganizer.CLUSTER);
         organizer.setMoodCode(ActMood.EVN);
         
-        organizer.getTemplateIds().add(buildTemplateID("2.16.840.1.113883.10.20.1.23",null,null));
-        organizer.getTemplateIds().add(buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.15",null,null));
+        organizer.getTemplateIds().add(CDAHelper.buildTemplateID("2.16.840.1.113883.10.20.1.23",null,null));
+        organizer.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.15",null,null));
     	
     	CS cs= DatatypesFactory.eINSTANCE.createCS();
     	cs.setCode("completed");
     	organizer.setStatusCode(cs);
     	
     	Subject subject=CDAFactory.eINSTANCE.createSubject();
-        subject.setTypeCode(ParticipationTargetSubject.SBJ);
-      
+         subject.setTypeCode(ParticipationTargetSubject.SBJ);
+         
          RelatedSubject relatedSubject=CDAFactory.eINSTANCE.createRelatedSubject();
-         relatedSubject.setCode(buildCodeCE("ignore","2.16.840.1.113883.5.111",null,"RoleCode"));
+         relatedSubject.setCode(CDAHelper.buildCodeCE("ignore","2.16.840.1.113883.5.111",null,"RoleCode"));
          
          AD relatedSubjectAddress=DatatypesFactory.eINSTANCE.createAD();
          relatedSubjectAddress.addCountry(" ");
@@ -966,12 +860,12 @@ public class CdaHeaderBuilder
         Observation observation=CDAFactory.eINSTANCE.createObservation();
      	observation.setClassCode(ActClassObservation.OBS);
      	observation.setMoodCode(x_ActMoodDocumentObservation.EVN);
-     	observation.getTemplateIds().add(buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.13.3",null,null));
-     	observation.getTemplateIds().add(buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.13",null,null));
-     	observation.getTemplateIds().add(buildTemplateID("2.16.840.1.113883.10.20.1.22",null,null));
-     	observation.getIds().add(buildTemplateID("id",null,null));
-     	observation.setCode(buildCodeCE("64572001",null,null,null));
-     	observation.setText(buildEDText("#ignore"));
+     	observation.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.13.3",null,null));
+     	observation.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.13",null,null));
+     	observation.getTemplateIds().add(CDAHelper.buildTemplateID("2.16.840.1.113883.10.20.1.22",null,null));
+     	observation.getIds().add(CDAHelper.buildTemplateID("id",null,null));
+     	observation.setCode(CDAHelper.buildCodeCE("64572001",null,null,null));
+     	observation.setText(CDAHelper.buildEDText("#ignore"));
      	observation.setStatusCode(cs);
      	
      	
@@ -1003,10 +897,10 @@ public class CdaHeaderBuilder
 		
        // section.setSectionId(UUID.randomUUID().toString());
         PhysicalExamSection ccs=new PhysicalExamSection();//this is bad approach though,just to test
-        section.getTemplateIds().add(buildTemplateID(ccs.getParentTemplateId(),null ,null ));
-        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
-        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
-        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getParentTemplateId(),null ,null ));
+        section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
         StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
         text.addText("Text as described above");
         section.setText(text);  
@@ -1052,7 +946,7 @@ public class CdaHeaderBuilder
         OptionalSecs=buildThoraxLungsSection();
         section.addSection(OptionalSecs);
         
-        OptionalSecs=buildChestWallSection();
+        OptionalSecs=buildThoraxLungsSection();
         section.addSection(OptionalSecs);
         
         OptionalSecs=buildBreastSection();
@@ -1093,9 +987,9 @@ public class CdaHeaderBuilder
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
 		GeneralAppearanceSection ccs=new  GeneralAppearanceSection();//this is bad approach though,just to test
-        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
-        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
-        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
         StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
         text.addText("Text as described above");
         section.setText(text);  
@@ -1105,9 +999,9 @@ public class CdaHeaderBuilder
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
 		VisibleImplantedMedicalDevicesSection ccs=new  VisibleImplantedMedicalDevicesSection();//this is bad approach though,just to test
-        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
-        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
-        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
         StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
         text.addText("Text as described above");
         section.setText(text);  
@@ -1117,9 +1011,9 @@ public class CdaHeaderBuilder
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
 		IntegumentarySystemSection ccs=new  IntegumentarySystemSection();//this is bad approach though,just to test
-        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
-        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
-        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
         StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
         text.addText("Text as described above");
         section.setText(text);  
@@ -1129,9 +1023,9 @@ public class CdaHeaderBuilder
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
 		HeadSection ccs=new  HeadSection();//this is bad approach though,just to test
-        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
-        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
-        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
         StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
         text.addText("Text as described above");
         section.setText(text);  
@@ -1141,9 +1035,9 @@ public class CdaHeaderBuilder
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
 		OptionalEyesSection ccs=new  OptionalEyesSection();//this is bad approach though,just to test
-        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
-        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
-        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
         StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
         text.addText("Text as described above");
         section.setText(text);  
@@ -1153,9 +1047,9 @@ public class CdaHeaderBuilder
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
 		EarNoseMouthThroatSection ccs=new  EarNoseMouthThroatSection();//this is bad approach though,just to test
-        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
-        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
-        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
         StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
         text.addText("Text as described above");
         section.setText(text);  
@@ -1165,9 +1059,9 @@ public class CdaHeaderBuilder
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
 		EarsSection ccs=new  EarsSection();//this is bad approach though,just to test
-        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
-        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
-        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
         StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
         text.addText("Text as described above");
         section.setText(text);  
@@ -1177,9 +1071,9 @@ public class CdaHeaderBuilder
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
 		NoseSection ccs=new  NoseSection();//this is bad approach though,just to test
-        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
-        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
-        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
         StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
         text.addText("Text as described above");
         section.setText(text);  
@@ -1189,9 +1083,9 @@ public class CdaHeaderBuilder
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
 		MouthThroatTeethSection ccs=new  MouthThroatTeethSection();//this is bad approach though,just to test
-        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
-        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
-        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
         StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
         text.addText("Text as described above");
         section.setText(text);  
@@ -1201,9 +1095,9 @@ public class CdaHeaderBuilder
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
 		NeckSection ccs=new  NeckSection();//this is bad approach though,just to test
-        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
-        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
-        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
         StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
         text.addText("Text as described above");
         section.setText(text);  
@@ -1213,9 +1107,9 @@ public class CdaHeaderBuilder
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
 		EndocrineSystemSection ccs=new EndocrineSystemSection();//this is bad approach though,just to test
-        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
-        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
-        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
         StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
         text.addText("Text as described above");
         section.setText(text);  
@@ -1225,9 +1119,9 @@ public class CdaHeaderBuilder
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
 		ThoraxLungsSection ccs=new ThoraxLungsSection();//this is bad approach though,just to test
-        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
-        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
-        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
         StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
         text.addText("Text as described above");
         section.setText(text);  
@@ -1237,9 +1131,9 @@ public class CdaHeaderBuilder
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
 		ChestWallSection ccs=new ChestWallSection();//this is bad approach though,just to test
-        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
-        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
-        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
         StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
         text.addText("Text as described above");
         section.setText(text);  
@@ -1249,9 +1143,9 @@ public class CdaHeaderBuilder
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
 		BreastSection ccs=new BreastSection();//this is bad approach though,just to test
-        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
-        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
-        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
         StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
         text.addText("Text as described above");
         section.setText(text);  
@@ -1261,9 +1155,9 @@ public class CdaHeaderBuilder
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
 		HeartSection ccs=new HeartSection();//this is bad approach though,just to test
-        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
-        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
-        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
         StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
         text.addText("Text as described above");
         section.setText(text);  
@@ -1273,9 +1167,9 @@ public class CdaHeaderBuilder
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
 		RespiratorySystemSection ccs=new RespiratorySystemSection();//this is bad approach though,just to test
-        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
-        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
-        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
         StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
         text.addText("Text as described above");
         section.setText(text);  
@@ -1285,9 +1179,9 @@ public class CdaHeaderBuilder
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
 		AbdomenSection ccs=new AbdomenSection();//this is bad approach though,just to test
-        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
-        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
-        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
         StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
         text.addText("Text as described above");
         section.setText(text);  
@@ -1297,9 +1191,9 @@ public class CdaHeaderBuilder
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
 		LymphaticSystemSection ccs=new LymphaticSystemSection();//this is bad approach though,just to test
-        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
-        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
-        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
         StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
         text.addText("Text as described above");
         section.setText(text);  
@@ -1309,9 +1203,9 @@ public class CdaHeaderBuilder
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
 		VesselsSection ccs=new VesselsSection();//this is bad approach though,just to test
-        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
-        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
-        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
         StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
         text.addText("Text as described above");
         section.setText(text);  
@@ -1321,9 +1215,9 @@ public class CdaHeaderBuilder
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
 		MusculoskeletalSystemSection ccs=new MusculoskeletalSystemSection();//this is bad approach though,just to test
-        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
-        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
-        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
         StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
         text.addText("Text as described above");
         section.setText(text);  
@@ -1333,9 +1227,9 @@ public class CdaHeaderBuilder
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
 		NeurologicSystemSection ccs=new NeurologicSystemSection();//this is bad approach though,just to test
-        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
-        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
-        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
         StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
         text.addText("Text as described above");
         section.setText(text);  
@@ -1345,9 +1239,9 @@ public class CdaHeaderBuilder
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
 		GenitaliaSection ccs=new GenitaliaSection();//this is bad approach though,just to test
-        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
-        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
-        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
         StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
         text.addText("Text as described above");
         section.setText(text);  
@@ -1357,12 +1251,96 @@ public class CdaHeaderBuilder
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
 		RectumSection ccs=new RectumSection();//this is bad approach though,just to test
-        section.getTemplateIds().add(buildTemplateID(ccs.getTemplateid(),null ,null ));
-        section.setCode(buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
-        section.setTitle(buildTitle(ccs.getSectionDescription()));
+        section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
+        section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
         StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
         text.addText("Text as described above");
         section.setText(text);  
 		return section;
-	}*/
 	}
+	public Section buildCodedVitalSignsSection()
+	{
+		Section section=CDAFactory.eINSTANCE.createSection();
+		VitalSignsSection vss=new VitalSignsSection();
+		CodedVitalSignsSection ccs=new CodedVitalSignsSection();
+		section.getTemplateIds().add(CDAHelper.buildTemplateID(vss.getParentTemplateId(),null ,null ));
+		section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getParentTemplateId(),null ,null ));
+		section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
+		section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
+        section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
+        StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
+        text.addText("Text as described above");
+        section.setText(text);
+        
+        Entry e=CDAFactory.eINSTANCE.createEntry();
+        Organizer organizer=CDAFactory.eINSTANCE.createOrganizer();
+        organizer.setClassCode(x_ActClassDocumentEntryOrganizer.CLUSTER);
+        organizer.setMoodCode(ActMood.EVN);
+        
+        organizer.getTemplateIds().add(CDAHelper.buildTemplateID("2.16.840.1.113883.10.20.1.32",null,null));
+        organizer.getTemplateIds().add(CDAHelper.buildTemplateID("2.16.840.1.113883.10.20.1.35",null,null));
+        organizer.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.13.1",null,null));
+        organizer.getIds().add(CDAHelper.buildID("id",null));
+        organizer.setCode(CDAHelper.buildCodeCD("46680005","2.16.840.1.113883.6.96","Vital signs","SNOMED CT"));
+        CS cs= DatatypesFactory.eINSTANCE.createCS();
+    	cs.setCode("completed");
+    	organizer.setStatusCode(cs);
+    	
+    	IVL_TS effectiveTime = DatatypesFactory.eINSTANCE.createIVL_TS();
+     	Date d=new Date();
+     	SimpleDateFormat s = new SimpleDateFormat("yyyyMMddhhmmss");
+     	String creationDate = s.format(d);
+     	effectiveTime.setValue(creationDate);
+     	effectiveTime.setNullFlavor(NullFlavor.UNK);
+     	organizer.setEffectiveTime(effectiveTime);
+    	
+     	Author author = CDAFactory.eINSTANCE.createAuthor();
+		author.setTime(CDAHelper.buildEffectiveTime(new Date()));
+		AssignedAuthor assignedAuthor = CDAFactory.eINSTANCE.createAssignedAuthor();
+				
+		AD assignedAuthorAddress=DatatypesFactory.eINSTANCE.createAD();
+		assignedAuthorAddress.addCountry(" ");
+		TEL assignedAuthorTelecon = DatatypesFactory.eINSTANCE.createTEL();
+		assignedAuthorTelecon.setNullFlavor(NullFlavor.UNK);
+		
+		assignedAuthor.getAddrs().add(assignedAuthorAddress);
+		assignedAuthor.getTelecoms().add(assignedAuthorTelecon);
+		
+		Person assignedPerson = CDAFactory.eINSTANCE.createPerson(); //assigned person must be system
+		PN assignedPersonName = DatatypesFactory.eINSTANCE.createPN();
+		assignedPerson.getNames().add(assignedPersonName);
+		assignedAuthor.setAssignedPerson(assignedPerson);
+  			
+		author.setAssignedAuthor(assignedAuthor);
+		organizer.getAuthors().add(author);
+		
+		Component4 component=CDAFactory.eINSTANCE.createComponent4();
+        
+        Observation observation=CDAFactory.eINSTANCE.createObservation();
+     	observation.setClassCode(ActClassObservation.OBS);
+     	observation.setMoodCode(x_ActMoodDocumentObservation.EVN);
+     	observation.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.13",null,null));
+     	observation.getTemplateIds().add(CDAHelper.buildTemplateID("2.16.840.1.113883.10.20.1.31",null,null));
+     	observation.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.13.2",null,null));
+     	observation.getIds().add(CDAHelper.buildTemplateID("id",null,null));
+     	observation.setCode(CDAHelper.buildCodeCE("9279-1","2.16.840.1.113883.6.1",null,"LOINC"));
+     	observation.setText(CDAHelper.buildEDText("#ignore"));
+     	observation.setStatusCode(cs);
+     	IVL_TS effectiveTime1 = DatatypesFactory.eINSTANCE.createIVL_TS();
+     	effectiveTime1.setNullFlavor(NullFlavor.UNK);
+     	observation.setEffectiveTime(effectiveTime1);
+     	
+     	ReferenceRange referenceRange=CDAFactory.eINSTANCE.createReferenceRange();
+     	ObservationRange observationRange=CDAFactory.eINSTANCE.createObservationRange();
+     	observationRange.setText(CDAHelper.buildEDText("Reference Range Text Here"));
+     	referenceRange.setObservationRange(observationRange);
+     	observation.getReferenceRanges().add(referenceRange);
+     	component.setObservation(observation);    	
+        organizer.getComponents().add(component);
+        e.setOrganizer(organizer);
+		section.getEntries().add(e); 	   
+		
+		return section;
+	}
+}

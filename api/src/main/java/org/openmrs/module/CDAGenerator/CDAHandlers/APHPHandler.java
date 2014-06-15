@@ -16,17 +16,5 @@ public class APHPHandler extends BaseCdaTypeHandler
 	this.documentDescription="Contains a record of initial history and physical";
 	this.templateid="1.3.6.1.4.19376.1.5.3.1.1.16.1.1";
 	this.formatCode="urn:ihe:pcc:aphp:2008";
-	}
-	
-	public ClinicalDocument AphpCdaMessage(Patient patient,BaseCdaTypeHandler basecdatypehandler)
-	{ 
-		ClinicalDocument doc = CDAFactory.eINSTANCE.createClinicalDocument();
-		CdaHeaderBuilder header=new CdaHeaderBuilder();
-		doc=header.buildHeader(doc, basecdatypehandler, patient);
-		
-		 ChiefComplaintSection cheifcomplaintsection=new ChiefComplaintSection();
-		 doc=cheifcomplaintsection.buildChiefComplaintSection(doc);
-		 return doc;
-	}
-	
+	}	
 }
