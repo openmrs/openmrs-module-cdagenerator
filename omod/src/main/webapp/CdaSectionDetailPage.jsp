@@ -51,14 +51,51 @@ background-color:Azure ;
   </tr>
 	
 	<tr>
-<td>
-	<label for="documentShortName">
+  <td>
+	<label for="tempid">
 	<spring:message code="CDAGenerator.section.templateid"/>
 	</label>
 	<input type="text"  name="templateid" value="${sectionDetails.templateid}" size="20" readonly />
 	</td>
   </tr>
-	
+  
+  <tr>
+  <td>
+	<label for="partempid">
+	<spring:message code="CDAGenerator.section.parentTemplateId"/>
+	</label>
+	<input type="text"  name="templateid" value="${sectionDetails.parentTemplateId}" size="20" readonly />
+	</td>
+  </tr>
+  
+  <tr>
+  <td>
+	<label for="Code">
+	<spring:message code="CDAGenerator.section.code"/>
+	</label>
+	<input type="text"  name="templateid" value="${sectionDetails.code}" size="20" readonly />
+	</td>
+  </tr>
+  
+  <tr>
+  <td>
+	<label for="CodeSystem">
+	<spring:message code="CDAGenerator.section.codeSystem"/>
+	</label>
+	<input type="text"  name="templateid" value="${sectionDetails.codeSystem}" size="20" readonly />
+	</td>
+  </tr>
+  
+  <tr>
+  <td>
+	<label for="CodeSystemName">
+	<spring:message code="CDAGenerator.section.codeSystemName"/>
+	</label>
+	<input type="text"  name="templateid" value="${sectionDetails.codeSystemName}" size="20" readonly />
+	</td>
+  </tr>
+  
+  
 	<tr>
 	<td>
      <label for="documentDescription">
