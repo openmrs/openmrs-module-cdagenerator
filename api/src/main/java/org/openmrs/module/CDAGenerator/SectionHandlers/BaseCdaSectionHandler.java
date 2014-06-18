@@ -6,7 +6,7 @@ public class BaseCdaSectionHandler {
 	public String sectionName;
 	public String sectionDescription;
 	public String templateid;
-	public String parentTemplateId;
+	public String parentTemplateId=" ";
 	public String code;
 	public String codeSystem="2.16.840.1.113883.6.1";
 	public String codeSystemName="LOINC";

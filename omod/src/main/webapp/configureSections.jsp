@@ -38,7 +38,9 @@ font-size:small;
 <tr>
 <th class="thStyle"><spring:message code="CDAGenerator.section.name"/></th>
 <th class="thStyle"><spring:message code="CDAGenerator.section.templateid"/></th>
-<th class="thStyle"><spring:message code="CDAGenerator.section.description"/></th>
+<th class="thStyle"><spring:message code="CDAGenerator.section.code"/></th>
+<th class="thStyle"><spring:message code="CDAGenerator.section.codeSystem"/></th>
+<th class="thStyle"><spring:message code="CDAGenerator.section.codeSystemName"/></th>
 
 
 
@@ -58,13 +60,19 @@ ${ls.templateid}
 </td>
 
 <td class="tdStyle" > 
-${ls.sectionDescription}
+${ls.code}
 </td>
 
+<td class="tdStyle" > 
+${ls.codeSystem}
+</td>
 
+<td class="tdStyle" > 
+${ls.codeSystemName}
+</td>
 
 </tr>
-		</c:forEach>
+</c:forEach>
 </tbody>
 
 </table>
