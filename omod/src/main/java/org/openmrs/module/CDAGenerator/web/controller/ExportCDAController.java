@@ -17,6 +17,11 @@ package org.openmrs.module.CDAGenerator.web.controller;
 
 
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
@@ -26,6 +31,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.eclipse.emf.common.util.Diagnostic;
+
+
 import org.openhealthtools.mdht.uml.cda.AssignedAuthor;
 import org.openhealthtools.mdht.uml.cda.Author;
 import org.openhealthtools.mdht.uml.cda.CDAFactory;
@@ -36,7 +44,9 @@ import org.openhealthtools.mdht.uml.cda.Patient;
 import org.openhealthtools.mdht.uml.cda.PatientRole;
 import org.openhealthtools.mdht.uml.cda.Person;
 import org.openhealthtools.mdht.uml.cda.RecordTarget;
+import org.openhealthtools.mdht.uml.cda.util.BasicValidationHandler;
 import org.openhealthtools.mdht.uml.cda.util.CDAUtil;
+import org.openhealthtools.mdht.uml.cda.util.ValidationResult;
 import org.openhealthtools.mdht.uml.hl7.datatypes.CE;
 import org.openhealthtools.mdht.uml.hl7.datatypes.DatatypesFactory;
 import org.openhealthtools.mdht.uml.hl7.datatypes.II;
@@ -85,16 +95,62 @@ public class ExportCDAController {
 	 bcth.setFormatCode(arr[4]);
 	 
 	 cda=cdaservice.produceCDA(p, bcth);
+/*		
+//#this cda validation approach 2 which throws import org.eclipse.emf.common.util.Diagnostic 
+	    CDAUtil.validate(cda, new BasicValidationHandler() {
+	            public void handleError(Diagnostic diagnostic) {
+	                    System.out.println("ERROR: " + diagnostic.getMessage());
+	            }
+	                           
+	            public void handleWarning(Diagnostic diagnostic) {
+	                    System.out.println("WARNING: " + diagnostic.getMessage());
+	            }
+	    });
+
+*/
 		 response.setHeader( "Content-Disposition", "attachment;filename="+p.getGivenName()+"sampleTest.xml");	
 		   try {
-			  
+			   
+			  	     
 			 StringWriter r = new StringWriter();
-			 
-			  CDAUtil.save(cda, r);
+			 CDAUtil.save(cda, r);
 			  String ccdDoc = r.toString();
 			  ccdDoc = ccdDoc.replaceAll("&lt;", "<");
 			  ccdDoc = ccdDoc.replaceAll("&quot;", "\"");
 			  byte[] res = ccdDoc.getBytes(Charset.forName("UTF-8"));
+			  
+			  
+	//#this cda validation approach 1 in which i'm creating a folder and adding cda file to that folder dynamically
+	//this code gives successfully creates a folder,stores our cda xml and while reading the file It's throwing Sax parser exception
+			  
+	/*File currentFolder = new File(".");
+			     File workingFolder = new File(currentFolder, "samples");
+			     if (!workingFolder.exists()) {
+			         workingFolder.mkdir();
+			     }
+			     System.out.println(workingFolder.getAbsolutePath());
+			     
+			     
+			     FileOutputStream fstream = new FileOutputStream (workingFolder.getAbsolutePath()+"//Testcda.xml",false);
+			     fstream.write(res);
+			     fstream.flush();
+			     fstream.close();
+		          
+			     ValidationResult result = new ValidationResult();
+					ClinicalDocument clinicalDocument = CDAUtil.load(new FileInputStream(workingFolder.getAbsolutePath()+"//Testcda.xml"), result);
+
+
+					System.out.println("\n***** Sample validation results *****");
+					for (Diagnostic diagnostic : result.getErrorDiagnostics()) {
+						System.out.println("ERROR: " + diagnostic.getMessage());
+					}
+					for (Diagnostic diagnostic : result.getWarningDiagnostics()) {
+						System.out.println("WARNING: " + diagnostic.getMessage());
+					}
+*/		  
+			  
+			  
+			  
 			  response.setContentType("text/xml");
 			  response.setCharacterEncoding("UTF-8");
 			  response.getOutputStream().write(res);

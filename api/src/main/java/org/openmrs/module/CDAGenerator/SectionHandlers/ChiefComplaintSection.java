@@ -1,8 +1,14 @@
 package org.openmrs.module.CDAGenerator.SectionHandlers;
 
+import java.util.Collection;
+
 import org.openhealthtools.mdht.uml.cda.CDAFactory;
 import org.openhealthtools.mdht.uml.cda.Section;
 import org.openhealthtools.mdht.uml.cda.StrucDocText;
+import org.openmrs.Concept;
+import org.openmrs.ConceptAnswer;
+import org.openmrs.api.ConceptService;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.CDAGenerator.api.CDAHelper;
 
 public class ChiefComplaintSection extends BaseCdaSectionHandler
@@ -22,7 +28,10 @@ public static Section buildChiefComplaintSection()
     section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
     section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
     StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
-    text.addText("Text as described above");
+    ConceptService service = Context.getConceptService();
+    Concept c = service.getConceptByMapping("10154-3", "LOINC");
+     String dataType= c.getDatatype().getName();
+    text.addText("Text as described above"+":"+c.getUuid()+":"+c.getDisplayString()+":"+c.getConceptClass().getName()+":"+dataType);
     section.setText(text);        
 	return section;
 	
