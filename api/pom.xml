@@ -93,26 +93,13 @@
             <artifactId>common</artifactId>
             <version>2.5.0.v200906151043</version>
         </dependency>
-    
-      
-       
-                        
-      
-        <dependency>
-            <groupId>org.openhealthtools.mdht.uml.cda.ccd</groupId>
-            <artifactId>source</artifactId>
-           <version>1.0.0.201109121753</version>
-        </dependency>     
+        
          <dependency>
             <groupId>org.openhealthtools.mdht.uml.cda</groupId>
             <artifactId>ccd</artifactId>
              <version>1.0.0.201109121753</version>
         </dependency>  
-         <dependency>
-            <groupId>org.openhealthtools.mdht.uml.cda.cdt</groupId>
-            <artifactId>source</artifactId>
-               <version>1.0.0.201109121753</version>
-        </dependency>     
+            
          <dependency>
             <groupId>org.openhealthtools.mdht.uml.cda</groupId>
             <artifactId>cdt</artifactId>
@@ -124,47 +111,26 @@
             <artifactId>hitsp</artifactId>
             <version>1.0.0.201109121753</version>
         </dependency> 
-           <dependency>
-            <groupId>org.openhealthtools.mdht.uml.cda.ihe</groupId>
-            <artifactId>source</artifactId>
-           <version>1.0.0.201109121753</version>
-        </dependency>     
+       
          <dependency>
             <groupId>org.openhealthtools.mdht.uml.cda</groupId>
             <artifactId>ihe</artifactId>
            <version>1.0.0.201109121753</version>
         </dependency>  
-           <dependency>
-            <groupId>org.openhealthtools.mdht.uml.cda.toc.domain</groupId>
-            <artifactId>source</artifactId>
-         <version>1.0.0.201109121753</version>
-        </dependency>     
-         <dependency>
-            <groupId>org.openhealthtools.mdht.uml.cda.toc</groupId>
-            <artifactId>domain</artifactId>
-            <version>1.0.0.201109121753</version>
-        </dependency>   
-           <dependency>
-            <groupId>org.openhealthtools.mdht.uml.cda.toc</groupId>
-            <artifactId>source</artifactId>
-            <version>1.0.0.201109121753</version>
-        </dependency>     
-         <dependency>
-            <groupId>org.openhealthtools.mdht.uml.cda</groupId>
-            <artifactId>toc</artifactId>
-       <version>1.0.0.201109121753</version>
-        </dependency> 
-      
+       
+       
          <dependency>
             <groupId>org.openhealthtools.mdht.uml</groupId>
             <artifactId>cda</artifactId>
             <version>1.0.0.201109121753</version>
         </dependency> 
+       
             <dependency>
             <groupId>org.openhealthtools.mdht.uml.hl7</groupId>
             <artifactId>datatypes</artifactId>
             <version>1.0.0.201109121753</version>
         </dependency> 
+       
             <dependency>
             <groupId>org.openhealthtools.mdht.uml.hl7</groupId>
             <artifactId>rim</artifactId>

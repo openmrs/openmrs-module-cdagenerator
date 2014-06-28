@@ -37,6 +37,7 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.openhealthtools.mdht.uml.cda.AssignedAuthor;
 import org.openhealthtools.mdht.uml.cda.Author;
 import org.openhealthtools.mdht.uml.cda.CDAFactory;
+import org.openhealthtools.mdht.uml.cda.CDAPackage;
 import org.openhealthtools.mdht.uml.cda.ClinicalDocument;
 import org.openhealthtools.mdht.uml.cda.InfrastructureRootTypeId;
 import org.openhealthtools.mdht.uml.cda.Organization;
@@ -97,17 +98,20 @@ public class ExportCDAController {
 	 cda=cdaservice.produceCDA(p, bcth);
 /*		
 //#this cda validation approach 2 which throws import org.eclipse.emf.common.util.Diagnostic 
-	    CDAUtil.validate(cda, new BasicValidationHandler() {
-	            public void handleError(Diagnostic diagnostic) {
-	                    System.out.println("ERROR: " + diagnostic.getMessage());
-	            }
-	                           
-	            public void handleWarning(Diagnostic diagnostic) {
-	                    System.out.println("WARNING: " + diagnostic.getMessage());
-	            }
-	    });
-
+	 CDAPackage.eINSTANCE.eClass();
+	 boolean result = CDAUtil.validate(cda, new BasicValidationHandler() {    // process diagnostics and print them to console
+		    public void handleError(Diagnostic diagnostic) {
+		        System.out.println("ERROR: " + diagnostic.getMessage());
+		    }
+		    public void handleWarning(Diagnostic diagnostic) {
+		        System.out.println("WARNING: "  + diagnostic.getMessage());
+		    }
+		    public void handleInfo(Diagnostic diagnostic) {
+		        System.out.println("INFO: " + diagnostic.getMessage());
+		    }
+		});
 */
+
 		 response.setHeader( "Content-Disposition", "attachment;filename="+p.getGivenName()+"sampleTest.xml");	
 		   try {
 			   
@@ -122,7 +126,7 @@ public class ExportCDAController {
 			  
 	//#this cda validation approach 1 in which i'm creating a folder and adding cda file to that folder dynamically
 	//this code gives successfully creates a folder,stores our cda xml and while reading the file It's throwing Sax parser exception
-			  
+			 
 	/*File currentFolder = new File(".");
 			     File workingFolder = new File(currentFolder, "samples");
 			     if (!workingFolder.exists()) {

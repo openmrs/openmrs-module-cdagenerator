@@ -33,20 +33,10 @@
 	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.eclipse.emf.ecore_2.5.0.v200906151043.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.eclipse.ocl.ecore_1.3.0.v200905271400.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.eclipse.ocl_1.3.0.v200905271400.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.openhealthtools.mdht.uml.cda.ccd.source_1.0.0.201109121753.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.openhealthtools.mdht.uml.cda.ccd_1.0.0.201109121753.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.openhealthtools.mdht.uml.cda.cdt.source_1.0.0.201109121753.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.openhealthtools.mdht.uml.cda.cdt_1.0.0.201109121753.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.openhealthtools.mdht.uml.cda.hitsp.facade.source_0.7.0.201109121753.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.openhealthtools.mdht.uml.cda.hitsp.facade_0.7.0.201109121753.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.openhealthtools.mdht.uml.cda.hitsp.source_1.0.0.201109121753.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.openhealthtools.mdht.uml.cda.hitsp_1.0.0.201109121753.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.openhealthtools.mdht.uml.cda.ihe.source_1.0.0.201109121753.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.openhealthtools.mdht.uml.cda.ihe_1.0.0.201109121753.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.openhealthtools.mdht.uml.cda.toc.domain.source_0.1.0.201109121753.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.openhealthtools.mdht.uml.cda.toc.domain_0.1.0.201109121753.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.openhealthtools.mdht.uml.cda.toc.source_0.1.0.201109121753.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.openhealthtools.mdht.uml.cda.toc_0.1.0.201109121753.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.openhealthtools.mdht.uml.cda_1.0.0.201109121753.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.openhealthtools.mdht.uml.hl7.datatypes_1.0.0.201109121753.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Vaibhav/Downloads/runtime/org.openhealthtools.mdht.uml.hl7.rim_1.0.0.201109121753.jar"/>
