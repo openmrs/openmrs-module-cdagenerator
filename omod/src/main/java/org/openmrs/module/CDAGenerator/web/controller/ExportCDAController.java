@@ -25,7 +25,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -71,13 +74,13 @@ import org.springframework.web.servlet.support.RequestContext;
  */
 
 @Controller
-@RequestMapping(value = "/module/CDAGenerator/exportcda*")
-public class ExportCDAController {
-	
+public class ExportCDAController 
+{
+	List<String> eList=null;	
 	protected final Log log = LogFactory.getLog(getClass());
 	
-	@RequestMapping(method = RequestMethod.POST)
-	public void manage(@RequestParam(value="patientId",required=true)org.openmrs.Patient p,@RequestParam(value="ChildCDAHandler",required=false)String ccth, BaseCdaTypeHandler bcth,HttpServletResponse response) {
+	@RequestMapping(value = "/module/CDAGenerator/exportcda*",method = RequestMethod.POST)
+	public String manage(@RequestParam(value="patientId",required=true)org.openmrs.Patient p,@RequestParam(value="ChildCDAHandler",required=false)String ccth, BaseCdaTypeHandler bcth,HttpServletResponse response) {
 		
 		ClinicalDocument cda=null;
 		
@@ -96,65 +99,66 @@ public class ExportCDAController {
 	 bcth.setFormatCode(arr[4]);
 	 
 	 cda=cdaservice.produceCDA(p, bcth);
-/*		
-//#this cda validation approach 2 which throws import org.eclipse.emf.common.util.Diagnostic 
 	 CDAPackage.eINSTANCE.eClass();
-	 boolean result = CDAUtil.validate(cda, new BasicValidationHandler() {    // process diagnostics and print them to console
-		    public void handleError(Diagnostic diagnostic) {
-		        System.out.println("ERROR: " + diagnostic.getMessage());
+	 final List<String> errorList=new ArrayList<String>();
+	 final Map<String,List<String>> errorMap=new HashMap<String,List<String>>();
+	 eList=new ArrayList<String>();
+	 
+	 boolean result = CDAUtil.validate(cda, new BasicValidationHandler() 
+	 {   
+		 
+		    public void handleError(Diagnostic diagnostic) 
+		    {
+		        errorList.add(diagnostic.getMessage());
+		    	errorMap.put("Error:",errorList);
+		       System.out.println("ERROR: " + diagnostic.getMessage());
 		    }
-		    public void handleWarning(Diagnostic diagnostic) {
+		    public void handleWarning(Diagnostic diagnostic) 
+		    {
+		    	errorList.add(diagnostic.getMessage());
+		    	errorMap.put("WARNING:",errorList);
 		        System.out.println("WARNING: "  + diagnostic.getMessage());
 		    }
-		    public void handleInfo(Diagnostic diagnostic) {
+		    public void handleInfo(Diagnostic diagnostic) 
+		    {
+		    	errorList.add(diagnostic.getMessage());
+		    	errorMap.put("Info:",errorList );
 		        System.out.println("INFO: " + diagnostic.getMessage());
 		    }
 		});
-*/
+
+final List<String> simple=new ArrayList<String>();
+for (Map.Entry<String, List<String>> entry : errorMap.entrySet()) 
+{
+	String key = entry.getKey();
+	List<String> values = entry.getValue();
+	for(String s:values)
+	{
+		eList.add(key+":"+s);
+	}
+}
+System.out.println(simple);
+if(result==false)
+{
+	System.out.println("Invalid Document");
+	//System.out.println("Here are the Errors");
+	//System.out.println("**************************************************************************************");
+	//System.out.println(eList);
+	return "redirect:/module/CDAGenerator/CDA_Errors_Page.form";
+}
+else
+ {
+	System.out.println("Valid Document");
 
 		 response.setHeader( "Content-Disposition", "attachment;filename="+p.getGivenName()+"sampleTest.xml");	
-		   try {
-			   
-			  	     
+		   try 
+		   {
 			 StringWriter r = new StringWriter();
 			 CDAUtil.save(cda, r);
 			  String ccdDoc = r.toString();
 			  ccdDoc = ccdDoc.replaceAll("&lt;", "<");
 			  ccdDoc = ccdDoc.replaceAll("&quot;", "\"");
 			  byte[] res = ccdDoc.getBytes(Charset.forName("UTF-8"));
-			  
-			  
-	//#this cda validation approach 1 in which i'm creating a folder and adding cda file to that folder dynamically
-	//this code gives successfully creates a folder,stores our cda xml and while reading the file It's throwing Sax parser exception
-			 
-	/*File currentFolder = new File(".");
-			     File workingFolder = new File(currentFolder, "samples");
-			     if (!workingFolder.exists()) {
-			         workingFolder.mkdir();
-			     }
-			     System.out.println(workingFolder.getAbsolutePath());
-			     
-			     
-			     FileOutputStream fstream = new FileOutputStream (workingFolder.getAbsolutePath()+"//Testcda.xml",false);
-			     fstream.write(res);
-			     fstream.flush();
-			     fstream.close();
-		          
-			     ValidationResult result = new ValidationResult();
-					ClinicalDocument clinicalDocument = CDAUtil.load(new FileInputStream(workingFolder.getAbsolutePath()+"//Testcda.xml"), result);
-
-
-					System.out.println("\n***** Sample validation results *****");
-					for (Diagnostic diagnostic : result.getErrorDiagnostics()) {
-						System.out.println("ERROR: " + diagnostic.getMessage());
-					}
-					for (Diagnostic diagnostic : result.getWarningDiagnostics()) {
-						System.out.println("WARNING: " + diagnostic.getMessage());
-					}
-*/		  
-			  
-			  
-			  
 			  response.setContentType("text/xml");
 			  response.setCharacterEncoding("UTF-8");
 			  response.getOutputStream().write(res);
@@ -169,8 +173,10 @@ public class ExportCDAController {
 		   {
 			e.printStackTrace();
 		   }
+		   return null;
+       }
 	}
-	@RequestMapping( method = RequestMethod.GET)
+	@RequestMapping(value = "/module/CDAGenerator/exportcda*", method = RequestMethod.GET)
 	public void PopulateCdaTypes(@RequestParam(value="patientId",required=false)Patient patient,ModelMap model) 
 	{
 		
@@ -180,8 +186,12 @@ public class ExportCDAController {
 			model.addAttribute("ListCdatypes", ListofCdatypes);
 		
 	}
-		
-		
+	
+	@RequestMapping(value = "/module/CDAGenerator/CDA_Errors_Page", method = RequestMethod.GET)
+	public void manage(ModelMap model) 
+	{
+		model.addAttribute("CDA_Errors_Page", eList);
+	}
 
 	}
 
