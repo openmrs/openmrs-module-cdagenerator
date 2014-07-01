@@ -134,7 +134,7 @@ for (Map.Entry<String, List<String>> entry : errorMap.entrySet())
 	List<String> values = entry.getValue();
 	for(String s:values)
 	{
-		eList.add(key+":"+s);
+		eList.add(key+" "+s);
 	}
 }
 System.out.println(simple);
@@ -190,6 +190,7 @@ else
 	@RequestMapping(value = "/module/CDAGenerator/CDA_Errors_Page", method = RequestMethod.GET)
 	public void manage(ModelMap model) 
 	{
+		
 		model.addAttribute("CDA_Errors_Page", eList);
 	}
 
