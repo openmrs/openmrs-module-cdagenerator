@@ -34,57 +34,51 @@ public static Section buildChiefComplaintSection(Patient patient)
     section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
     section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
     StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
-    StringBuilder buffer = new StringBuilder();
+    
+    StringBuilder builder = new StringBuilder();
     String delimeter="\n";
-    buffer.append(delimeter);
-	buffer.append("<list>"+delimeter);
-        
-    ConceptService service = Context.getConceptService();
+    builder.append(delimeter);
+    builder.append("<table Border=\"1\" width=\"100%\">"+delimeter);
+	builder.append("<thead>"+delimeter);
+	builder.append("<tr>"+delimeter);
+	builder.append("<th>Chief Complaint Section</th>"+delimeter);
+	builder.append("<th>Description</th>"+delimeter);
+	builder.append("<th>Effective Dates</th>"+delimeter);
+	builder.append("</tr>"+delimeter);
+	builder.append("</thead>"+delimeter);
+	builder.append("<tbody>"+delimeter);
+    
+	ConceptService service = Context.getConceptService();
+	SimpleDateFormat s = new SimpleDateFormat("MMddyyyy");
+	
+    
     Concept concept = service.getConceptByMapping("10154-3", "LOINC");
-    String dataType= concept.getDatatype().getName();
-    SimpleDateFormat s = new SimpleDateFormat("yyyyMMddhhmmss");
-    
-    
-    List<Obs> obsList = new ArrayList<Obs>();
-    obsList.addAll(Context.getObsService().getObservationsByPersonAndConcept(patient, concept));
-    
-    
-    for (Obs obs : obsList) {
-    	
-    	buffer.append("<item>"+delimeter);
-		buffer.append("<content>"+delimeter);
-		buffer.append("<Encounter>"+delimeter);
-		buffer.append("<EncounterID>"+obs.getEncounter().getEncounterId()+"</EncounterID>"+delimeter);
-		buffer.append("<EncounterType>"+obs.getEncounter().getEncounterType().getName()+"</EncounterType>"+delimeter);
-		buffer.append("<EncounterDate>"+obs.getEncounter().getEncounterDatetime()+"</EncounterDate>"+delimeter);
-		buffer.append("<EncounterLocation>"+obs.getEncounter().getLocation()+"</EncounterLocation>"+delimeter);
-		buffer.append("</Encounter>"+delimeter);
-		
-		int datatypeID=obs.getConcept().getDatatype().getId();
-		String answer=getDatatypesValue(datatypeID,obs);
-		buffer.append("<Observation>"+delimeter);
-		buffer.append("<ObservationID>"+obs.getId()+"</ObservationID>"+delimeter);
-		buffer.append("<QuestionConcept>"+obs.getConcept().getPreferredName(new Locale("en"))+"</QuestionConcept>"+delimeter);
-		buffer.append("<Value>"+answer+"</Value>"+delimeter);		
-		buffer.append("<ObservationDate>"+obs.getObsDatetime()+"</ObservationDate>"+delimeter);
-		buffer.append("</Observation>"+delimeter);
-		
-		
-		buffer.append("</content>"+delimeter);
-		buffer.append("</item>"+delimeter);
-   
-    //text.addText("Text as described above"+":"+concept.getUuid()+":"+concept.getDisplayString()+":"+concept.getConceptClass().getName()+":"+dataType);
-    //section.setText(text);        
-    }
-    buffer.append("</list>"+delimeter);
-	text.addText(buffer.toString());
 
-   
-	section.setText(text);
     
     
     
-	return section;
+    List<Obs> observationList = new ArrayList<Obs>();
+    observationList.addAll(Context.getObsService().getObservationsByPersonAndConcept(patient, concept));
+    
+    
+    for (Obs obs : observationList) 
+    {
+    	builder.append("<tr>"+delimeter);
+		builder.append("<td> <content ID = \""+obs.getId()+"\" >"+obs.getConcept().getName()+"</content></td>"+delimeter);	
+		builder.append("<td>");
+		int type = obs.getConcept().getDatatype().getId();
+		String value=getDatatypesValue(type,obs);
+		
+		builder.append(value+"</td>"+delimeter);
+		builder.append("<td>"+s.format(obs.getObsDatetime())+"</td>"+delimeter);
+		builder.append("</tr>"+delimeter);
+		
+    }
+     builder.append("</tbody>"+delimeter);
+	 builder.append("</table>"+delimeter);
+	 text.addText(builder.toString());
+     section.setText(text);        
+    	return section;
 	
 }
 public static String getDatatypesValue(Integer datatypeId,Obs obs)
