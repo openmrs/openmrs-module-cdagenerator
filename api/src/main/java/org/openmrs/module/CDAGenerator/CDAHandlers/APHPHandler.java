@@ -36,7 +36,7 @@ public class APHPHandler extends BaseCdaTypeHandler
 		doc=header.buildHeader(doc, handler, patient);
 		
 		
-		section=HistoryOfPresentIllnessSection.buildHistoryOfPresentIllnessSection();
+		section=HistoryOfPresentIllnessSection.buildHistoryOfPresentIllnessSection(patient);
 		doc.addSection(section);
 		
 		section=ChiefComplaintSection.buildChiefComplaintSection(patient);

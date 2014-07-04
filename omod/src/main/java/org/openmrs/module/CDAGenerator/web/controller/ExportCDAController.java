@@ -32,6 +32,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.emf.common.util.Diagnostic;
@@ -155,10 +156,11 @@ else
 		   {
 			 StringWriter r = new StringWriter();
 			 CDAUtil.save(cda, r);
-			  String ccdDoc = r.toString();
-			  ccdDoc = ccdDoc.replaceAll("&lt;", "<");
-			  ccdDoc = ccdDoc.replaceAll("&quot;", "\"");
-			  byte[] res = ccdDoc.getBytes(Charset.forName("UTF-8"));
+			  String cdaDoc = r.toString();
+			  cdaDoc=cdaDoc.replaceAll("&#xD;","\n");
+			  cdaDoc = cdaDoc.replaceAll("&lt;", "<");
+			  cdaDoc = cdaDoc.replaceAll("&quot;", "\"");
+			  byte[] res = cdaDoc.getBytes(Charset.forName("UTF-8"));
 			  response.setContentType("text/xml");
 			  response.setCharacterEncoding("UTF-8");
 			  response.getOutputStream().write(res);
