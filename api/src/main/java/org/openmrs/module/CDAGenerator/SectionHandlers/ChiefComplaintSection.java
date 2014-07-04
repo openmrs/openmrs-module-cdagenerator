@@ -3,8 +3,11 @@ package org.openmrs.module.CDAGenerator.SectionHandlers;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import org.openhealthtools.mdht.uml.cda.CDAFactory;
 import org.openhealthtools.mdht.uml.cda.Section;
@@ -36,22 +39,12 @@ public static Section buildChiefComplaintSection(Patient patient)
     StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
     
     StringBuilder builder = new StringBuilder();
-    String delimeter="\n";
-    builder.append(delimeter);
-    builder.append("<table Border=\"1\" width=\"100%\">"+delimeter);
-	builder.append("<thead>"+delimeter);
-	builder.append("<tr>"+delimeter);
-	builder.append("<th>Chief Complaint Section</th>"+delimeter);
-	builder.append("<th>Description</th>"+delimeter);
-	builder.append("<th>Effective Dates</th>"+delimeter);
-	builder.append("</tr>"+delimeter);
-	builder.append("</thead>"+delimeter);
-	builder.append("<tbody>"+delimeter);
+	builder.append("<paragraph>");
     
 	ConceptService service = Context.getConceptService();
 	SimpleDateFormat s = new SimpleDateFormat("MMddyyyy");
 	
-    
+    Map<String,Date> latestObsdate=new HashMap<String,Date>();
     Concept concept = service.getConceptByMapping("10154-3", "LOINC");
 
     
@@ -59,23 +52,35 @@ public static Section buildChiefComplaintSection(Patient patient)
     
     List<Obs> observationList = new ArrayList<Obs>();
     observationList.addAll(Context.getObsService().getObservationsByPersonAndConcept(patient, concept));
-    
+    String value="";
     
     for (Obs obs : observationList) 
     {
-    	builder.append("<tr>"+delimeter);
-		builder.append("<td> <content ID = \""+obs.getId()+"\" >"+obs.getConcept().getName()+"</content></td>"+delimeter);	
-		builder.append("<td>");
 		int type = obs.getConcept().getDatatype().getId();
-		String value=getDatatypesValue(type,obs);
+	
 		
-		builder.append(value+"</td>"+delimeter);
-		builder.append("<td>"+s.format(obs.getObsDatetime())+"</td>"+delimeter);
-		builder.append("</tr>"+delimeter);
+		if(latestObsdate.isEmpty())
+		{
+		latestObsdate.put("Latest date", obs.getObsDatetime());
+		value=getDatatypesValue(type,obs);
+		}
+		else
+		{
+			Date date=latestObsdate.get("Latest date");
+			if(date.before(obs.getObsDatetime()))
+			{
+				latestObsdate.put("Latest date", obs.getObsDatetime());
+				value=getDatatypesValue(type,obs);
+			}
+		}
+		
+		System.out.println("\n");
+		System.out.println(latestObsdate);
 		
     }
-     builder.append("</tbody>"+delimeter);
-	 builder.append("</table>"+delimeter);
+    
+    builder.append(value);
+    builder.append("</paragraph>");
 	 text.addText(builder.toString());
      section.setText(text);        
     	return section;
