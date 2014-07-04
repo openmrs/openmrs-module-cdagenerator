@@ -42,7 +42,7 @@ public class APHPHandler extends BaseCdaTypeHandler
 		section=ChiefComplaintSection.buildChiefComplaintSection(patient);
 		doc.addSection(section);
 		
-		section=SocialHistorySection.buildSocialHistorySection();
+		section=SocialHistorySection.buildSocialHistorySection(patient);
 		doc.addSection(section);
 		
 		section=HistoryOfInfectionSection.buildHistoryOfInfectionSection();
