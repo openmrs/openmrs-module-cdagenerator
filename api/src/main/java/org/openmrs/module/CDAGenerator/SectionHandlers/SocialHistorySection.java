@@ -63,12 +63,12 @@ public static Section buildSocialHistorySection(Patient p)
         
     ConceptService service = Context.getConceptService();
 
-    SimpleDateFormat s = new SimpleDateFormat("mm/dd/yyyy");
+    
     
     socialHistoryConceptsList.add(service.getConceptByMapping("160573003", "SNOMED CT"));// concept we get is Alcohol use status 
-    socialHistoryConceptsList.add(service.getConceptByMapping("77176002", "SNOMED CT"));//concept we get smoker 
-    socialHistoryConceptsList.add(service.getConceptByMapping("xx-illicitdrugs", "SNOMED CT"));// concept we get is Has not used illicit substances for more than 6 months total
-    socialHistoryConceptsList.add(service.getConceptByMapping("29762-2", "LOINC"));//concept we get is 
+    socialHistoryConceptsList.add(service.getConceptByMapping("266918002", "SNOMED CT"));//concept we get is type of tobacco product
+    socialHistoryConceptsList.add(service.getConceptByMapping("xx-illicitdrugs", "SNOMED CT"));// concept we get is Illicit drug consumption (this is newly created concept)
+    socialHistoryConceptsList.add(service.getConceptByMapping("29762-2", "LOINC"));//concept we get is social history of patient 
     System.out.println(socialHistoryConceptsList);
     List<Obs> obsList = new ArrayList<Obs>();
 	for (Concept concept : socialHistoryConceptsList) {
@@ -78,14 +78,16 @@ public static Section buildSocialHistorySection(Patient p)
 	 for (Obs obs : obsList) 
 	 { 
 		 System.out.println(obs);
+		 System.out.println(obs.getObsDatetime());
+		 System.out.println(CDAHelper.getDateFormat().format(obs.getObsDatetime()));
 		    builder.append("<tr>"+delimeter);
 			builder.append("<td> <content ID = \""+obs.getId()+"\" >"+obs.getConcept().getName()+"</content></td>"+delimeter);	
 			builder.append("<td>");
 			int type = obs.getConcept().getDatatype().getId();
-			String value=getDatatypesValue(type,obs);
+			String value=CDAHelper.getDatatypesValue(type,obs);
 			
 			builder.append(value+"</td>"+delimeter);
-			builder.append("<td>"+s.format(obs.getObsDatetime())+"</td>"+delimeter);
+			builder.append("<td>"+CDAHelper.getDateFormat().format(obs.getObsDatetime())+"</td>"+delimeter);
 			builder.append("</tr>"+delimeter);
 			
 			Entry entry = CDAFactory.eINSTANCE.createEntry();
@@ -126,43 +128,5 @@ public static Section buildSocialHistorySection(Patient p)
 	
 	return section;
 }
-public static String getDatatypesValue(Integer datatypeId,Obs obs)
-{
-	String value = "";
-	switch(datatypeId)
-	{
-	case 1:
-		value = obs.getValueNumeric().toString();
-		break;
-		
-	case 2:
-		value = obs.getValueCoded().getDisplayString();
-		break;
 
-	case 3:
-		value = obs.getValueText();
-		break;
-
-	case 6:
-		value = obs.getValueDate().toString();
-		break;
-
-	case 7:
-		value = obs.getValueTime().toString();
-		break;
-
-	case 8:
-		value = obs.getValueDatetime().toString();
-		break;
-
-	case 10:
-		value = obs.getValueAsBoolean().toString();
-		break;
-
-	case 13:
-		value = obs.getValueComplex();
-		break;
-	}
-	return value;
-}
 }

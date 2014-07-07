@@ -42,13 +42,10 @@ public static Section buildChiefComplaintSection(Patient patient)
 	builder.append("<paragraph>");
     
 	ConceptService service = Context.getConceptService();
-	SimpleDateFormat s = new SimpleDateFormat("MMddyyyy");
-	
+		
     Map<String,Date> latestObsdate=new HashMap<String,Date>();
     Concept concept = service.getConceptByMapping("10154-3", "LOINC");
 
-    
-    
     
     List<Obs> observationList = new ArrayList<Obs>();
     observationList.addAll(Context.getObsService().getObservationsByPersonAndConcept(patient, concept));
@@ -62,7 +59,7 @@ public static Section buildChiefComplaintSection(Patient patient)
 		if(latestObsdate.isEmpty())
 		{
 		latestObsdate.put("Latest date", obs.getObsDatetime());
-		value=getDatatypesValue(type,obs);
+		value=CDAHelper.getDatatypesValue(type,obs);
 		}
 		else
 		{
@@ -70,7 +67,7 @@ public static Section buildChiefComplaintSection(Patient patient)
 			if(date.before(obs.getObsDatetime()))
 			{
 				latestObsdate.put("Latest date", obs.getObsDatetime());
-				value=getDatatypesValue(type,obs);
+				value=CDAHelper.getDatatypesValue(type,obs);
 			}
 		}
 		
@@ -85,44 +82,5 @@ public static Section buildChiefComplaintSection(Patient patient)
      section.setText(text);        
     	return section;
 	
-}
-public static String getDatatypesValue(Integer datatypeId,Obs obs)
-{
-	String value = "";
-	switch(datatypeId)
-	{
-	case 1:
-		value = obs.getValueNumeric().toString();
-		break;
-		
-	case 2:
-		value = obs.getValueCoded().getDisplayString();
-		break;
-
-	case 3:
-		value = obs.getValueText();
-		break;
-
-	case 6:
-		value = obs.getValueDate().toString();
-		break;
-
-	case 7:
-		value = obs.getValueTime().toString();
-		break;
-
-	case 8:
-		value = obs.getValueDatetime().toString();
-		break;
-
-	case 10:
-		value = obs.getValueAsBoolean().toString();
-		break;
-
-	case 13:
-		value = obs.getValueComplex();
-		break;
-	}
-	return value;
 }
 }

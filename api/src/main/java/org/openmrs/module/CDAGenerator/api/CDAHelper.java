@@ -12,9 +12,15 @@ import org.openhealthtools.mdht.uml.hl7.datatypes.IVL_TS;
 import org.openhealthtools.mdht.uml.hl7.datatypes.IVXB_TS;
 import org.openhealthtools.mdht.uml.hl7.datatypes.ST;
 import org.openhealthtools.mdht.uml.hl7.datatypes.TS;
+import org.openmrs.Obs;
 
 public class CDAHelper
 {
+	public static SimpleDateFormat getDateFormat()
+	{
+		SimpleDateFormat simpledateformat = new SimpleDateFormat("MM-dd-yyyy");
+		return simpledateformat;
+	}
 	public static IVL_TS  buildEffectiveTimeinIVL(Date d , Date d1)
 	{
 		IVL_TS effectiveTime = DatatypesFactory.eINSTANCE.createIVL_TS();
@@ -133,6 +139,44 @@ public class CDAHelper
 		text.addText("<reference value=\""+value+"\"/>");
 		return text;
 	}
-	
+	public static String getDatatypesValue(Integer datatypeId,Obs obs)
+	{
+		String value = "";
+		switch(datatypeId)
+		{
+		case 1:
+			value = obs.getValueNumeric().toString();
+			break;
+			
+		case 2:
+			value = obs.getValueCoded().getDisplayString();
+			break;
+
+		case 3:
+			value = obs.getValueText();
+			break;
+
+		case 6:
+			value = obs.getValueDate().toString();
+			break;
+
+		case 7:
+			value = obs.getValueTime().toString();
+			break;
+
+		case 8:
+			value = obs.getValueDatetime().toString();
+			break;
+
+		case 10:
+			value = obs.getValueAsBoolean().toString();
+			break;
+
+		case 13:
+			value = obs.getValueComplex();
+			break;
+		}
+		return value;
+	}
 
 }
