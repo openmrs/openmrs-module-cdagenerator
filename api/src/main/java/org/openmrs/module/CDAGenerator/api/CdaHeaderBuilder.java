@@ -299,7 +299,7 @@ public class CdaHeaderBuilder
 
 		
 		List<Relationship> relationShips= Context.getPersonService().getRelationshipsByPerson(p);
-		System.out.println(relationShips);
+		//System.out.println(relationShips);
 		List<Participant1> participantList = new ArrayList<Participant1>(relationShips.size());
 		System.out.print(participantList);
 		for (int i = 0; i< relationShips.size();i++) {

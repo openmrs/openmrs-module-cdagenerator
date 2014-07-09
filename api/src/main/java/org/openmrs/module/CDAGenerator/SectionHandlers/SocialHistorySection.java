@@ -51,7 +51,7 @@ public static Section buildSocialHistorySection(Patient p)
     StringBuilder builder = new StringBuilder();
     String delimeter="\n";
     builder.append(delimeter);
-    builder.append("<table Border=\"1\" width=\"100%\">"+delimeter);
+    builder.append("<table>"+delimeter);
 	builder.append("<thead>"+delimeter);
 	builder.append("<tr>"+delimeter);
 	builder.append("<th>Social History Element</th>"+delimeter);
@@ -69,7 +69,7 @@ public static Section buildSocialHistorySection(Patient p)
     socialHistoryConceptsList.add(service.getConceptByMapping("266918002", "SNOMED CT"));//concept we get is type of tobacco product
     socialHistoryConceptsList.add(service.getConceptByMapping("xx-illicitdrugs", "SNOMED CT"));// concept we get is Illicit drug consumption (this is newly created concept)
     socialHistoryConceptsList.add(service.getConceptByMapping("29762-2", "LOINC"));//concept we get is social history of patient 
-    System.out.println(socialHistoryConceptsList);
+   // System.out.println(socialHistoryConceptsList);
     List<Obs> obsList = new ArrayList<Obs>();
 	for (Concept concept : socialHistoryConceptsList) {
 		obsList.addAll(Context.getObsService().getObservationsByPersonAndConcept(p, concept));	
@@ -77,11 +77,12 @@ public static Section buildSocialHistorySection(Patient p)
 
 	 for (Obs obs : obsList) 
 	 { 
-		 System.out.println(obs);
+		/* System.out.println(obs);
 		 System.out.println(obs.getObsDatetime());
-		 System.out.println(CDAHelper.getDateFormat().format(obs.getObsDatetime()));
+		 System.out.println(CDAHelper.getDateFormat().format(obs.getObsDatetime()));*/
+		 
 		    builder.append("<tr>"+delimeter);
-			builder.append("<td> <content ID = \""+obs.getId()+"\" >"+obs.getConcept().getName()+"</content></td>"+delimeter);	
+			builder.append("<td ID = \"_"+obs.getId()+"\" >"+obs.getConcept().getName()+"</td>"+delimeter);	
 			builder.append("<td>");
 			int type = obs.getConcept().getDatatype().getId();
 			String value=CDAHelper.getDatatypesValue(type,obs);
@@ -102,7 +103,7 @@ public static Section buildSocialHistorySection(Patient p)
 			ce.setCode(obs.getConcept().toString());
 			ce.setCodeSystem("2.16.840.1.113883.6.96");
 			ce.setDisplayName(obs.getConcept().getName().toString());
-			ce.setOriginalText(CDAHelper.buildEDText("#"+obs.getId()));
+			ce.setOriginalText(CDAHelper.buildEDText("#_"+obs.getId()));
 			
 			observation.setCode(ce);
 			
