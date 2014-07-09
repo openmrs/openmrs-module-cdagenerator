@@ -71,8 +71,8 @@ public static Section buildChiefComplaintSection(Patient patient)
 			}
 		}
 		
-		System.out.println("\n");
-		System.out.println(latestObsdate);
+		
+		//System.out.println(latestObsdate);
 		
     }
     

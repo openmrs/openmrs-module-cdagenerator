@@ -45,7 +45,14 @@ public class APHPHandler extends BaseCdaTypeHandler
 		section=SocialHistorySection.buildSocialHistorySection(patient);
 		doc.addSection(section);
 		
-		section=HistoryOfInfectionSection.buildHistoryOfInfectionSection();
+		section=ReviewOfSystemsSection.buildReviewOfSystemsSection(patient);
+		doc.addSection(section);
+		/*
+		 * commented following four calls because they consist of hard coded observation and 
+		 * produces few errors in document
+		 * we are now using gazelle cda validator 
+		*/
+		/*section=HistoryOfInfectionSection.buildHistoryOfInfectionSection();
 		doc.addSection(section);
 		
 		section=HistoryOfPastIllnessSection.buildHistoryOfPastIllnessSection();
@@ -57,12 +64,10 @@ public class APHPHandler extends BaseCdaTypeHandler
 		section=CodedFamilyMedicalHistorySection.buildCodedFamilyMedicalHistorySection();
 		doc.addSection(section);
 		
-		section=ReviewOfSystemsSection.buildReviewOfSystemsSection();
-		doc.addSection(section);
 		
 		section=PhysicalExamSection.buildPhysicalExamSection();
 		doc.addSection(section);
-		
+		*/
 		return doc;
 	}
 }

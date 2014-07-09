@@ -86,9 +86,9 @@ public class ExportCDAController
 		ClinicalDocument cda=null;
 		
 		String []arr=ccth.split(",");
-		System.out.println("----->"+arr[0]);
+		/*System.out.println("----->"+arr[0]);
 		System.out.println("----->"+arr[1]);
-		System.out.println("----->"+arr[2]);
+		System.out.println("----->"+arr[2]);*/
        
 	 CDAGeneratorService cdaservice=(CDAGeneratorService)Context.getService(CDAGeneratorService.class);
 	 
@@ -112,19 +112,19 @@ public class ExportCDAController
 		    {
 		        errorList.add(diagnostic.getMessage());
 		    	errorMap.put("Error:",errorList);
-		       System.out.println("ERROR: " + diagnostic.getMessage());
+		      // System.out.println("ERROR: " + diagnostic.getMessage());
 		    }
 		    public void handleWarning(Diagnostic diagnostic) 
 		    {
 		    	errorList.add(diagnostic.getMessage());
 		    	errorMap.put("WARNING:",errorList);
-		        System.out.println("WARNING: "  + diagnostic.getMessage());
+		      //  System.out.println("WARNING: "  + diagnostic.getMessage());
 		    }
 		    public void handleInfo(Diagnostic diagnostic) 
 		    {
 		    	errorList.add(diagnostic.getMessage());
 		    	errorMap.put("Info:",errorList );
-		        System.out.println("INFO: " + diagnostic.getMessage());
+		     //   System.out.println("INFO: " + diagnostic.getMessage());
 		    }
 		});
 
@@ -138,7 +138,7 @@ for (Map.Entry<String, List<String>> entry : errorMap.entrySet())
 		eList.add(key+" "+s);
 	}
 }
-System.out.println(simple);
+//System.out.println(simple);
 if(result==false)
 {
 	System.out.println("Invalid Document");
@@ -149,7 +149,7 @@ if(result==false)
 }
 else
  {
-	System.out.println("Valid Document");
+	//System.out.println("Valid Document");
 
 		 response.setHeader( "Content-Disposition", "attachment;filename="+p.getGivenName()+"sampleTest.xml");	
 		   try 

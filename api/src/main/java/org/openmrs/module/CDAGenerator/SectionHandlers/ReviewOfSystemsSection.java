@@ -38,7 +38,7 @@ public class ReviewOfSystemsSection extends BaseCdaSectionHandler
         StringBuilder builder = new StringBuilder();
         String delimeter="\n";
         builder.append(delimeter);
-        builder.append("<table Border=\"1\" width=\"100%\">"+delimeter);
+        builder.append("<table>"+delimeter);
     	builder.append("<thead>"+delimeter);
     	builder.append("<tr>"+delimeter);
     	builder.append("<th>Review of System Element</th>"+delimeter);
@@ -80,7 +80,7 @@ public class ReviewOfSystemsSection extends BaseCdaSectionHandler
     	 for (Obs obs : obsList) 
     	 { 
     		    builder.append("<tr>"+delimeter);
-    			builder.append("<td> <content ID = \""+obs.getId()+"\" >"+obs.getConcept().getName()+"</content></td>"+delimeter);
+    			builder.append("<td ID = \"_"+obs.getId()+"\" >"+obs.getConcept().getName()+"</td>"+delimeter);	
     			builder.append("<td>");
     			int type = obs.getConcept().getDatatype().getId();
     			String value=CDAHelper.getDatatypesValue(type,obs);
