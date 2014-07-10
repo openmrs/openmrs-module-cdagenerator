@@ -38,39 +38,23 @@ public static Section buildHistoryOfPresentIllnessSection(Patient patient)
     
 	ConceptService service = Context.getConceptService();
 		
-    Map<String,Date> latestObsdate=new HashMap<String,Date>();
+    
     Concept concept = service.getConceptByMapping("10164-2", "LOINC");
 
     List<Obs> observationList = new ArrayList<Obs>();
     observationList.addAll(Context.getObsService().getObservationsByPersonAndConcept(patient, concept));
     String value="";
     
-    for (Obs obs : observationList) 
-    {
-		int type = obs.getConcept().getDatatype().getId();
-	
-		
-		if(latestObsdate.isEmpty())
-		{
-		latestObsdate.put("Latest date", obs.getObsDatetime());
-		value=CDAHelper.getDatatypesValue(type,obs);
-		}
-		else
-		{
-			Date date=latestObsdate.get("Latest date");
-			if(date.before(obs.getObsDatetime()))
-			{
-				latestObsdate.put("Latest date", obs.getObsDatetime());
-				value=CDAHelper.getDatatypesValue(type,obs);
-			}
-		}
-		
-    }
-    builder.append(value);
-    builder.append("</paragraph>");
+        Obs obs=CDAHelper.getLatestObs(observationList);
+    	int type = obs.getConcept().getDatatype().getId();
+	     value=CDAHelper.getDatatypesValue(type,obs);
+			
+       builder.append(value);
+       builder.append("</paragraph>");
+       
 	 text.addText(builder.toString());
-    section.setText(text);        
-	return section;
+     section.setText(text);        
+	 return section;
 }
 
 

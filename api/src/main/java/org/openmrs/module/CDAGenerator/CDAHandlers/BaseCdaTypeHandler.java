@@ -9,6 +9,7 @@ public class BaseCdaTypeHandler
 	public String documentFullName;
 	public String documentShortName;
 	public String documentDescription;
+	public String parentTemplateId;
 	public String templateid;
 	public String formatCode;
 	public Map<String,BaseCdaSectionHandler> requiredSections;
@@ -18,7 +19,12 @@ public class BaseCdaTypeHandler
 	{
 	return documentFullName;
 	}
-
+	
+	public String getParentTemplateId()
+	{
+	return parentTemplateId;
+	}
+	
 	public String getDocumentShortName()
 	{
 	return documentShortName;
@@ -45,6 +51,11 @@ public class BaseCdaTypeHandler
 	this.templateid=Templateid;
 	}
 	
+	public void setParentTemplateId(String ParentTemplateid)
+	{
+	this.parentTemplateId=ParentTemplateid;
+	}
+	
 	public void setDocumentDescription(String documentDescription)
 	{
 	this.documentDescription=documentDescription;
@@ -66,6 +77,7 @@ public class BaseCdaTypeHandler
 	}
 	public String toString() 
     {
-       return documentFullName+","+documentShortName+","+documentDescription+","+templateid+","+formatCode;
+       return documentFullName+","+documentShortName+","+documentDescription+","+templateid+","
+    +formatCode+","+parentTemplateId;
     }
 }

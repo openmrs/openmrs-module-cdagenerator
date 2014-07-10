@@ -86,10 +86,13 @@ public class ExportCDAController
 		ClinicalDocument cda=null;
 		
 		String []arr=ccth.split(",");
-		/*System.out.println("----->"+arr[0]);
+	/*	System.out.println("----->"+arr[0]);
 		System.out.println("----->"+arr[1]);
-		System.out.println("----->"+arr[2]);*/
-       
+		System.out.println("----->"+arr[2]);
+		System.out.println("----->"+arr[3]);
+		System.out.println("----->"+arr[4]);
+		System.out.println("----->"+arr[5]);
+      */
 	 CDAGeneratorService cdaservice=(CDAGeneratorService)Context.getService(CDAGeneratorService.class);
 	 
 	 
@@ -98,6 +101,7 @@ public class ExportCDAController
 	 bcth.setDocumentDescription(arr[2]);
 	 bcth.setTemplateid(arr[3]);
 	 bcth.setFormatCode(arr[4]);
+	 bcth.setParentTemplateId(arr[5]);
 	 
 	 cda=cdaservice.produceCDA(p, bcth);
 	 CDAPackage.eINSTANCE.eClass();

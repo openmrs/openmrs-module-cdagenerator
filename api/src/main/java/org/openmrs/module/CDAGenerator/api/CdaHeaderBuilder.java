@@ -67,9 +67,12 @@ import org.openhealthtools.mdht.uml.hl7.vocab.x_ActMoodDocumentObservation;
 import org.openhealthtools.mdht.uml.hl7.vocab.x_ActRelationshipEntryRelationship;
 import org.openhealthtools.mdht.uml.hl7.vocab.x_DocumentActMood;
 import org.openhealthtools.mdht.uml.hl7.vocab.x_ServiceEventPerformer;
+import org.openmrs.Concept;
+import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.PersonAddress;
 import org.openmrs.Relationship;
+import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.CDAGenerator.CDAHandlers.BaseCdaTypeHandler;
 import org.openmrs.module.CDAGenerator.SectionHandlers.AbdomenSection;
@@ -124,14 +127,18 @@ public class CdaHeaderBuilder
 		doc.getTemplateIds().add(CDAHelper.buildTemplateID("2.16.840.1.113883.10.20.3",null,null));
 		doc.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.1.1",null,null));//Medical Documents 
 		doc.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.1.2",null,null));//Medical Summary
-		doc.getTemplateIds().add(CDAHelper.buildTemplateID(bh.templateid,null,null));
+		
+		if(bh.getParentTemplateId()!=null)
+		doc.getTemplateIds().add(CDAHelper.buildTemplateID(bh.getParentTemplateId(),null,null));
+		
+		doc.getTemplateIds().add(CDAHelper.buildTemplateID(bh.getTemplateid(),null,null));
 		
 		
 		doc.setId(CDAHelper.buildID(Context.getAdministrationService().getImplementationId().getImplementationId(),bh.documentShortName));//need to generate dynamically
 		
 		doc.setCode(CDAHelper.buildCodeCE("34117-2","2.16.840.1.113883.6.1",null,"LOINC"));
 		
-		doc.setTitle(CDAHelper.buildTitle(bh.documentFullName));
+		doc.setTitle(CDAHelper.buildTitle(bh.getDocumentFullName()));
 		
 		Date d = new Date();
 		doc.setEffectiveTime(CDAHelper.buildEffectiveTime(d));
@@ -195,7 +202,7 @@ public class CdaHeaderBuilder
 		dateOfBirth.setValue(dob);
 		cdapatient.setBirthTime(dateOfBirth); 
 		
-		
+	
 		CE codes = DatatypesFactory.eINSTANCE.createCE();
 		codes.setCode("S");
 		cdapatient.setMaritalStatusCode(codes);
@@ -297,35 +304,29 @@ public class CdaHeaderBuilder
 		custodian.setAssignedCustodian(assignedCustodian);
 		doc.setCustodian(custodian);
 
-		
-		List<Relationship> relationShips= Context.getPersonService().getRelationshipsByPerson(p);
+				List<Relationship> relationShips= Context.getPersonService().getRelationshipsByPerson(p);
 		//System.out.println(relationShips);
 		List<Participant1> participantList = new ArrayList<Participant1>(relationShips.size());
 		System.out.print(participantList);
 		for (int i = 0; i< relationShips.size();i++) {
-			Participant1 e = CDAFactory.eINSTANCE.createParticipant1();
+			Participant1 e = CDAFactory.eINSTANCE.createParticipant1(); 
 
 			e.setTypeCode(ParticipationType.IND);
 			II pid1 = DatatypesFactory.eINSTANCE.createII();
 			pid1.setRoot("1.3.6.1.4.1.19376.1.5.3.1.2.4");
 
-			II pid2 = DatatypesFactory.eINSTANCE.createII();
-			pid2.setRoot("1.3.6.1.4.1.19376.1.5.3.1.2.4.1");
-
 			e.getTemplateIds().add(pid1);
-			e.getTemplateIds().add(pid2);
 			
 			IVL_TS time = DatatypesFactory.eINSTANCE.createIVL_TS();
 			time.setHigh(time.getHigh());
 			time.setLow(time.getLow());
-			//time.setNullFlavor(NullFlavor.UNK);
 			e.setTime(time);
 			Relationship relationship = relationShips.get(i);
 			AssociatedEntity patientRelationShip = CDAFactory.eINSTANCE.createAssociatedEntity();
 			patientRelationShip.setClassCode(RoleClassAssociative.PRS);
 			CE relationShipCode = DatatypesFactory.eINSTANCE.createCE();
-			relationShipCode.setCodeSystemName("Loinc");
-			relationShipCode.setCodeSystem("2.16.840.1.113883.6.1");
+			relationShipCode.setCodeSystemName("RoleCode");
+			relationShipCode.setCodeSystem("2.16.840.1.113883.5.111");
 			Person associatedPerson = CDAFactory.eINSTANCE.createPerson();
 			PN associatedPersonName = DatatypesFactory.eINSTANCE.createPN();
 			Iterator<PersonAddress> patientAddressIterator = null;
@@ -338,6 +339,7 @@ public class CdaHeaderBuilder
 				associatedPersonName.addFamily(relationship.getPersonA().getFamilyName());
 				associatedPersonName.addGiven(relationship.getPersonA().getGivenName());
 				patientAddressIterator = relationship.getPersonB().getAddresses().iterator();
+				relationShipCode.setCode("DOCTOR");
 				break;
 			case 2:
 
@@ -345,6 +347,7 @@ public class CdaHeaderBuilder
 				associatedPersonName.addFamily(relationship.getPersonA().getFamilyName());
 				associatedPersonName.addGiven(relationship.getPersonA().getGivenName());
 				patientAddressIterator = relationship.getPersonA().getAddresses().iterator();
+				relationShipCode.setCode("SIBLING");
 				break;
 			case 3:
 				if(p.getId() == relationship.getPersonA().getId())
@@ -353,31 +356,45 @@ public class CdaHeaderBuilder
 					associatedPersonName.addFamily(relationship.getPersonB().getFamilyName());
 					associatedPersonName.addGiven(relationship.getPersonB().getGivenName());
 					patientAddressIterator = relationship.getPersonB().getAddresses().iterator();
-				}else
+					relationShipCode.setCode("CHILD");
+				}
+				else
 				{
 					relationShipCode.setDisplayName("Parent");
 					associatedPersonName.addFamily(relationship.getPersonA().getFamilyName());
 					associatedPersonName.addGiven(relationship.getPersonA().getGivenName());
 					patientAddressIterator = relationship.getPersonA().getAddresses().iterator();
-
+					relationShipCode.setCode("PARENT");
 				}
 				break;
 			case 4:
 				if(p.getId() == relationship.getPersonA().getId())
 				{
 					if(relationship.getPersonB().getGender().equalsIgnoreCase("M"))
+					{
 						relationShipCode.setDisplayName("Nephew");
+						relationShipCode.setCode("NEPHEW");
+					}
 						else
+					{
 					relationShipCode.setDisplayName("Neice");
+					relationShipCode.setCode("NIECE");
+					}
 					associatedPersonName.addFamily(relationship.getPersonB().getFamilyName());
 					associatedPersonName.addGiven(relationship.getPersonB().getGivenName());
 					patientAddressIterator = relationship.getPersonB().getAddresses().iterator();
 				}else
 				{
 					if(relationship.getPersonA().getGender().equalsIgnoreCase("M"))
+					{
 						relationShipCode.setDisplayName("Uncle");
+						relationShipCode.setCode("UNCLE");
+					}
 					else
+					{
 					relationShipCode.setDisplayName("Aunt");
+					relationShipCode.setCode("AUNT");
+					}
 					associatedPersonName.addFamily(relationship.getPersonA().getFamilyName());
 					associatedPersonName.addGiven(relationship.getPersonA().getGivenName());
 					patientAddressIterator = relationship.getPersonB().getAddresses().iterator();

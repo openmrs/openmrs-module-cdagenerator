@@ -71,7 +71,8 @@ public static Section buildSocialHistorySection(Patient p)
     socialHistoryConceptsList.add(service.getConceptByMapping("29762-2", "LOINC"));//concept we get is social history of patient 
    // System.out.println(socialHistoryConceptsList);
     List<Obs> obsList = new ArrayList<Obs>();
-	for (Concept concept : socialHistoryConceptsList) {
+	for (Concept concept : socialHistoryConceptsList) 
+	{
 		obsList.addAll(Context.getObsService().getObservationsByPersonAndConcept(p, concept));	
 	}
 
@@ -121,10 +122,10 @@ public static Section buildSocialHistorySection(Patient p)
 			
 	 }
 
-    builder.append("</tbody>"+delimeter);
+     builder.append("</tbody>"+delimeter);
 	 builder.append("</table>"+delimeter);
 		text.addText(builder.toString());
-   section.setText(text);        
+        section.setText(text);        
    
 	
 	return section;

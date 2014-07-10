@@ -2,6 +2,9 @@ package org.openmrs.module.CDAGenerator.api;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.openhealthtools.mdht.uml.hl7.datatypes.CD;
 import org.openhealthtools.mdht.uml.hl7.datatypes.CE;
@@ -33,6 +36,16 @@ public class CDAHelper
 		if(d1 != null)
 			high.setValue(s.format(d1));
 		effectiveTime.setHigh(high);
+		return effectiveTime;
+	}
+	public static IVL_TS  buildEffectiveTimeinIVL(Date d)
+	{
+		IVL_TS effectiveTime = DatatypesFactory.eINSTANCE.createIVL_TS();
+		SimpleDateFormat s = new SimpleDateFormat("yyyyMMddhhmmss");
+		String creationDate = s.format(d);
+		IVXB_TS low = DatatypesFactory.eINSTANCE.createIVXB_TS();
+		low.setValue(creationDate);
+		effectiveTime.setLow(low);
 		return effectiveTime;
 	}
 	public static   II buildTemplateID(String root , String extension ,String assigningAuthorityName)
@@ -177,6 +190,29 @@ public class CDAHelper
 			break;
 		}
 		return value;
+	}
+	
+	public static Obs getLatestObs(List<Obs> observationList)
+	{
+		Map<String,Obs> latestObsdate=new HashMap<String,Obs>();
+		
+		for (Obs obs : observationList) 
+	   {
+		  if(latestObsdate.isEmpty())
+		  {
+		  latestObsdate.put("Latest date", obs);
+		  }
+		   else
+		  {
+			      Date date=latestObsdate.get("Latest date").getObsDatetime();
+			      if(date.before(obs.getObsDatetime()))
+			      {
+				    latestObsdate.put("Latest date", obs);
+			      }
+		   }
+		}
+		return latestObsdate.get("Latest date");
+		
 	}
 
 }

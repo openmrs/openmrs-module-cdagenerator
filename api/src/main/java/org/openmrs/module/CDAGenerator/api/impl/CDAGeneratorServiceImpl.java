@@ -146,7 +146,7 @@ ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCand
 	{
 		ClinicalDocument cdaDocument = CDAFactory.eINSTANCE.createClinicalDocument();	
 		
-		if(bh.getTemplateid().equals("1.3.6.1.4.19376.1.5.3.1.1.16.1.1"))
+		if(bh.getTemplateid().equals("1.3.6.1.4.1.19376.1.5.3.1.1.16.1.1"))
 		{
 		APHPHandler aphphandler=new APHPHandler();
 		cdaDocument=aphphandler.buildAPHPMessage(p, bh);
