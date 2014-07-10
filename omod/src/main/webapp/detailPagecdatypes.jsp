@@ -85,6 +85,15 @@ background-color:Azure ;
 	<input type="text"  name="templateid" value="${detailcda.templateid}" size="25" readonly />
 	</td>
   </tr>
+  
+  <tr>
+<td>
+	<label for="parenttemplateid">
+	<spring:message code="CDAGenerator.document.type.parentTemplateId"/>
+	</label>
+	<input type="text"  name="parenttemplateid" value="${detailcda.parentTemplateId}" size="25" readonly />
+	</td>
+  </tr>
 	</table>
 	</div>
 	</div>
