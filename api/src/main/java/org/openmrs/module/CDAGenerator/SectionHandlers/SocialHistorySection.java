@@ -2,7 +2,9 @@ package org.openmrs.module.CDAGenerator.SectionHandlers;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.openhealthtools.mdht.uml.cda.CDAFactory;
 import org.openhealthtools.mdht.uml.cda.Entry;
@@ -20,6 +22,8 @@ import org.openhealthtools.mdht.uml.hl7.vocab.x_ActRelationshipEntry;
 import org.openmrs.Concept;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
+import org.openmrs.PersonAttribute;
+import org.openmrs.api.APIException;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.CDAGenerator.api.CDAHelper;
@@ -39,6 +43,7 @@ public SocialHistorySection()
 public static Section buildSocialHistorySection(Patient p)
 {
 	List<Concept> socialHistoryConceptsList=new ArrayList<Concept>();
+	Map<String,String> mappings=new HashMap<String,String>();
 	Section section=CDAFactory.eINSTANCE.createSection();
     SocialHistorySection ccs=new SocialHistorySection();
     section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getParentTemplateId(),null ,null ));
@@ -46,8 +51,7 @@ public static Section buildSocialHistorySection(Patient p)
     section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
     section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
     StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
-    
-    
+       
     StringBuilder builder = new StringBuilder();
     String delimeter="\n";
     builder.append(delimeter);
@@ -60,21 +64,37 @@ public static Section buildSocialHistorySection(Patient p)
 	builder.append("</tr>"+delimeter);
 	builder.append("</thead>"+delimeter);
 	builder.append("<tbody>"+delimeter);
-        
+	
+	mappings.put("160573003", "SNOMED CT");
+    mappings.put("266918002","SNOMED CT");
+    mappings.put("xx-illicitdrugs", "SNOMED CT");
+    mappings.put("29762-2", "LOINC");
+    
+	
     ConceptService service = Context.getConceptService();
-
+    for(Map.Entry<String,String> entry:mappings.entrySet())
+	{
+    Concept concepts=service.getConceptByMapping(entry.getKey(), entry.getValue());
+    if(concepts==null)
+    {
+    	throw new APIException(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoSuchConcept",new Object[]{entry.getKey(),entry.getValue()},null));
+    }
+    else
+    {
+    	socialHistoryConceptsList.add(concepts);
+    }
+	}
     
-    
-    socialHistoryConceptsList.add(service.getConceptByMapping("160573003", "SNOMED CT"));// concept we get is Alcohol use status 
-    socialHistoryConceptsList.add(service.getConceptByMapping("266918002", "SNOMED CT"));//concept we get is type of tobacco product
-    socialHistoryConceptsList.add(service.getConceptByMapping("xx-illicitdrugs", "SNOMED CT"));// concept we get is Illicit drug consumption (this is newly created concept)
-    socialHistoryConceptsList.add(service.getConceptByMapping("29762-2", "LOINC"));//concept we get is social history of patient 
-   // System.out.println(socialHistoryConceptsList);
     List<Obs> obsList = new ArrayList<Obs>();
 	for (Concept concept : socialHistoryConceptsList) 
 	{
 		obsList.addAll(Context.getObsService().getObservationsByPersonAndConcept(p, concept));	
+		if(obsList.isEmpty())
+		{
+			throw new APIException(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoObservationsFound",new Object[]{concept.getConceptId(),concept.getName()},null));
+		}
 	}
+
 
 	 for (Obs obs : obsList) 
 	 { 
