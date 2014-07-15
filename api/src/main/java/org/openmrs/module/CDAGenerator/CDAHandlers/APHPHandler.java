@@ -50,6 +50,8 @@ public class APHPHandler extends BaseCdaTypeHandler
 		section=ReviewOfSystemsSection.buildReviewOfSystemsSection(patient);
 		doc.addSection(section);
 		
+		section=CodedFamilyMedicalHistorySection.buildCodedFamilyMedicalHistorySection(patient);
+		doc.addSection(section);
 		
 		
 		/*
@@ -59,8 +61,7 @@ public class APHPHandler extends BaseCdaTypeHandler
 		*/
 		
         /*
-		section=CodedFamilyMedicalHistorySection.buildCodedFamilyMedicalHistorySection();
-		doc.addSection(section);
+		
 		
 		section=HistoryOfInfectionSection.buildHistoryOfInfectionSection();
 		doc.addSection(section);
