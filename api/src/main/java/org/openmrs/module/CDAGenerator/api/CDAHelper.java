@@ -105,7 +105,7 @@ public class CDAHelper
 		{
 		e.setDisplayName(displayString);
 		}
-		if(displayString!=null)
+		if(codeSystemName!=null)
 		{
 		e.setCodeSystemName(codeSystemName);
 		}
@@ -127,7 +127,7 @@ public class CDAHelper
 		{
 		e.setDisplayName(displayString);
 		}
-		if(displayString!=null)
+		if(codeSystemName!=null)
 		{
 		e.setCodeSystemName(codeSystemName);
 		}
