@@ -12,6 +12,7 @@ import org.openhealthtools.mdht.uml.cda.StrucDocText;
 import org.openmrs.Concept;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
+import org.openmrs.api.APIException;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.CDAGenerator.api.CDAHelper;
@@ -40,11 +41,20 @@ public static Section buildHistoryOfPresentIllnessSection(Patient patient)
 		
     
     Concept concept = service.getConceptByMapping("10164-2", "LOINC");
-
+    if(concept==null)
+	{
+		throw new APIException(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoSuchConcept",new Object[]{"10164-2","LOINC"},null));
+	}
+    
     List<Obs> observationList = new ArrayList<Obs>();
     observationList.addAll(Context.getObsService().getObservationsByPersonAndConcept(patient, concept));
     String value="";
     
+    if(observationList.isEmpty())
+    {
+    	throw new APIException(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoObservationsFound",new Object[]{concept.getConceptId(),concept.getName()},null));
+    }
+    	
         Obs obs=CDAHelper.getLatestObs(observationList);
     	int type = obs.getConcept().getDatatype().getId();
 	     value=CDAHelper.getDatatypesValue(type,obs);

@@ -1,7 +1,9 @@
 package org.openmrs.module.CDAGenerator.SectionHandlers;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.openhealthtools.mdht.uml.cda.CDAFactory;
 import org.openhealthtools.mdht.uml.cda.Component4;
@@ -48,7 +50,7 @@ public class CodedFamilyMedicalHistorySection extends FamilyMedicalHistorySectio
 		section.getTemplateIds().add(CDAHelper.buildTemplateID(fmhs.getParentTemplateId(),null ,null ));
 		section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
         section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
-        StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
+        StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();    
         text.addText("Text as described above");
         section.setText(text);  
 

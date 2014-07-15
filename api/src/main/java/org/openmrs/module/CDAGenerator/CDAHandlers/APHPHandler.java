@@ -3,6 +3,7 @@ package org.openmrs.module.CDAGenerator.CDAHandlers;
 import org.openhealthtools.mdht.uml.cda.CDAFactory;
 import org.openhealthtools.mdht.uml.cda.ClinicalDocument;
 import org.openhealthtools.mdht.uml.cda.Section;
+import org.openhealthtools.mdht.uml.cda.StrucDocText;
 import org.openmrs.Patient;
 import org.openmrs.module.CDAGenerator.SectionHandlers.ChiefComplaintSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.CodedFamilyMedicalHistorySection;
@@ -48,12 +49,20 @@ public class APHPHandler extends BaseCdaTypeHandler
 		
 		section=ReviewOfSystemsSection.buildReviewOfSystemsSection(patient);
 		doc.addSection(section);
+		
+		
+		
 		/*
 		 * commented following four calls because they consist of hard coded observation and 
 		 * produces few errors in document
 		 * we are now using gazelle cda validator 
 		*/
-		/*section=HistoryOfInfectionSection.buildHistoryOfInfectionSection();
+		
+        /*
+		section=CodedFamilyMedicalHistorySection.buildCodedFamilyMedicalHistorySection();
+		doc.addSection(section);
+		
+		section=HistoryOfInfectionSection.buildHistoryOfInfectionSection();
 		doc.addSection(section);
 		
 		section=HistoryOfPastIllnessSection.buildHistoryOfPastIllnessSection();
@@ -62,12 +71,9 @@ public class APHPHandler extends BaseCdaTypeHandler
 		section=PregnancyHistorySection.buildPregnancyHistorySection();
 		doc.addSection(section);
 		
-		section=CodedFamilyMedicalHistorySection.buildCodedFamilyMedicalHistorySection();
-		doc.addSection(section);
-		
-		
 		section=PhysicalExamSection.buildPhysicalExamSection();
 		doc.addSection(section);
+		
 		*/
 		return doc;
 	}

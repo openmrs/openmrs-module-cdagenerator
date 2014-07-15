@@ -16,6 +16,7 @@ import org.openmrs.Concept;
 import org.openmrs.ConceptAnswer;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
+import org.openmrs.api.APIException;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.CDAGenerator.api.CDAHelper;
@@ -45,10 +46,19 @@ public static Section buildChiefComplaintSection(Patient patient)
 		
     
     Concept concept = service.getConceptByMapping("10154-3", "LOINC");
-
+    if(concept==null)
+   	{
+   		throw new APIException(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoSuchConcept",new Object[]{"10154-3","LOINC"},null));
+   	}
     
     List<Obs> observationList = new ArrayList<Obs>();
     observationList.addAll(Context.getObsService().getObservationsByPersonAndConcept(patient, concept));
+
+    if(observationList.isEmpty())
+    {
+    	throw new APIException(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoObservationsFound",new Object[]{concept.getConceptId(),concept.getName()},null));
+    }
+    
     String value="";
     
         Obs obs=CDAHelper.getLatestObs(observationList);
@@ -57,7 +67,6 @@ public static Section buildChiefComplaintSection(Patient patient)
 
 		value=CDAHelper.getDatatypesValue(type,obs);
 		
-		//System.out.println(latestObsdate);
 		
     builder.append(value);
     builder.append("</paragraph>");
