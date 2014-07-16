@@ -53,6 +53,9 @@ public class APHPHandler extends BaseCdaTypeHandler
 		section=CodedFamilyMedicalHistorySection.buildCodedFamilyMedicalHistorySection(patient);
 		doc.addSection(section);
 		
+		section=PregnancyHistorySection.buildPregnancyHistorySection(patient);
+		doc.addSection(section);
+		
 		
 		/*
 		 * commented following four calls because they consist of hard coded observation and 
@@ -69,8 +72,7 @@ public class APHPHandler extends BaseCdaTypeHandler
 		section=HistoryOfPastIllnessSection.buildHistoryOfPastIllnessSection();
 		doc.addSection(section);
 		
-		section=PregnancyHistorySection.buildPregnancyHistorySection();
-		doc.addSection(section);
+		
 		
 		section=PhysicalExamSection.buildPhysicalExamSection();
 		doc.addSection(section);
