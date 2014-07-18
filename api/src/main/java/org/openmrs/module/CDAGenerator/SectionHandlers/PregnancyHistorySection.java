@@ -69,8 +69,21 @@ public class PregnancyHistorySection extends BaseCdaSectionHandler
 	builder.append("</thead>"+delimeter);
 	builder.append("<tbody>"+delimeter);
 	
+	 
 	 mappings.put("11636-8", "LOINC");
-	
+	 mappings.put("11637-6","LOINC");
+	 mappings.put("11639-2","LOINC");
+	 mappings.put("11638-4","LOINC");
+	 mappings.put("11612-9","LOINC");
+	 mappings.put("11996-6","LOINC");
+	 mappings.put("49051-6","LOINC");
+	 mappings.put("32396-4","LOINC");
+	 mappings.put("8339-4","LOINC");
+	 mappings.put("11449-6","LOINC");
+	 mappings.put("8678-5","LOINC");
+	 mappings.put("8665-2","LOINC");
+	 mappings.put("11779-6","LOINC");
+	 
 	 ConceptService service = Context.getConceptService();
 	    for(Map.Entry<String,String> entry:mappings.entrySet())
 		{
