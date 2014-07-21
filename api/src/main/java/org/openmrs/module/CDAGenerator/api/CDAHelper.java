@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.openhealthtools.mdht.uml.hl7.datatypes.CD;
 import org.openhealthtools.mdht.uml.hl7.datatypes.CE;
+import org.openhealthtools.mdht.uml.hl7.datatypes.CS;
 import org.openhealthtools.mdht.uml.hl7.datatypes.DatatypesFactory;
 import org.openhealthtools.mdht.uml.hl7.datatypes.ED;
 import org.openhealthtools.mdht.uml.hl7.datatypes.II;
@@ -41,7 +42,7 @@ public class CDAHelper
 	public static IVL_TS  buildEffectiveTimeinIVL(Date d)
 	{
 		IVL_TS effectiveTime = DatatypesFactory.eINSTANCE.createIVL_TS();
-		SimpleDateFormat s = new SimpleDateFormat("yyyyMMddhhmmss");
+		SimpleDateFormat s = getDateFormat();
 		String creationDate = s.format(d);
 		IVXB_TS low = DatatypesFactory.eINSTANCE.createIVXB_TS();
 		low.setValue(creationDate);
@@ -214,5 +215,18 @@ public class CDAHelper
 		return latestObsdate.get("Latest date");
 		
 	}
-
+   public static CS getStatusCode()
+   {
+	   CS cs=DatatypesFactory.eINSTANCE.createCS();
+	   cs.setCode("completed");
+	   return cs;
+   }
+   public static IVL_TS buildDateTime(Date date)
+   {
+	   IVL_TS effectiveTime = DatatypesFactory.eINSTANCE.createIVL_TS();
+    	SimpleDateFormat s = getDateFormat();
+    	String creationDate = s.format(date);
+    	effectiveTime.setValue(creationDate);
+   	    return effectiveTime;
+   }
 }
