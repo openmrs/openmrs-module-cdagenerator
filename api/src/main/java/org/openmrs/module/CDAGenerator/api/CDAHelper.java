@@ -224,7 +224,7 @@ public class CDAHelper
    public static IVL_TS buildDateTime(Date date)
    {
 	   IVL_TS effectiveTime = DatatypesFactory.eINSTANCE.createIVL_TS();
-    	SimpleDateFormat s = getDateFormat();
+	   SimpleDateFormat s = new SimpleDateFormat("yyyyMMddhhmmss");
     	String creationDate = s.format(date);
     	effectiveTime.setValue(creationDate);
    	    return effectiveTime;

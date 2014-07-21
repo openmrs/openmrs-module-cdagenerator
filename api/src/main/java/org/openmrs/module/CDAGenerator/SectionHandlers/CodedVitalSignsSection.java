@@ -124,6 +124,9 @@ public class CodedVitalSignsSection extends VitalSignsSection
 			{
 			ConceptNumeric conceptNumeric =  Context.getConceptService().getConceptNumeric(obs.getConcept().getId());
 			   units=conceptNumeric.getUnits();
+			   units=units.replaceAll("\\s+","");
+			   System.out.println(units);
+			   
 			}
 			    builder.append("<tr>"+delimeter);
 				builder.append("<td ID = \"_"+obs.getId()+"\" >"+obs.getConcept().getName()+"</td>"+delimeter);	
