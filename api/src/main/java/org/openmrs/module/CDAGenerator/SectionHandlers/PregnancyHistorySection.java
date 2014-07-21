@@ -46,7 +46,7 @@ public class PregnancyHistorySection extends BaseCdaSectionHandler
 	public static Section buildPregnancyHistorySection(Patient patient)
 	{
 
-	List<Concept> socialHistoryConceptsList=new ArrayList<Concept>();
+	List<Concept> ConceptsList=new ArrayList<Concept>();
 	Map<String,String> mappings=new HashMap<String,String>();
 	Section section=CDAFactory.eINSTANCE.createSection();
 	PregnancyHistorySection ccs=new PregnancyHistorySection();
@@ -94,12 +94,12 @@ public class PregnancyHistorySection extends BaseCdaSectionHandler
 	    }
 	    else
 	    {
-	    	socialHistoryConceptsList.add(concepts);
+	    	ConceptsList.add(concepts);
 	    }
 		}
 	    
 	    List<Obs> obsList = new ArrayList<Obs>();
-		for (Concept concept : socialHistoryConceptsList) 
+		for (Concept concept : ConceptsList) 
 		{
 			obsList.addAll(Context.getObsService().getObservationsByPersonAndConcept(patient, concept));	
 			if(obsList.isEmpty())
@@ -112,7 +112,7 @@ public class PregnancyHistorySection extends BaseCdaSectionHandler
 		for (Obs obs : obsList) 
 		 { 			 
 			    builder.append("<tr>"+delimeter);
-				builder.append("<td ID = \"_"+obs.getId()+"\" >"+obs.getConcept().getName()+"</td>"+delimeter);	
+				builder.append("<td ID = \"_"+obs.getId()+ccs.getCode()+"\" >"+obs.getConcept().getName()+"</td>"+delimeter);	
 				builder.append("<td>");
 				int type = obs.getConcept().getDatatype().getId();
 				String value=CDAHelper.getDatatypesValue(type,obs);
@@ -131,16 +131,8 @@ public class PregnancyHistorySection extends BaseCdaSectionHandler
 		        organizer.getIds().add(CDAHelper.buildTemplateID("id",null,null));
 		        organizer.setCode(CDAHelper.buildCodeCD("118185001", "2.16.840.1.113883.6.96","Pregnancy Finding", "SNOMED CT"));
 		        
-		        CS cs= DatatypesFactory.eINSTANCE.createCS();
-		    	cs.setCode("completed");
-		    	organizer.setStatusCode(cs);
-		    	
-		    	IVL_TS effectiveTime = DatatypesFactory.eINSTANCE.createIVL_TS();
-		     	Date d=new Date();
-		     	SimpleDateFormat s = new SimpleDateFormat("yyyyMMddhhmmss");
-		     	String creationDate = s.format(d);
-		     	effectiveTime.setValue(creationDate);
-		    	organizer.setEffectiveTime(effectiveTime);
+		    	organizer.setStatusCode(CDAHelper.getStatusCode());
+		    	organizer.setEffectiveTime(CDAHelper.buildDateTime(new Date()));
 		    	
 		    	Component4 component=CDAFactory.eINSTANCE.createComponent4();
 		    	
@@ -153,13 +145,12 @@ public class PregnancyHistorySection extends BaseCdaSectionHandler
 			     observation.getIds().add(CDAHelper.buildTemplateID("id",null,null));
 			     observation.setCode(CDAHelper.buildCodeCE("10162-6","2.16.840.1.113883.6.1","HISTORY OF PREGNANCIES","LOINC"));
 			     
-			     observation.setText(CDAHelper.buildEDText("#_"+obs.getId()));
+			     observation.setText(CDAHelper.buildEDText("#_"+obs.getId()+ccs.getCode()));
 			     
-			     CS statusCode = DatatypesFactory.eINSTANCE.createCS();
-					statusCode.setCode("completed");
-					observation.setStatusCode(statusCode);
+			    
+					observation.setStatusCode(CDAHelper.getStatusCode());
 		    	
-					observation.setEffectiveTime(effectiveTime);
+					observation.setEffectiveTime(CDAHelper.buildDateTime(new Date()));
 					
 					ST value1 = CDAHelper.buildTitle(value);
 					observation.getValues().add(value1);
