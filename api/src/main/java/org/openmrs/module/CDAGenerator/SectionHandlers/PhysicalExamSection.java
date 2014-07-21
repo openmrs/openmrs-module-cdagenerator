@@ -3,6 +3,7 @@ package org.openmrs.module.CDAGenerator.SectionHandlers;
 import org.openhealthtools.mdht.uml.cda.CDAFactory;
 import org.openhealthtools.mdht.uml.cda.Section;
 import org.openhealthtools.mdht.uml.cda.StrucDocText;
+import org.openmrs.Patient;
 import org.openmrs.module.CDAGenerator.api.CDAHelper;
 
 public class PhysicalExamSection extends BaseCdaSectionHandler 
@@ -16,7 +17,7 @@ public class PhysicalExamSection extends BaseCdaSectionHandler
 		this.sectionDescription="The physical exam section shall contain only the required and optional subsections performed.";
 	}
 	
-public static Section buildPhysicalExamSection()
+public static Section buildPhysicalExamSection(Patient patient)
 {
 	Section section=CDAFactory.eINSTANCE.createSection();
     PhysicalExamSection ccs=new PhysicalExamSection();
@@ -30,9 +31,9 @@ public static Section buildPhysicalExamSection()
     
     Section OptionalSecs=CDAFactory.eINSTANCE.createSection();
     
-    OptionalSecs=CodedVitalSignsSection.buildCodedVitalSignsSection();
+    OptionalSecs=CodedVitalSignsSection.buildCodedVitalSignsSection(patient);
     section.addSection(OptionalSecs);
-    
+   
     OptionalSecs=GeneralAppearanceSection.buildGeneralAppearanceSection();
     section.addSection(OptionalSecs);
     

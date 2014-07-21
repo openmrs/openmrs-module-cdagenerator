@@ -7,6 +7,7 @@ import org.openhealthtools.mdht.uml.cda.StrucDocText;
 import org.openmrs.Patient;
 import org.openmrs.module.CDAGenerator.SectionHandlers.ChiefComplaintSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.CodedFamilyMedicalHistorySection;
+import org.openmrs.module.CDAGenerator.SectionHandlers.CodedVitalSignsSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.HistoryOfInfectionSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.HistoryOfPastIllnessSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.HistoryOfPresentIllnessSection;
@@ -55,6 +56,10 @@ public class APHPHandler extends BaseCdaTypeHandler
 		
 		section=PregnancyHistorySection.buildPregnancyHistorySection(patient);
 		doc.addSection(section);
+
+
+		section=PhysicalExamSection.buildPhysicalExamSection(patient);
+		doc.addSection(section);
 		
 		
 		/*
@@ -71,11 +76,7 @@ public class APHPHandler extends BaseCdaTypeHandler
 		
 		section=HistoryOfPastIllnessSection.buildHistoryOfPastIllnessSection();
 		doc.addSection(section);
-		
-		
-		
-		section=PhysicalExamSection.buildPhysicalExamSection();
-		doc.addSection(section);
+	
 		
 		*/
 		return doc;
