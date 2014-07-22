@@ -176,8 +176,7 @@ public class CodedVitalSignsSection extends VitalSignsSection
 		value1.setValue(number);
 		value1.setUnit(units);
 		observation.getValues().add(value1);
-		
-		
+				
 		component.setObservation(observation); 
         organizer.getComponents().add(component);
     	

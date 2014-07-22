@@ -56,6 +56,9 @@ public class APHPHandler extends BaseCdaTypeHandler
 		
 		section=PregnancyHistorySection.buildPregnancyHistorySection(patient);
 		doc.addSection(section);
+		
+		section=HistoryOfInfectionSection.buildHistoryOfInfectionSection(patient);
+		doc.addSection(section);
 
 
 		section=PhysicalExamSection.buildPhysicalExamSection(patient);
@@ -68,12 +71,7 @@ public class APHPHandler extends BaseCdaTypeHandler
 		 * we are now using gazelle cda validator 
 		*/
 		
-        /*
-		
-		
-		section=HistoryOfInfectionSection.buildHistoryOfInfectionSection();
-		doc.addSection(section);
-		
+        /*	
 		section=HistoryOfPastIllnessSection.buildHistoryOfPastIllnessSection();
 		doc.addSection(section);
 	

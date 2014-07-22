@@ -2,6 +2,7 @@ package org.openmrs.module.CDAGenerator.SectionHandlers;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import org.openhealthtools.mdht.uml.hl7.datatypes.CD;
 import org.openhealthtools.mdht.uml.hl7.datatypes.CE;
 import org.openhealthtools.mdht.uml.hl7.datatypes.CS;
 import org.openhealthtools.mdht.uml.hl7.datatypes.DatatypesFactory;
+import org.openhealthtools.mdht.uml.hl7.datatypes.ED;
 import org.openhealthtools.mdht.uml.hl7.datatypes.ST;
 import org.openhealthtools.mdht.uml.hl7.vocab.ActClassObservation;
 import org.openhealthtools.mdht.uml.hl7.vocab.x_ActMoodDocumentObservation;
@@ -98,10 +100,7 @@ public static Section buildSocialHistorySection(Patient p)
 
 	 for (Obs obs : obsList) 
 	 { 
-		/* System.out.println(obs);
-		 System.out.println(obs.getObsDatetime());
-		 System.out.println(CDAHelper.getDateFormat().format(obs.getObsDatetime()));*/
-		 
+				 
 		    builder.append("<tr>"+delimeter);
 			builder.append("<td ID = \"_"+obs.getId()+"\" >"+obs.getConcept().getName()+"</td>"+delimeter);	
 			builder.append("<td>");
@@ -128,13 +127,11 @@ public static Section buildSocialHistorySection(Patient p)
 			
 			observation.setCode(ce);
 			
-			CS statusCode = DatatypesFactory.eINSTANCE.createCS();
-			statusCode.setCode("completed");
-			observation.setStatusCode(statusCode);
+			observation.setStatusCode(CDAHelper.getStatusCode());
 			
-			observation.setEffectiveTime(CDAHelper.buildEffectiveTimeinIVL(obs.getObsDatetime(), null));
+			observation.setEffectiveTime(CDAHelper.buildDateTime(new Date()));
 			
-			ST value1 = CDAHelper.buildTitle(value);
+			ED value1=DatatypesFactory.eINSTANCE.createED(value);
 			observation.getValues().add(value1);
 			
 			entry.setObservation(observation);
