@@ -74,6 +74,7 @@ public class PregnancyHistorySection extends BaseCdaSectionHandler
 	 mappings.put("11637-6","LOINC");
 	 mappings.put("11639-2","LOINC");
 	 mappings.put("11638-4","LOINC");
+	 mappings.put("11640-0","LOINC");
 	 mappings.put("11612-9","LOINC");
 	 mappings.put("11996-6","LOINC");
 	 mappings.put("49051-6","LOINC");
@@ -84,10 +85,11 @@ public class PregnancyHistorySection extends BaseCdaSectionHandler
 	 mappings.put("8665-2","LOINC");
 	 mappings.put("11779-6","LOINC");
 	 
+	 
 	 ConceptService service = Context.getConceptService();
 	    for(Map.Entry<String,String> entry:mappings.entrySet())
 		{
-	    Concept concepts=service.getConceptByMapping(entry.getKey(), entry.getValue());
+	    Concept concepts=service.getConceptByMapping(entry.getKey(), entry.getValue(),false);
 	    if(concepts==null)
 	    {
 	    	throw new APIException(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoSuchConcept",new Object[]{entry.getKey(),entry.getValue()},null));

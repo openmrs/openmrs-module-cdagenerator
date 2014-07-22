@@ -62,28 +62,47 @@ public static Section buildHistoryOfInfectionSection(Patient patient)
 	builder.append("<tbody>"+delimeter);
 	
 	mappings.put("170464005", "SNOMED CT");
+	mappings.put("402888002", "SNOMED CT");
+	mappings.put("240480009", "SNOMED CT"); 
+	mappings.put("49882001", "SNOMED CT");
+	mappings.put("34014006", "SNOMED CT");
+	mappings.put("235871004", "SNOMED CT");
+	mappings.put("235872006","SNOMED CT");
+	mappings.put("15628003","SNOMED CT");
+	mappings.put("8098009 ","SNOMED CT");
+	mappings.put("312099009","SNOMED CT");
+	mappings.put("302812006 ","SNOMED CT");
+	mappings.put("165816005","SNOMED CT");
+	mappings.put("76272004","SNOMED CT");
 	
 	 ConceptService service = Context.getConceptService();
-	    for(Map.Entry<String,String> entry:mappings.entrySet())
-		{
-	    Concept concepts=service.getConceptByMapping(entry.getKey(), entry.getValue());
+	 for(Map.Entry<String,String> entry:mappings.entrySet())
+	{
+	
+	 for(Concept concepts:service.getConceptsByMapping(entry.getKey(), entry.getValue(),false))
+	 {
 	    if(concepts==null)
 	    {
 	    	throw new APIException(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoSuchConcept",new Object[]{entry.getKey(),entry.getValue()},null));
 	    }
 	    else
 	    {
+	    	
 	    	ConceptsList.add(concepts);
 	    }
-		}
+	 }
+	}
 	    
 	    List<Obs> obsList = new ArrayList<Obs>();
 		for (Concept concept : ConceptsList) 
 		{
+			if(!concept.getDatatype().getName().equals("N/A"))
+			{
 			obsList.addAll(Context.getObsService().getObservationsByPersonAndConcept(patient, concept));	
 			if(obsList.isEmpty())
 			{
 				throw new APIException(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoObservationsFound",new Object[]{concept.getConceptId(),concept.getName()},null));
+			}
 			}
 		}
 
