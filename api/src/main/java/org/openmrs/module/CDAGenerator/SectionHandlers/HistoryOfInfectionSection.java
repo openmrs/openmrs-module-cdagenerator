@@ -38,7 +38,7 @@ public HistoryOfInfectionSection()
 
 public static Section buildHistoryOfInfectionSection(Patient patient)
 {
-	List<Concept> ConceptsList=new ArrayList<Concept>();
+	
 	Map<String,String> mappings=new HashMap<String,String>();
 	
 	Section section=CDAFactory.eINSTANCE.createSection();
@@ -76,14 +76,14 @@ public static Section buildHistoryOfInfectionSection(Patient patient)
 	mappings.put("76272004","SNOMED CT");
 	
 	 ConceptService service = Context.getConceptService();
-	 for(Map.Entry<String,String> entry:mappings.entrySet())
+	 for(Map.Entry<String,String> mapentry:mappings.entrySet())
 	{
-	
-	 for(Concept concepts:service.getConceptsByMapping(entry.getKey(), entry.getValue(),false))
+		 List<Concept> ConceptsList=new ArrayList<Concept>();
+	 for(Concept concepts:service.getConceptsByMapping(mapentry.getKey(), mapentry.getValue(),false))
 	 {
 	    if(concepts==null)
 	    {
-	    	throw new APIException(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoSuchConcept",new Object[]{entry.getKey(),entry.getValue()},null));
+	    	throw new APIException(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoSuchConcept",new Object[]{mapentry.getKey(),mapentry.getValue()},null));
 	    }
 	    else
 	    {
@@ -91,7 +91,7 @@ public static Section buildHistoryOfInfectionSection(Patient patient)
 	    	ConceptsList.add(concepts);
 	    }
 	 }
-	}
+	
 	    
 	    List<Obs> obsList = new ArrayList<Obs>();
 		for (Concept concept : ConceptsList) 
@@ -129,7 +129,7 @@ public static Section buildHistoryOfInfectionSection(Patient patient)
 				observation.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.1.16.5.6",null ,null ));
 				observation.getIds().add(CDAHelper.buildID(obs.getUuid(),null));
 			   
-				observation.setCode(CDAHelper.buildCodeCD(obs.getConcept().toString(),"2.16.840.1.113883.6.96",obs.getConcept().getName().toString(), null));
+				observation.setCode(CDAHelper.buildCodeCD(mapentry.getKey(),CDAHelper.getCodeSystemByName(mapentry.getValue()),obs.getConcept().getName().toString(), mapentry.getValue()));
 				observation.setText(CDAHelper.buildEDText("#_"+obs.getId()));
 				
 				observation.setStatusCode(CDAHelper.getStatusCode());
@@ -138,15 +138,15 @@ public static Section buildHistoryOfInfectionSection(Patient patient)
 				
 				
 				CD value1=DatatypesFactory.eINSTANCE.createCD();
-				value1.setCode(obs.getConcept().toString());
-				value1.setCodeSystem("2.16.840.1.113883.6.96");
+				value1.setCode(mapentry.getKey());
+				value1.setCodeSystem(CDAHelper.getCodeSystemByName(mapentry.getValue()));
 				value1.setDisplayName(obs.getConcept().getName().toString());
-				value1.setCodeSystemName("SNOMED CT");
+				value1.setCodeSystemName(mapentry.getValue());
 				observation.getValues().add(value1);
 				
 				entry.setObservation(observation);
 				section.getEntries().add(entry);
-				
+		 }			
 		 }
 
 	     builder.append("</tbody>"+delimeter);
