@@ -57,8 +57,6 @@ public class CodedVitalSignsSection extends VitalSignsSection
 
 	public static Section buildCodedVitalSignsSection(Patient patient)
 	{
-		
-		List<Concept> ConceptsList=new ArrayList<Concept>();
 		Map<String,String> mappings=new HashMap<String,String>();
 		String units="";
 		Section section=CDAFactory.eINSTANCE.createSection();
@@ -97,6 +95,7 @@ public class CodedVitalSignsSection extends VitalSignsSection
     	ConceptService service = Context.getConceptService();
 	    for(Map.Entry<String,String> entry:mappings.entrySet())
 		{
+	    	List<Concept> ConceptsList=new ArrayList<Concept>();
 	    Concept concepts=service.getConceptByMapping(entry.getKey(), entry.getValue());
 	    if(concepts==null)
 	    {
@@ -106,8 +105,8 @@ public class CodedVitalSignsSection extends VitalSignsSection
 	    {
 	    	ConceptsList.add(concepts);
 	    }
-		}
-	    
+		
+		
 	    List<Obs> obsList = new ArrayList<Obs>();
 		for (Concept concept : ConceptsList) 
 		{
@@ -149,13 +148,11 @@ public class CodedVitalSignsSection extends VitalSignsSection
         organizer.getTemplateIds().add(CDAHelper.buildTemplateID("2.16.840.1.113883.10.20.1.32",null,null));
         organizer.getTemplateIds().add(CDAHelper.buildTemplateID("2.16.840.1.113883.10.20.1.35",null,null));
         organizer.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.13.1",null,null));
-        organizer.getIds().add(CDAHelper.buildTemplateID("id",null,null));
+        organizer.getIds().add(CDAHelper.buildTemplateID(obs.getUuid(),null,null));
         organizer.setCode(CDAHelper.buildCodeCD("46680005","2.16.840.1.113883.6.96","Vital signs","SNOMED CT"));
       
     	organizer.setStatusCode(CDAHelper.getStatusCode());
     	organizer.setEffectiveTime(CDAHelper.buildDateTime(new Date()));
-    	
-    	
     	
     	Component4 component=CDAFactory.eINSTANCE.createComponent4();
     	
@@ -163,8 +160,8 @@ public class CodedVitalSignsSection extends VitalSignsSection
      	observation.setClassCode(ActClassObservation.OBS);
      	observation.setMoodCode(x_ActMoodDocumentObservation.EVN);
      	observation.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.13.2",null,null));
-     	observation.getIds().add(CDAHelper.buildTemplateID("id",null,null));
-     	observation.setCode(CDAHelper.buildCodeCE("8716-3","2.16.840.1.113883.6.1",null,"LOINC"));
+     	observation.getIds().add(CDAHelper.buildTemplateID(obs.getUuid(),null,null));
+     	observation.setCode(CDAHelper.buildCodeCE(entry.getKey(),CDAHelper.getCodeSystemByName(entry.getValue()),obs.getConcept().getName().toString(),entry.getValue()));
      	
      	observation.setText(CDAHelper.buildEDText("#_"+obs.getId()));
      	
@@ -190,6 +187,7 @@ public class CodedVitalSignsSection extends VitalSignsSection
         e.setOrganizer(organizer);
 		section.getEntries().add(e); 	   
 		 }
+		}
 		builder.append("</tbody>"+delimeter);
 		 builder.append("</table>"+delimeter);
 			text.addText(builder.toString());
@@ -198,4 +196,3 @@ public class CodedVitalSignsSection extends VitalSignsSection
 	}
 		 
 }
-

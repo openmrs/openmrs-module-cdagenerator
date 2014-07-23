@@ -44,7 +44,7 @@ public SocialHistorySection()
 
 public static Section buildSocialHistorySection(Patient p)
 {
-	List<Concept> socialHistoryConceptsList=new ArrayList<Concept>();
+	
 	Map<String,String> mappings=new HashMap<String,String>();
 	Section section=CDAFactory.eINSTANCE.createSection();
     SocialHistorySection ccs=new SocialHistorySection();
@@ -74,18 +74,19 @@ public static Section buildSocialHistorySection(Patient p)
     
 	
     ConceptService service = Context.getConceptService();
-    for(Map.Entry<String,String> entry:mappings.entrySet())
+    for(Map.Entry<String,String> mapentry:mappings.entrySet())
 	{
-    Concept concepts=service.getConceptByMapping(entry.getKey(), entry.getValue());
+    List<Concept> socialHistoryConceptsList=new ArrayList<Concept>();
+    Concept concepts=service.getConceptByMapping(mapentry.getKey(), mapentry.getValue());
     if(concepts==null)
     {
-    	throw new APIException(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoSuchConcept",new Object[]{entry.getKey(),entry.getValue()},null));
+    	throw new APIException(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoSuchConcept",new Object[]{mapentry.getKey(),mapentry.getValue()},null));
     }
     else
     {
     	socialHistoryConceptsList.add(concepts);
     }
-	}
+	
     
     List<Obs> obsList = new ArrayList<Obs>();
 	for (Concept concept : socialHistoryConceptsList) 
@@ -120,9 +121,10 @@ public static Section buildSocialHistorySection(Patient p)
 			observation.getIds().add(CDAHelper.buildID(obs.getUuid(),null));
 		   
 			CD ce=DatatypesFactory.eINSTANCE.createCD();
-			ce.setCode(obs.getConcept().toString());
-			ce.setCodeSystem("2.16.840.1.113883.6.96");
+			ce.setCode(mapentry.getKey());
+			ce.setCodeSystem(CDAHelper.getCodeSystemByName(mapentry.getValue()));
 			ce.setDisplayName(obs.getConcept().getName().toString());
+			ce.setCodeSystemName(mapentry.getValue());
 			ce.setOriginalText(CDAHelper.buildEDText("#_"+obs.getId()));
 			
 			observation.setCode(ce);
@@ -137,8 +139,8 @@ public static Section buildSocialHistorySection(Patient p)
 			entry.setObservation(observation);
 			section.getEntries().add(entry);
 			
-	 }
-
+	  }
+	}
      builder.append("</tbody>"+delimeter);
 	 builder.append("</table>"+delimeter);
 		text.addText(builder.toString());

@@ -229,4 +229,20 @@ public class CDAHelper
     	effectiveTime.setValue(creationDate);
    	    return effectiveTime;
    }
+   public static String getCodeSystemByName(String codeSystemName)
+   {
+	   String result="";
+	   if(codeSystemName!=null)
+	   {
+		   if(codeSystemName.equalsIgnoreCase("SNOMED CT"))
+		   {
+			   result="2.16.840.1.113883.6.96";
+		   }
+		   else if(codeSystemName.equalsIgnoreCase("LOINC"))
+		   {
+			   result="2.16.840.1.113883.6.1";
+		   }
+	   }
+	   return result;
+   }
 }
