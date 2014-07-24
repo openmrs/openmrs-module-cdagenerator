@@ -196,7 +196,12 @@ public class CDAHelper
 	public static Obs getLatestObs(List<Obs> observationList)
 	{
 		Map<String,Obs> latestObsdate=new HashMap<String,Obs>();
-		
+		if(observationList.isEmpty())
+		{
+			return null;
+		}
+		else
+		{
 		for (Obs obs : observationList) 
 	   {
 		  if(latestObsdate.isEmpty())
@@ -213,7 +218,7 @@ public class CDAHelper
 		   }
 		}
 		return latestObsdate.get("Latest date");
-		
+		}
 	}
    public static CS getStatusCode()
    {

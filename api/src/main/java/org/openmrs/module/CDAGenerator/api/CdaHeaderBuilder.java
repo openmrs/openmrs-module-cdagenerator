@@ -435,10 +435,7 @@ public class CdaHeaderBuilder
 	public Participant1 buildSpouseElement(PersonAttribute civil_status,Patient patient)
 	{
 		Participant1 participant = CDAFactory.eINSTANCE.createParticipant1();
-	if(civil_status!=null)
-	{
-	
-		participant.setTypeCode(ParticipationType.IND);
+participant.setTypeCode(ParticipationType.IND);
 		
 		II pid = DatatypesFactory.eINSTANCE.createII();
 		pid.setRoot("1.3.6.1.4.1.19376.1.5.3.1.2.4");
@@ -456,7 +453,9 @@ public class CdaHeaderBuilder
 		
 patientRelationShip.setCode(CDAHelper.buildCodeCE("184142008", "2.16.840.1.113883.5.111","patient's next of kin" , "SNOMED CT"));
 
-
+	if(civil_status!=null)
+	{
+	
 List<Relationship> relationShips=Context.getPersonService().getRelationshipsByPerson(patient);
 Iterator<PersonAddress> patientAddressIterator = null;
 
@@ -489,11 +488,31 @@ for(Relationship relation:relationShips)
 	}
 		
 }
-    
+	}
+	else
+	{
+		AD spouseAddress=DatatypesFactory.eINSTANCE.createAD();
+		spouseAddress.addStreetAddressLine(" ");
+		spouseAddress.addCity(" ");
+		spouseAddress.addCountry(" ");
+		 patientRelationShip.getAddrs().add(spouseAddress);
+		 Person associatedPerson = CDAFactory.eINSTANCE.createPerson();
+			PN associatedPersonName = DatatypesFactory.eINSTANCE.createPN();
+			associatedPersonName.addGiven(" ");
+			associatedPersonName.addFamily(" ");
+			associatedPerson.getNames().add(associatedPersonName);
+			
+	patientRelationShip.setAssociatedPerson(associatedPerson );
+			
+	        TEL associatedPersonTelecon=DatatypesFactory.eINSTANCE.createTEL();
+	        associatedPersonTelecon.setValue("tel: + ");
+	        associatedPersonTelecon.getUses().add(null);
+			patientRelationShip.getTelecoms().add(associatedPersonTelecon);
+	}
 		participant.setAssociatedEntity(patientRelationShip);
 		
 		
-	}
+	
 	return participant;
 	}
 	
@@ -507,15 +526,19 @@ for(Relationship relation:relationShips)
 	
 	 List<Obs> obsList = new ArrayList<Obs>();
 	 obsList.addAll(Context.getObsService().getObservationsByPersonAndConcept(patient, patientPregnentConcept));	
+	 
 	Obs obs=CDAHelper.getLatestObs(obsList);
-	
-	int type = obs.getConcept().getDatatype().getId();
-	String value=CDAHelper.getDatatypesValue(type,obs);
+	int type=0;
+	String value="";
+	if(obs!=null)
+	{
+	 type = obs.getConcept().getDatatype().getId();
+	value=CDAHelper.getDatatypesValue(type,obs);
+	}
 	
 	Participant1 participant = CDAFactory.eINSTANCE.createParticipant1();
 	
-	if(patient.getGender().equals("F") && value.equalsIgnoreCase("Yes"))
-	{
+	
 		
 		participant.setTypeCode(ParticipationType.IND);
 		
@@ -534,7 +557,9 @@ for(Relationship relation:relationShips)
 		patientRelationShip.setClassCode(RoleClassAssociative.PRS);
 		
 patientRelationShip.setCode(CDAHelper.buildCodeCE("xx-fatherofbaby", "2.16.840.1.113883.5.111","Father of Baby" , "SNOMED CT"));
-		
+
+if(patient.getGender().equals("F") && value.equalsIgnoreCase("Yes"))
+{	
 List<Relationship> relationShips=Context.getPersonService().getRelationshipsByPerson(patient);
 Iterator<PersonAddress> patientAddressIterator = null;
 
@@ -566,10 +591,32 @@ for(Relationship relation:relationShips)
 		patientRelationShip.getTelecoms().add(associatedPersonTelecon);
 	}
  }	
-		participant.setAssociatedEntity(patientRelationShip);
-			
-	}
+}
+
+else
+{
+	AD spouseAddress=DatatypesFactory.eINSTANCE.createAD();
+	spouseAddress.addStreetAddressLine(" ");
+	spouseAddress.addCity(" ");
+	spouseAddress.addCountry(" ");
+	 patientRelationShip.getAddrs().add(spouseAddress);
+	 Person associatedPerson = CDAFactory.eINSTANCE.createPerson();
+		PN associatedPersonName = DatatypesFactory.eINSTANCE.createPN();
+		associatedPersonName.addGiven(" ");
+		associatedPersonName.addFamily(" ");
+		associatedPerson.getNames().add(associatedPersonName);
+		
+patientRelationShip.setAssociatedPerson(associatedPerson );
+		
+        TEL associatedPersonTelecon=DatatypesFactory.eINSTANCE.createTEL();
+        associatedPersonTelecon.setValue("tel: + ");
+        associatedPersonTelecon.getUses().add(null);
+		patientRelationShip.getTelecoms().add(associatedPersonTelecon);
+	
+}
+participant.setAssociatedEntity(patientRelationShip);
           return participant;
+	
   }
 	
 	public List<Participant1> otherParticipants(Patient p)
