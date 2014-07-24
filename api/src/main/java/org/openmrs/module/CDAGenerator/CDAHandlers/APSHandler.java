@@ -3,6 +3,7 @@ package org.openmrs.module.CDAGenerator.CDAHandlers;
 import org.openhealthtools.mdht.uml.cda.CDAFactory;
 import org.openhealthtools.mdht.uml.cda.ClinicalDocument;
 import org.openhealthtools.mdht.uml.cda.Section;
+import org.openhealthtools.mdht.uml.cda.StrucDocText;
 import org.openmrs.Patient;
 import org.openmrs.module.CDAGenerator.SectionHandlers.ChiefComplaintSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.CodedFamilyMedicalHistorySection;
@@ -13,6 +14,7 @@ import org.openmrs.module.CDAGenerator.SectionHandlers.PhysicalExamSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.PregnancyHistorySection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.ReviewOfSystemsSection;
 import org.openmrs.module.CDAGenerator.SectionHandlers.SocialHistorySection;
+import org.openmrs.module.CDAGenerator.api.CDAHelper;
 import org.openmrs.module.CDAGenerator.api.CdaHeaderBuilder;
 
 public class APSHandler extends BaseCdaTypeHandler
@@ -32,6 +34,14 @@ public class APSHandler extends BaseCdaTypeHandler
 		CdaHeaderBuilder header=new CdaHeaderBuilder();
 		
 		doc=header.buildHeader(doc, handler, patient);
+		Section section=CDAFactory.eINSTANCE.createSection();
+	    section.getTemplateIds().add(CDAHelper.buildTemplateID(templateid,null ,null ));
+	    section.setCode(CDAHelper.buildCodeCE(null,null,null,null));
+	    section.setTitle(CDAHelper.buildTitle(documentDescription));
+	    StrucDocText text=CDAFactory.eINSTANCE.createStrucDocText();
+	    text.addText("Demo Section for Aps profile");
+	    section.setText(text); 
+	    doc.addSection(section);
 		return doc;
 	}
 }

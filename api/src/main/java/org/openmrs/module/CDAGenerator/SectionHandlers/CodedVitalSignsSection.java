@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.EList;
 import org.openhealthtools.mdht.uml.cda.AssignedAuthor;
 import org.openhealthtools.mdht.uml.cda.Author;
 import org.openhealthtools.mdht.uml.cda.CDAFactory;
@@ -21,6 +22,7 @@ import org.openhealthtools.mdht.uml.cda.ReferenceRange;
 import org.openhealthtools.mdht.uml.cda.Section;
 import org.openhealthtools.mdht.uml.cda.StrucDocText;
 import org.openhealthtools.mdht.uml.hl7.datatypes.AD;
+import org.openhealthtools.mdht.uml.hl7.datatypes.CE;
 import org.openhealthtools.mdht.uml.hl7.datatypes.CS;
 import org.openhealthtools.mdht.uml.hl7.datatypes.DatatypesFactory;
 import org.openhealthtools.mdht.uml.hl7.datatypes.II;
@@ -173,7 +175,15 @@ public class CodedVitalSignsSection extends VitalSignsSection
 		value1.setValue(number);
 		value1.setUnit(units);
 		observation.getValues().add(value1);
-				
+		CE interpretationcode=CDAHelper.buildCodeCE("N", "2.16.840.1.113883.5.83", null, null);
+		observation.getInterpretationCodes().add(interpretationcode);
+		
+		CE methodcode=CDAHelper.buildCodeCE(null,CDAHelper.getCodeSystemByName(entry.getValue()),null,entry.getValue());
+		observation.getMethodCodes().add(methodcode);
+		
+		CE targetsite=CDAHelper.buildCodeCE(null,CDAHelper.getCodeSystemByName(entry.getValue()),null,entry.getValue());
+		observation.getTargetSiteCodes().add(targetsite);
+		
 		component.setObservation(observation); 
         organizer.getComponents().add(component);
     	

@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openhealthtools.mdht.uml.cda.CDAFactory;
 import org.openhealthtools.mdht.uml.cda.Section;
 import org.openhealthtools.mdht.uml.cda.StrucDocText;
@@ -23,6 +25,7 @@ import org.openmrs.module.CDAGenerator.api.CDAHelper;
 
 public class ChiefComplaintSection extends BaseCdaSectionHandler
 {
+	private static Log log = LogFactory.getLog(ChiefComplaintSection.class);
 public ChiefComplaintSection()
 {
 	this.sectionName="Chief Complaint";
@@ -54,20 +57,24 @@ public static Section buildChiefComplaintSection(Patient patient)
     List<Obs> observationList = new ArrayList<Obs>();
     observationList.addAll(Context.getObsService().getObservationsByPersonAndConcept(patient, concept));
 
+    
     if(observationList.isEmpty())
     {
-    	throw new APIException(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoObservationsFound",new Object[]{concept.getConceptId(),concept.getName()},null));
+    	log.error(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoObservationsFound",new Object[]{concept.getConceptId(),concept.getName()},null));
     }
-    
     String value="";
     
-        Obs obs=CDAHelper.getLatestObs(observationList);
-        
-    	int type = obs.getConcept().getDatatype().getId();
-
-		value=CDAHelper.getDatatypesValue(type,obs);
-		
-		
+		 Obs obs=CDAHelper.getLatestObs(observationList);
+	        if(obs!=null)
+	        {
+	    	int type = obs.getConcept().getDatatype().getId();
+		     value=CDAHelper.getDatatypesValue(type,obs);
+	        }
+	        else
+	        {
+	        	value="NO Observations";
+	        }
+				
     builder.append(value);
     builder.append("</paragraph>");
 	

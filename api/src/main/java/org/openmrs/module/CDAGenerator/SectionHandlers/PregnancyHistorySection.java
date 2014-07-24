@@ -45,8 +45,6 @@ public class PregnancyHistorySection extends BaseCdaSectionHandler
 
 	public static Section buildPregnancyHistorySection(Patient patient)
 	{
-
-	List<Concept> ConceptsList=new ArrayList<Concept>();
 	Map<String,String> mappings=new HashMap<String,String>();
 	Section section=CDAFactory.eINSTANCE.createSection();
 	PregnancyHistorySection ccs=new PregnancyHistorySection();
@@ -89,6 +87,7 @@ public class PregnancyHistorySection extends BaseCdaSectionHandler
 	 ConceptService service = Context.getConceptService();
 	    for(Map.Entry<String,String> entry:mappings.entrySet())
 		{
+	    	List<Concept> ConceptsList=new ArrayList<Concept>();
 	    Concept concepts=service.getConceptByMapping(entry.getKey(), entry.getValue(),false);
 	    if(concepts==null)
 	    {
@@ -98,8 +97,7 @@ public class PregnancyHistorySection extends BaseCdaSectionHandler
 	    {
 	    	ConceptsList.add(concepts);
 	    }
-		}
-	    
+		
 	    List<Obs> obsList = new ArrayList<Obs>();
 		for (Concept concept : ConceptsList) 
 		{
@@ -130,7 +128,7 @@ public class PregnancyHistorySection extends BaseCdaSectionHandler
 		        organizer.setMoodCode(ActMood.EVN);
 		        organizer.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.13.5.1",null,null));
 		        
-		        organizer.getIds().add(CDAHelper.buildTemplateID("id",null,null));
+		        organizer.getIds().add(CDAHelper.buildTemplateID(obs.getUuid(),null,null));
 		        organizer.setCode(CDAHelper.buildCodeCD("118185001", "2.16.840.1.113883.6.96","Pregnancy Finding", "SNOMED CT"));
 		        
 		    	organizer.setStatusCode(CDAHelper.getStatusCode());
@@ -144,8 +142,8 @@ public class PregnancyHistorySection extends BaseCdaSectionHandler
 			     	
 			     observation.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.13",null,null));
 			     observation.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.13.5",null,null));
-			     observation.getIds().add(CDAHelper.buildTemplateID("id",null,null));
-			     observation.setCode(CDAHelper.buildCodeCE("10162-6","2.16.840.1.113883.6.1","HISTORY OF PREGNANCIES","LOINC"));
+			     observation.getIds().add(CDAHelper.buildTemplateID(obs.getUuid(),null,null));
+			     observation.setCode(CDAHelper.buildCodeCE(entry.getKey(),CDAHelper.getCodeSystemByName(entry.getValue()),obs.getConcept().getName().toString(),entry.getValue()));
 			     
 			     observation.setText(CDAHelper.buildEDText("#_"+obs.getId()+ccs.getCode()));
 			     
@@ -157,13 +155,22 @@ public class PregnancyHistorySection extends BaseCdaSectionHandler
 					ST value1 = CDAHelper.buildTitle(value);
 					observation.getValues().add(value1);
 					
+					CE interpretationcode=CDAHelper.buildCodeCE("N", "2.16.840.1.113883.5.83", null, null);
+					observation.getInterpretationCodes().add(interpretationcode);
+					
+					CE methodcode=CDAHelper.buildCodeCE(null,CDAHelper.getCodeSystemByName(entry.getValue()),null,entry.getValue());
+					observation.getMethodCodes().add(methodcode);
+					
+					CE targetsite=CDAHelper.buildCodeCE(null,CDAHelper.getCodeSystemByName(entry.getValue()),null,entry.getValue());
+					observation.getTargetSiteCodes().add(targetsite);
+					
 					component.setObservation(observation); 
 			        organizer.getComponents().add(component);
 			    	
 			        e.setOrganizer(organizer);
 					section.getEntries().add(e);
 		 }
-
+		}
 	     builder.append("</tbody>"+delimeter);
 		 builder.append("</table>"+delimeter);
 			text.addText(builder.toString());

@@ -12,6 +12,7 @@ import org.openhealthtools.mdht.uml.cda.Observation;
 import org.openhealthtools.mdht.uml.cda.Section;
 import org.openhealthtools.mdht.uml.cda.StrucDocText;
 import org.openhealthtools.mdht.uml.hl7.datatypes.CD;
+import org.openhealthtools.mdht.uml.hl7.datatypes.CE;
 import org.openhealthtools.mdht.uml.hl7.datatypes.CS;
 import org.openhealthtools.mdht.uml.hl7.datatypes.DatatypesFactory;
 import org.openhealthtools.mdht.uml.hl7.datatypes.ST;
@@ -143,6 +144,16 @@ public static Section buildHistoryOfInfectionSection(Patient patient)
 				value1.setDisplayName(obs.getConcept().getName().toString());
 				value1.setCodeSystemName(mapentry.getValue());
 				observation.getValues().add(value1);
+				
+				CE interpretationcode=CDAHelper.buildCodeCE("N", "2.16.840.1.113883.5.83", null, null);
+				observation.getInterpretationCodes().add(interpretationcode);
+				
+				CE methodcode=CDAHelper.buildCodeCE(null,CDAHelper.getCodeSystemByName(mapentry.getValue()),null,mapentry.getValue());
+				observation.getMethodCodes().add(methodcode);
+				
+				CE targetsite=CDAHelper.buildCodeCE(null,CDAHelper.getCodeSystemByName(mapentry.getValue()),null,mapentry.getValue());
+				observation.getTargetSiteCodes().add(targetsite);
+				
 				
 				entry.setObservation(observation);
 				section.getEntries().add(entry);

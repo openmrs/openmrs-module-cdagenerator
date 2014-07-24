@@ -6,6 +6,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openhealthtools.mdht.uml.cda.CDAFactory;
 import org.openhealthtools.mdht.uml.cda.Section;
 import org.openhealthtools.mdht.uml.cda.StrucDocText;
@@ -19,6 +22,7 @@ import org.openmrs.module.CDAGenerator.api.CDAHelper;
 
 public class HistoryOfPresentIllnessSection extends BaseCdaSectionHandler
 {
+	private static Log log = LogFactory.getLog(HistoryOfPresentIllnessSection.class);
 public HistoryOfPresentIllnessSection()
 {
 	this.sectionName="HISTORY OF PRESENT ILLNES";
@@ -28,6 +32,7 @@ public HistoryOfPresentIllnessSection()
 }
 public static Section buildHistoryOfPresentIllnessSection(Patient patient)
 {
+	
 	Section section=CDAFactory.eINSTANCE.createSection();
     HistoryOfPresentIllnessSection ccs=new HistoryOfPresentIllnessSection();
     section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
@@ -48,16 +53,23 @@ public static Section buildHistoryOfPresentIllnessSection(Patient patient)
     
     List<Obs> observationList = new ArrayList<Obs>();
     observationList.addAll(Context.getObsService().getObservationsByPersonAndConcept(patient, concept));
-    String value="";
-    
     if(observationList.isEmpty())
     {
-    	throw new APIException(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoObservationsFound",new Object[]{concept.getConceptId(),concept.getName()},null));
+    	log.error(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoObservationsFound",new Object[]{concept.getConceptId(),concept.getName()},null));
     }
     	
+    String value="";
+    
         Obs obs=CDAHelper.getLatestObs(observationList);
+        if(obs!=null)
+        {
     	int type = obs.getConcept().getDatatype().getId();
 	     value=CDAHelper.getDatatypesValue(type,obs);
+        }
+        else
+        {
+        	value="NO Observations";
+        }
 			
        builder.append(value);
        builder.append("</paragraph>");
