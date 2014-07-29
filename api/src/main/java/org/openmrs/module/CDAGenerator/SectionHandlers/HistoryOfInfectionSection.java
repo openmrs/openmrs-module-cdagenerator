@@ -133,7 +133,7 @@ public static Section buildHistoryOfInfectionSection(Patient patient)
 				observation.setCode(CDAHelper.buildCodeCD(mapentry.getKey(),CDAHelper.getCodeSystemByName(mapentry.getValue()),obs.getConcept().getName().toString(), mapentry.getValue()));
 				observation.setText(CDAHelper.buildEDText("#_"+obs.getId()));
 				
-				observation.setStatusCode(CDAHelper.getStatusCode());
+				observation.setStatusCode(CDAHelper.getStatusCode("completed"));
 				
 				observation.setEffectiveTime(CDAHelper.buildDateTime(new Date()));
 				

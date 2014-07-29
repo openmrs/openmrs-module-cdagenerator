@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openhealthtools.mdht.uml.cda.CDAFactory;
 import org.openhealthtools.mdht.uml.cda.Entry;
 import org.openhealthtools.mdht.uml.cda.Observation;
@@ -32,7 +34,7 @@ import org.openmrs.module.CDAGenerator.api.CDAHelper;
 
 public class SocialHistorySection extends BaseCdaSectionHandler
 {
-	
+ private static Log log = LogFactory.getLog(SocialHistorySection.class);
 public SocialHistorySection()
 {
 	this.sectionName="Social History";
@@ -48,7 +50,7 @@ public static Section buildSocialHistorySection(Patient p)
 	Map<String,String> mappings=new HashMap<String,String>();
 	Section section=CDAFactory.eINSTANCE.createSection();
     SocialHistorySection ccs=new SocialHistorySection();
-    section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getParentTemplateId(),null ,null ));
+    section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getParentTemplateId(),null ,null));
     section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
     section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
     section.setTitle(CDAHelper.buildTitle(ccs.getSectionDescription()));
@@ -91,17 +93,19 @@ public static Section buildSocialHistorySection(Patient p)
     List<Obs> obsList = new ArrayList<Obs>();
 	for (Concept concept : socialHistoryConceptsList) 
 	{
-		obsList.addAll(Context.getObsService().getObservationsByPersonAndConcept(p, concept));	
-		if(obsList.isEmpty())
-		{
-			throw new APIException(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoObservationsFound",new Object[]{concept.getConceptId(),concept.getName()},null));
-		}
+		obsList.addAll(Context.getObsService().getObservationsByPersonAndConcept(p, concept));
 	}
-
-
+	if(obsList.isEmpty())
+	{
+		Concept concept= service.getConceptByMapping(mapentry.getKey(),mapentry.getValue());
+		 log.error(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoObservationsFound",new Object[]{concept.getConceptId(),concept.getName()},null));
+	}
+	else
+	{
 	 for (Obs obs : obsList) 
 	 { 
-				 
+		if(obs!=null)
+		{
 		    builder.append("<tr>"+delimeter);
 			builder.append("<td ID = \"_"+obs.getId()+"\" >"+obs.getConcept().getName()+"</td>"+delimeter);	
 			builder.append("<td>");
@@ -129,7 +133,7 @@ public static Section buildSocialHistorySection(Patient p)
 			
 			observation.setCode(ce);
 			
-			observation.setStatusCode(CDAHelper.getStatusCode());
+			observation.setStatusCode(CDAHelper.getStatusCode("completed"));
 			
 			observation.setEffectiveTime(CDAHelper.buildDateTime(new Date()));
 			
@@ -140,14 +144,17 @@ public static Section buildSocialHistorySection(Patient p)
 			section.getEntries().add(entry);
 			
 	  }
+	 }
+	}      
 	}
-     builder.append("</tbody>"+delimeter);
-	 builder.append("</table>"+delimeter);
-		text.addText(builder.toString());
-        section.setText(text);        
-   
 	
-	return section;
+    builder.append("</tbody>"+delimeter);
+    builder.append("</table>"+delimeter);
+	text.addText(builder.toString());
+    section.setText(text);
+	    return section;
+	
+	
 }
 
 }

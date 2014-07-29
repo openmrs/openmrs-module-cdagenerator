@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openhealthtools.mdht.uml.cda.CDAFactory;
 import org.openhealthtools.mdht.uml.cda.Section;
 import org.openhealthtools.mdht.uml.cda.StrucDocText;
@@ -20,6 +22,7 @@ import org.openmrs.module.CDAGenerator.api.CDAHelper;
 
 public class ReviewOfSystemsSection extends BaseCdaSectionHandler
 {
+	private static Log log = LogFactory.getLog(ReviewOfSystemsSection.class);
 public ReviewOfSystemsSection()
 {
 this.sectionName="REVIEW OF SYSTEMS";
@@ -71,7 +74,6 @@ Section section=CDAFactory.eINSTANCE.createSection();
          ConceptsValueSetList.add(concepts);
         }
      }
-        
         Concept concept=service.getConceptByMapping("10187-3", "LOINC");
         if(concept==null)
      {
@@ -85,7 +87,7 @@ Section section=CDAFactory.eINSTANCE.createSection();
          obsOFAnswersOfReviewSystemConcept.addAll(Context.getObsService().getObservationsByPersonAndConcept(patient, c));
          if(obsOFAnswersOfReviewSystemConcept.isEmpty())
          {
-         throw new APIException(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoObservationsFound",new Object[]{c.getConceptId(),c.getName()},null));
+        	 log.error(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoObservationsFound",new Object[]{concept.getConceptId(),concept.getName()},null));
          }
         }
        
@@ -101,12 +103,27 @@ Section section=CDAFactory.eINSTANCE.createSection();
      obsList.addAll(Context.getObsService().getObservationsByPersonAndConcept(patient, concet));
      if(obsList.isEmpty())
      {
-     throw new APIException(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoObservationsFound",new Object[]{concet.getConceptId(),concet.getName()},null));
+       log.error(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoObservationsFound",new Object[]{concept.getConceptId(),concept.getName()},null));
      }
- 
      }
+     
+     if(obsList.isEmpty())
+     {
+       StringBuilder noObsBuilder = new StringBuilder();
+       noObsBuilder.append(delimeter);
+       noObsBuilder.append("<Paragraph>"+delimeter);
+       noObsBuilder.append("No Observations");
+       noObsBuilder.append("</Paragraph>"+delimeter);
+       text.addText(noObsBuilder.toString());
+       section.setText(text);
+        return section;
+     }
+     else
+     {
      for (Obs obs : obsList)
      {
+    	 if(obs!=null)
+    	 {
      builder.append("<tr>"+delimeter);
      builder.append("<td ID = \"_"+obs.getId()+"\" >"+obs.getConcept().getName()+"</td>"+delimeter);	
      builder.append("<td>");
@@ -115,11 +132,13 @@ Section section=CDAFactory.eINSTANCE.createSection();
      builder.append(value+"</td>"+delimeter);
      builder.append("<td>"+CDAHelper.getDateFormat().format(obs.getObsDatetime())+"</td>"+delimeter);
      builder.append("</tr>"+delimeter);
+    	 }
      }
      builder.append("</tbody>"+delimeter);
      builder.append("</table>"+delimeter);
         text.addText(builder.toString());
         section.setText(text);
-return section;
+         return section;
+     }
 }
 }

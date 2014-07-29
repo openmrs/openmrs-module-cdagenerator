@@ -64,19 +64,10 @@ public class APHPHandler extends BaseCdaTypeHandler
 		section=PhysicalExamSection.buildPhysicalExamSection(patient);
 		doc.addSection(section);
 		
-		
-		/*
-		 * commented following four calls because they consist of hard coded observation and 
-		 * produces few errors in document
-		 * we are now using gazelle cda validator 
-		*/
-		
-        /*	
-		section=HistoryOfPastIllnessSection.buildHistoryOfPastIllnessSection();
+		section=HistoryOfPastIllnessSection.buildHistoryOfPastIllnessSection(patient);
 		doc.addSection(section);
-	
 		
-		*/
+		
 		return doc;
 	}
 }

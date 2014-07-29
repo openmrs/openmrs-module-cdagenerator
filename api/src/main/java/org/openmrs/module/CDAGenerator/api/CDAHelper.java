@@ -16,6 +16,7 @@ import org.openhealthtools.mdht.uml.hl7.datatypes.IVL_TS;
 import org.openhealthtools.mdht.uml.hl7.datatypes.IVXB_TS;
 import org.openhealthtools.mdht.uml.hl7.datatypes.ST;
 import org.openhealthtools.mdht.uml.hl7.datatypes.TS;
+import org.openhealthtools.mdht.uml.hl7.vocab.NullFlavor;
 import org.openmrs.Obs;
 
 public class CDAHelper
@@ -29,13 +30,24 @@ public class CDAHelper
 	{
 		IVL_TS effectiveTime = DatatypesFactory.eINSTANCE.createIVL_TS();
 		SimpleDateFormat s = new SimpleDateFormat("yyyyMMddhhmmss");
-		String creationDate = s.format(d);
+		String creationDate;
 		IVXB_TS low = DatatypesFactory.eINSTANCE.createIVXB_TS();
-		low.setValue(creationDate);
-		effectiveTime.setLow(low);
 		IVXB_TS high = DatatypesFactory.eINSTANCE.createIVXB_TS();
-		if(d1 != null)
-			high.setValue(s.format(d1));
+		if(d!=null)
+		{
+		creationDate = s.format(d);
+		low.setValue(creationDate);
+		}
+		else
+			low.setNullFlavor(NullFlavor.UNK);
+		
+		effectiveTime.setLow(low);
+		if(d1!=null)
+		{
+		high.setValue(s.format(d1));
+		}
+		else
+			high.setNullFlavor(NullFlavor.UNK);
 		effectiveTime.setHigh(high);
 		return effectiveTime;
 	}
@@ -43,9 +55,15 @@ public class CDAHelper
 	{
 		IVL_TS effectiveTime = DatatypesFactory.eINSTANCE.createIVL_TS();
 		SimpleDateFormat s = getDateFormat();
-		String creationDate = s.format(d);
+		String creationDate;
 		IVXB_TS low = DatatypesFactory.eINSTANCE.createIVXB_TS();
+		if(d!=null)
+		{
+		creationDate = s.format(d);
 		low.setValue(creationDate);
+		}
+		else
+		low.setNullFlavor(NullFlavor.UNK);
 		effectiveTime.setLow(low);
 		return effectiveTime;
 	}
@@ -139,11 +157,14 @@ public class CDAHelper
 	{
 		TS effectiveTime = DatatypesFactory.eINSTANCE.createTS();
 		SimpleDateFormat s = new SimpleDateFormat("yyyyMMddhhmmss");
-		
-		String creationDate = s.format(d);
-	
+		String creationDate;
+		if(d!=null)
+		{
+		creationDate = s.format(d);
 		effectiveTime.setValue(creationDate);
-		
+		}
+		else
+		effectiveTime.setNullFlavor(NullFlavor.UNK);
 		return effectiveTime;
 	}
 	
@@ -220,18 +241,27 @@ public class CDAHelper
 		return latestObsdate.get("Latest date");
 		}
 	}
-   public static CS getStatusCode()
+   public static CS getStatusCode(String statusCode)
    {
+	   if(statusCode==null)
+		   statusCode="completed";
+	   
 	   CS cs=DatatypesFactory.eINSTANCE.createCS();
-	   cs.setCode("completed");
+	   cs.setCode(statusCode);
 	   return cs;
    }
    public static IVL_TS buildDateTime(Date date)
    {
 	   IVL_TS effectiveTime = DatatypesFactory.eINSTANCE.createIVL_TS();
 	   SimpleDateFormat s = new SimpleDateFormat("yyyyMMddhhmmss");
-    	String creationDate = s.format(date);
+	   String creationDate;
+	   if(date!=null)
+	   {
+	    creationDate = s.format(date);
     	effectiveTime.setValue(creationDate);
+	   }
+	   else
+		   effectiveTime.setNullFlavor(NullFlavor.UNK);
    	    return effectiveTime;
    }
    public static String getCodeSystemByName(String codeSystemName)
