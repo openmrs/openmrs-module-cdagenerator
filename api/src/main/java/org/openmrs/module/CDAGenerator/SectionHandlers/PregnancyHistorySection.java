@@ -131,7 +131,7 @@ public class PregnancyHistorySection extends BaseCdaSectionHandler
 		        organizer.getIds().add(CDAHelper.buildTemplateID(obs.getUuid(),null,null));
 		        organizer.setCode(CDAHelper.buildCodeCD("118185001", "2.16.840.1.113883.6.96","Pregnancy Finding", "SNOMED CT"));
 		        
-		    	organizer.setStatusCode(CDAHelper.getStatusCode());
+		    	organizer.setStatusCode(CDAHelper.getStatusCode("completed"));
 		    	organizer.setEffectiveTime(CDAHelper.buildDateTime(new Date()));
 		    	
 		    	Component4 component=CDAFactory.eINSTANCE.createComponent4();
@@ -148,7 +148,7 @@ public class PregnancyHistorySection extends BaseCdaSectionHandler
 			     observation.setText(CDAHelper.buildEDText("#_"+obs.getId()+ccs.getCode()));
 			     
 			    
-					observation.setStatusCode(CDAHelper.getStatusCode());
+					observation.setStatusCode(CDAHelper.getStatusCode("completed"));
 		    	
 					observation.setEffectiveTime(CDAHelper.buildDateTime(new Date()));
 					

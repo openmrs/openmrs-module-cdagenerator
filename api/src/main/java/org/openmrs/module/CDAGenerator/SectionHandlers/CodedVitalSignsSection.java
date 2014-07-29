@@ -153,7 +153,7 @@ public class CodedVitalSignsSection extends VitalSignsSection
         organizer.getIds().add(CDAHelper.buildTemplateID(obs.getUuid(),null,null));
         organizer.setCode(CDAHelper.buildCodeCD("46680005","2.16.840.1.113883.6.96","Vital signs","SNOMED CT"));
       
-    	organizer.setStatusCode(CDAHelper.getStatusCode());
+    	organizer.setStatusCode(CDAHelper.getStatusCode("completed"));
     	organizer.setEffectiveTime(CDAHelper.buildDateTime(new Date()));
     	
     	Component4 component=CDAFactory.eINSTANCE.createComponent4();
@@ -167,7 +167,7 @@ public class CodedVitalSignsSection extends VitalSignsSection
      	
      	observation.setText(CDAHelper.buildEDText("#_"+obs.getId()));
      	
-     	observation.setStatusCode(CDAHelper.getStatusCode());
+     	observation.setStatusCode(CDAHelper.getStatusCode("completed"));
      	observation.setEffectiveTime(CDAHelper.buildDateTime(new Date()));
 		
 		PQ value1=DatatypesFactory.eINSTANCE.createPQ();
@@ -187,7 +187,7 @@ public class CodedVitalSignsSection extends VitalSignsSection
 		component.setObservation(observation); 
         organizer.getComponents().add(component);
     	
-        organizer.setStatusCode(CDAHelper.getStatusCode());
+        organizer.setStatusCode(CDAHelper.getStatusCode("completed"));
         
         e.setOrganizer(organizer);
 		section.getEntries().add(e);
