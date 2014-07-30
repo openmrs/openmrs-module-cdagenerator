@@ -48,7 +48,7 @@ public static Section buildChiefComplaintSection(Patient patient)
 	ConceptService service = Context.getConceptService();
 		
     
-    Concept concept = service.getConceptByMapping("10154-3", "LOINC");
+    Concept concept = service.getConceptByMapping("10154-3", "LOINC",false);
     if(concept==null)
    	{
    		throw new APIException(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoSuchConcept",new Object[]{"10154-3","LOINC"},null));

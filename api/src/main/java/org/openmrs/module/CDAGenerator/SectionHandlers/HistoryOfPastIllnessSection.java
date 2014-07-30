@@ -155,7 +155,7 @@ public class HistoryOfPastIllnessSection extends BaseCdaSectionHandler
 		       
 		    	observation1.getIds().add(CDAHelper.buildID("45e5b079-5f94-4d1e-8707-ebc207200fd3",null));
 		    	
-		    	observation1.setCode(CDAHelper.buildCodeCD(mapentry.getKey(),CDAHelper.getCodeSystemByName(mapentry.getValue()),null, mapentry.getValue()));
+		    	observation1.setCode(CDAHelper.buildCodeCD(mapentry.getKey(),"2.16.840.1.113883.6.96",null,"SNOMED CT"));
 		        ED answerTxt=DatatypesFactory.eINSTANCE.createED(); 
 		        observation1.setText(answerTxt.addText("No Observations found for concept Name:"+concept.getName()+"and Concept id:"+concept.getId()));
 		        observation1.setStatusCode(CDAHelper.getStatusCode("completed"));
@@ -193,7 +193,14 @@ public class HistoryOfPastIllnessSection extends BaseCdaSectionHandler
 	String value=CDAHelper.getDatatypesValue(type,obs);
 	
     observation1.getIds().add(CDAHelper.buildID(obs.getUuid(),null));
-    observation1.setCode(CDAHelper.buildCodeCD(mapentry.getKey(),CDAHelper.getCodeSystemByName(mapentry.getValue()),obs.getConcept().getName().toString(), mapentry.getValue()));
+    if(mapentry.getKey().equals("11348-0"))
+    {
+    observation1.setCode(CDAHelper.buildCodeCD("282291009","2.16.840.1.113883.6.96",null,"SNOMED CT"));
+    }
+    else
+    {
+    	observation1.setCode(CDAHelper.buildCodeCD(mapentry.getKey(),"2.16.840.1.113883.6.96",null,"SNOMED CT"));
+    }
     ED answerTxt=DatatypesFactory.eINSTANCE.createED(); 
     observation1.setText(answerTxt.addText(value));
     observation1.setStatusCode(CDAHelper.getStatusCode("completed"));

@@ -64,7 +64,7 @@ Section section=CDAFactory.eINSTANCE.createSection();
                         
         for(Map.Entry<String,String> entry:mappings.entrySet())
      {
-        Concept concepts=service.getConceptByMapping(entry.getKey(), entry.getValue());
+        Concept concepts=service.getConceptByMapping(entry.getKey(), entry.getValue(),false);
         if(concepts==null)
         {
          throw new APIException(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoSuchConcept",new Object[]{entry.getKey(),entry.getValue()},null));
@@ -74,7 +74,7 @@ Section section=CDAFactory.eINSTANCE.createSection();
          ConceptsValueSetList.add(concepts);
         }
      }
-        Concept concept=service.getConceptByMapping("10187-3", "LOINC");
+        Concept concept=service.getConceptByMapping("10187-3", "LOINC",false);
         if(concept==null)
      {
      throw new APIException(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoSuchConcept",new Object[]{"10187-3","LOINC"},null));

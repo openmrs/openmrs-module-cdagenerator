@@ -79,7 +79,7 @@ public static Section buildSocialHistorySection(Patient p)
     for(Map.Entry<String,String> mapentry:mappings.entrySet())
 	{
     List<Concept> socialHistoryConceptsList=new ArrayList<Concept>();
-    Concept concepts=service.getConceptByMapping(mapentry.getKey(), mapentry.getValue());
+    Concept concepts=service.getConceptByMapping(mapentry.getKey(), mapentry.getValue(),false);
     if(concepts==null)
     {
     	throw new APIException(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoSuchConcept",new Object[]{mapentry.getKey(),mapentry.getValue()},null));
@@ -97,7 +97,7 @@ public static Section buildSocialHistorySection(Patient p)
 	}
 	if(obsList.isEmpty())
 	{
-		Concept concept= service.getConceptByMapping(mapentry.getKey(),mapentry.getValue());
+		Concept concept= service.getConceptByMapping(mapentry.getKey(),mapentry.getValue(),false);
 		 log.error(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoObservationsFound",new Object[]{concept.getConceptId(),concept.getName()},null));
 	}
 	else
