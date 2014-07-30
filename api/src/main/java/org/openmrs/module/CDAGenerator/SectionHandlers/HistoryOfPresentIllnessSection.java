@@ -45,7 +45,7 @@ public static Section buildHistoryOfPresentIllnessSection(Patient patient)
 	ConceptService service = Context.getConceptService();
 		
     
-    Concept concept = service.getConceptByMapping("10164-2", "LOINC");
+    Concept concept = service.getConceptByMapping("10164-2", "LOINC",false);
     if(concept==null)
 	{
 		throw new APIException(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoSuchConcept",new Object[]{"10164-2","LOINC"},null));

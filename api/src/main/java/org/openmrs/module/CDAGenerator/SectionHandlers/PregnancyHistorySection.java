@@ -1,5 +1,8 @@
 package org.openmrs.module.CDAGenerator.SectionHandlers;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,11 +17,17 @@ import org.openhealthtools.mdht.uml.cda.Observation;
 import org.openhealthtools.mdht.uml.cda.Organizer;
 import org.openhealthtools.mdht.uml.cda.Section;
 import org.openhealthtools.mdht.uml.cda.StrucDocText;
+import org.openhealthtools.mdht.uml.hl7.datatypes.ANY;
+import org.openhealthtools.mdht.uml.hl7.datatypes.BL;
+import org.openhealthtools.mdht.uml.hl7.datatypes.CD;
 import org.openhealthtools.mdht.uml.hl7.datatypes.CE;
 import org.openhealthtools.mdht.uml.hl7.datatypes.CS;
 import org.openhealthtools.mdht.uml.hl7.datatypes.DatatypesFactory;
 import org.openhealthtools.mdht.uml.hl7.datatypes.IVL_TS;
+import org.openhealthtools.mdht.uml.hl7.datatypes.PQ;
 import org.openhealthtools.mdht.uml.hl7.datatypes.ST;
+import org.openhealthtools.mdht.uml.hl7.datatypes.INT;
+import org.openhealthtools.mdht.uml.hl7.datatypes.TS;
 import org.openhealthtools.mdht.uml.hl7.vocab.ActClassObservation;
 import org.openhealthtools.mdht.uml.hl7.vocab.ActMood;
 import org.openhealthtools.mdht.uml.hl7.vocab.NullFlavor;
@@ -26,6 +35,7 @@ import org.openhealthtools.mdht.uml.hl7.vocab.x_ActClassDocumentEntryOrganizer;
 import org.openhealthtools.mdht.uml.hl7.vocab.x_ActMoodDocumentObservation;
 import org.openhealthtools.mdht.uml.hl7.vocab.x_ActRelationshipEntry;
 import org.openmrs.Concept;
+import org.openmrs.ConceptNumeric;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.api.APIException;
@@ -87,8 +97,10 @@ public class PregnancyHistorySection extends BaseCdaSectionHandler
 	 ConceptService service = Context.getConceptService();
 	    for(Map.Entry<String,String> entry:mappings.entrySet())
 		{
+	    	
 	    	List<Concept> ConceptsList=new ArrayList<Concept>();
 	    Concept concepts=service.getConceptByMapping(entry.getKey(), entry.getValue(),false);
+	    System.out.println("Mapping :"+entry.getKey()+":: concept is :"+concepts);
 	    if(concepts==null)
 	    {
 	    	throw new APIException(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoSuchConcept",new Object[]{entry.getKey(),entry.getValue()},null));
@@ -116,6 +128,9 @@ public class PregnancyHistorySection extends BaseCdaSectionHandler
 				builder.append("<td>");
 				int type = obs.getConcept().getDatatype().getId();
 				String value=CDAHelper.getDatatypesValue(type,obs);
+				
+
+				
 				
 				builder.append(value+"</td>"+delimeter);
 				builder.append("<td>"+CDAHelper.getDateFormat().format(obs.getObsDatetime())+"</td>"+delimeter);
@@ -152,10 +167,98 @@ public class PregnancyHistorySection extends BaseCdaSectionHandler
 		    	
 					observation.setEffectiveTime(CDAHelper.buildDateTime(new Date()));
 					
-					ST value1 = CDAHelper.buildTitle(value);
-					observation.getValues().add(value1);
 					
-					CE interpretationcode=CDAHelper.buildCodeCE("N", "2.16.840.1.113883.5.83", null, null);
+					
+					switch(type)
+					{
+					case 1:
+						ConceptNumeric conceptNumeric =  Context.getConceptService().getConceptNumeric(obs.getConcept().getId());
+						String units=conceptNumeric.getUnits();
+						
+						
+						if(units==null||units.isEmpty())
+						{
+							INT valuetype =DatatypesFactory.eINSTANCE.createINT();
+							int number=Integer.parseInt(value);
+							valuetype.setValue(number);
+							observation.getValues().add(valuetype);
+						}
+						else
+						{
+							PQ valuetype=DatatypesFactory.eINSTANCE.createPQ();
+							BigDecimal number=new BigDecimal(value);
+							units=units.replaceAll("\\s+","");
+							units=CDAHelper.getUnitsaccordingto_Tf_PCC(units);
+							valuetype.setValue(number);
+							valuetype.setUnit(units);
+							observation.getValues().add(valuetype);							
+						}
+						break;
+						
+			           case 2:
+						CE valuetype=DatatypesFactory.eINSTANCE.createCE();
+						
+						valuetype.setCode(entry.getKey());
+						if(entry.getKey().equals("8678-5"))
+						{
+							valuetype.setCodeSystem("2.16.840.1.113883.6.96");
+							valuetype.setCodeSystemName("SNOMED CT");
+						}
+						else
+						{
+						valuetype.setCodeSystem(CDAHelper.getCodeSystemByName(entry.getValue()));
+						valuetype.setCodeSystemName(entry.getValue());
+						}
+						valuetype.setDisplayName(obs.getConcept().getName().toString());
+						
+						
+						
+						observation.getValues().add(valuetype);
+						break;
+
+					case 3:
+						ST valueST=DatatypesFactory.eINSTANCE.createST(value);
+						observation.getValues().add(valueST);
+						break;
+
+					case 6:
+						TS valueTS=DatatypesFactory.eINSTANCE.createTS();
+						SimpleDateFormat s = new SimpleDateFormat("yyyyMMddhhmmss");
+						Date date=null;
+						try {
+							date = s.parse(value);
+						    } catch (ParseException e1) 
+						    {
+							e1.printStackTrace();
+						    }
+					        String FormattedValue = s.format(date);
+					        valueTS.setValue(FormattedValue);
+					   
+						observation.getValues().add(valueTS);
+						break;
+
+					case 7:
+						IVL_TS valuedate=DatatypesFactory.eINSTANCE.createIVL_TS();
+						valuedate.setValue(value);
+						observation.getValues().add(valuedate);
+						break;
+
+					case 8:
+						IVL_TS valuedateTime=DatatypesFactory.eINSTANCE.createIVL_TS();
+						valuedateTime.setValue(value);
+						observation.getValues().add(valuedateTime);
+						break;
+
+					case 10:
+						BL valueboolean=DatatypesFactory.eINSTANCE.createBL();
+						valueboolean.setValue(new Boolean(value));
+						observation.getValues().add(valueboolean);
+						break;
+
+					}	
+					
+				 //not needed	
+				  /*	CE interpretationcode=CDAHelper.buildCodeCE("N", "2.16.840.1.113883.5.83", null, null);
 					observation.getInterpretationCodes().add(interpretationcode);
 					
 					CE methodcode=CDAHelper.buildCodeCE(null,CDAHelper.getCodeSystemByName(entry.getValue()),null,entry.getValue());
@@ -163,7 +266,7 @@ public class PregnancyHistorySection extends BaseCdaSectionHandler
 					
 					CE targetsite=CDAHelper.buildCodeCE(null,CDAHelper.getCodeSystemByName(entry.getValue()),null,entry.getValue());
 					observation.getTargetSiteCodes().add(targetsite);
-					
+					*/
 					component.setObservation(observation); 
 			        organizer.getComponents().add(component);
 			    	

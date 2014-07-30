@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.openhealthtools.mdht.uml.hl7.datatypes.ANY;
 import org.openhealthtools.mdht.uml.hl7.datatypes.CD;
 import org.openhealthtools.mdht.uml.hl7.datatypes.CE;
 import org.openhealthtools.mdht.uml.hl7.datatypes.CS;
@@ -17,7 +18,9 @@ import org.openhealthtools.mdht.uml.hl7.datatypes.IVXB_TS;
 import org.openhealthtools.mdht.uml.hl7.datatypes.ST;
 import org.openhealthtools.mdht.uml.hl7.datatypes.TS;
 import org.openhealthtools.mdht.uml.hl7.vocab.NullFlavor;
+import org.openmrs.ConceptNumeric;
 import org.openmrs.Obs;
+import org.openmrs.api.context.Context;
 
 public class CDAHelper
 {
@@ -180,7 +183,9 @@ public class CDAHelper
 		switch(datatypeId)
 		{
 		case 1:
-			value = obs.getValueNumeric().toString();
+			long longvalue=Math.round(obs.getValueNumeric());
+			int intvalue=(int)longvalue;
+			value=String.valueOf(intvalue);
 			break;
 			
 		case 2:
@@ -192,14 +197,16 @@ public class CDAHelper
 			break;
 
 		case 6:
-			value = obs.getValueDate().toString();
+			value =removeDirtyValue( obs.getValueDate().toString());
 			break;
 
 		case 7:
+			
 			value = obs.getValueTime().toString();
 			break;
 
 		case 8:
+			
 			value = obs.getValueDatetime().toString();
 			break;
 
@@ -280,4 +287,34 @@ public class CDAHelper
 	   }
 	   return result;
    }
+   
+   public static String removeDirtyValue(String input)
+	{
+	   if(input!=null)
+	   {
+		   if (input.endsWith(".0"))
+		     {
+			   input= input.substring(0, input.length() - 2);
+			 }
+		   return input;
+	   }
+	   else
+		   return null;
+	}
+   public static String getUnitsaccordingto_Tf_PCC(String unit)
+   {
+	   if(unit!=null)
+	   {
+		   if(unit.equalsIgnoreCase("hours"))
+		   {
+			unit="h";   
+		   }
+		   else if(unit.equalsIgnoreCase("weeks"))
+		   {
+			   unit="wk";
+		   }
+	   }
+	   return unit;
+   }
+	
 }

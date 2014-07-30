@@ -98,7 +98,7 @@ public class CodedVitalSignsSection extends VitalSignsSection
 	    for(Map.Entry<String,String> entry:mappings.entrySet())
 		{
 	    	List<Concept> ConceptsList=new ArrayList<Concept>();
-	    Concept concepts=service.getConceptByMapping(entry.getKey(), entry.getValue());
+	    Concept concepts=service.getConceptByMapping(entry.getKey(), entry.getValue(),false);
 	    if(concepts==null)
 	    {
 	    	throw new APIException(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoSuchConcept",new Object[]{entry.getKey(),entry.getValue()},null));
