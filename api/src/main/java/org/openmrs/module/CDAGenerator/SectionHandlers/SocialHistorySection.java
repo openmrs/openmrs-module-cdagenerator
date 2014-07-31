@@ -99,6 +99,41 @@ public static Section buildSocialHistorySection(Patient p)
 	{
 		Concept concept= service.getConceptByMapping(mapentry.getKey(),mapentry.getValue(),false);
 		 log.error(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoObservationsFound",new Object[]{concept.getConceptId(),concept.getName()},null));
+		 
+		    builder.append("<tr>"+delimeter);
+			builder.append("<td> No Observation Element with concept id: "+concept.getId()+" was found</td>"+delimeter);	
+			builder.append("<td>");
+			
+			builder.append("NULL"+"</td>"+delimeter);
+			builder.append("<td>"+"NULL"+"</td>"+delimeter);
+			builder.append("</tr>"+delimeter);
+			
+			Entry entry = CDAFactory.eINSTANCE.createEntry();
+			entry.setTypeCode(x_ActRelationshipEntry.DRIV);
+			Observation observation = CDAFactory.eINSTANCE.createObservation();
+			observation.setClassCode(ActClassObservation.OBS);
+			observation.setMoodCode(x_ActMoodDocumentObservation.EVN);
+			observation.getTemplateIds().add(CDAHelper.buildTemplateID("2.16.840.1.113883.10.20.22.4.38",null ,null ));
+			observation.getIds().add(CDAHelper.buildID("0ae29e3f-400d-4e9c-bfbc-43a472597536",null));
+			
+			CD ce=DatatypesFactory.eINSTANCE.createCD();
+			ce.setCode(mapentry.getKey());
+			ce.setCodeSystem(CDAHelper.getCodeSystemByName(mapentry.getValue()));
+			ce.setDisplayName("NULL");
+			ce.setCodeSystemName(mapentry.getValue());
+			ce.setOriginalText(CDAHelper.buildEDText("#_No Observation"));
+			
+			observation.setCode(ce);
+			
+			observation.setStatusCode(CDAHelper.getStatusCode("completed"));
+			
+			observation.setEffectiveTime(CDAHelper.buildDateTime(new Date()));
+			
+			ED value1=DatatypesFactory.eINSTANCE.createED(" No Observation");
+			observation.getValues().add(value1);
+			
+			entry.setObservation(observation);
+			section.getEntries().add(entry);
 	}
 	else
 	{

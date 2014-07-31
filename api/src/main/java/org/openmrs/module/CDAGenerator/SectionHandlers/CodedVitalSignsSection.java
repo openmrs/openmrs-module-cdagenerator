@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.emf.common.util.EList;
 import org.openhealthtools.mdht.uml.cda.AssignedAuthor;
 import org.openhealthtools.mdht.uml.cda.Author;
@@ -25,6 +27,7 @@ import org.openhealthtools.mdht.uml.hl7.datatypes.AD;
 import org.openhealthtools.mdht.uml.hl7.datatypes.CE;
 import org.openhealthtools.mdht.uml.hl7.datatypes.CS;
 import org.openhealthtools.mdht.uml.hl7.datatypes.DatatypesFactory;
+import org.openhealthtools.mdht.uml.hl7.datatypes.ED;
 import org.openhealthtools.mdht.uml.hl7.datatypes.II;
 import org.openhealthtools.mdht.uml.hl7.datatypes.IVL_TS;
 import org.openhealthtools.mdht.uml.hl7.datatypes.PN;
@@ -48,6 +51,7 @@ import org.openmrs.module.CDAGenerator.api.CDAHelper;
 
 public class CodedVitalSignsSection extends VitalSignsSection 
 {
+	private static Log log = LogFactory.getLog(CodedVitalSignsSection.class);
 	public CodedVitalSignsSection()
 	{
 		this.sectionName="Coded Vital Signs";
@@ -113,12 +117,77 @@ public class CodedVitalSignsSection extends VitalSignsSection
 		for (Concept concept : ConceptsList) 
 		{
 			obsList.addAll(Context.getObsService().getObservationsByPersonAndConcept(patient, concept));
-			if(obsList.isEmpty())
-			{
-				throw new APIException(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoObservationsFound",new Object[]{concept.getConceptId(),concept.getName()},null));
-			}
 		}
+		if(obsList.isEmpty())
+		{
+			Concept concept= service.getConceptByMapping(entry.getKey(),entry.getValue(),false);
+			 log.error(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoObservationsFound",new Object[]{concept.getConceptId(),concept.getName()},null));
+			 
+			 builder.append("<tr>"+delimeter);
+				builder.append("<td> No Observation Element with concept id: "+concept.getId()+" was found</td>"+delimeter);	
+				builder.append("<td>");
+				
+				builder.append("NULL"+"</td>"+delimeter);
+				builder.append("<td>"+"NULL"+"</td>"+delimeter);
+				builder.append("</tr>"+delimeter);
+				
+		        
+		        Entry e=CDAFactory.eINSTANCE.createEntry();
+		        e.setTypeCode(x_ActRelationshipEntry.DRIV);
+		        Organizer organizer=CDAFactory.eINSTANCE.createOrganizer();
+		        organizer.setClassCode(x_ActClassDocumentEntryOrganizer.CLUSTER);
+		        organizer.setMoodCode(ActMood.EVN);
+		       
+		        
+		        organizer.getTemplateIds().add(CDAHelper.buildTemplateID("2.16.840.1.113883.10.20.1.32",null,null));
+		        organizer.getTemplateIds().add(CDAHelper.buildTemplateID("2.16.840.1.113883.10.20.1.35",null,null));
+		        organizer.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.13.1",null,null));
+		        organizer.getIds().add(CDAHelper.buildTemplateID("eb924491-44c1-42a9-be71-e542224c5454",null,null));
+		        organizer.setCode(CDAHelper.buildCodeCD("46680005","2.16.840.1.113883.6.96","Vital signs","SNOMED CT"));
+		      
+		    	organizer.setStatusCode(CDAHelper.getStatusCode("completed"));
+		    	organizer.setEffectiveTime(CDAHelper.buildDateTime(new Date()));
+		    	
+		    	Component4 component=CDAFactory.eINSTANCE.createComponent4();
+		    	
+		        Observation observation=CDAFactory.eINSTANCE.createObservation();
+		     	observation.setClassCode(ActClassObservation.OBS);
+		     	observation.setMoodCode(x_ActMoodDocumentObservation.EVN);
+		     	observation.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.13.2",null,null));
+		     	observation.getIds().add(CDAHelper.buildTemplateID("eb924491-44c1-42a9-be71-e542224c5454",null,null));
+		     	observation.setCode(CDAHelper.buildCodeCE(entry.getKey(),CDAHelper.getCodeSystemByName(entry.getValue()),"NULL",entry.getValue()));
+		     	
+		     	observation.setText(CDAHelper.buildEDText("#_No Observation"));
+		     	
+		     	observation.setStatusCode(CDAHelper.getStatusCode("completed"));
+		     	observation.setEffectiveTime(CDAHelper.buildDateTime(new Date()));
+				
+		     	ED value1=DatatypesFactory.eINSTANCE.createED(" No Observation");
+				observation.getValues().add(value1);
+				
+				CE interpretationcode=CDAHelper.buildCodeCE("N", "2.16.840.1.113883.5.83", null, null);
+				observation.getInterpretationCodes().add(interpretationcode);
+				
+				CE methodcode=CDAHelper.buildCodeCE(null,CDAHelper.getCodeSystemByName(entry.getValue()),null,entry.getValue());
+				observation.getMethodCodes().add(methodcode);
+				
+				CE targetsite=CDAHelper.buildCodeCE(null,CDAHelper.getCodeSystemByName(entry.getValue()),null,entry.getValue());
+				observation.getTargetSiteCodes().add(targetsite);
+				
+				component.setObservation(observation); 
+		        organizer.getComponents().add(component);
+		    	
+		        organizer.setStatusCode(CDAHelper.getStatusCode("completed"));
+		        
+		        e.setOrganizer(organizer);
+				section.getEntries().add(e);
 
+		     	component.setObservation(observation);    	
+		        organizer.getComponents().add(component);
+		        e.setOrganizer(organizer);
+				section.getEntries().add(e); 	   			
+				
+		}
 		for (Obs obs : obsList) 
 		 { 		
 			if(obs.getConcept().isNumeric())
@@ -126,8 +195,6 @@ public class CodedVitalSignsSection extends VitalSignsSection
 			ConceptNumeric conceptNumeric =  Context.getConceptService().getConceptNumeric(obs.getConcept().getId());
 			   units=conceptNumeric.getUnits();
 			   units=units.replaceAll("\\s+","");
-			   System.out.println(units);
-			   
 			}
 			    builder.append("<tr>"+delimeter);
 				builder.append("<td ID = \"_"+obs.getId()+"\" >"+obs.getConcept().getName()+"</td>"+delimeter);	

@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openhealthtools.mdht.uml.cda.CDAFactory;
 import org.openhealthtools.mdht.uml.cda.Component4;
 import org.openhealthtools.mdht.uml.cda.Entry;
@@ -23,6 +25,7 @@ import org.openhealthtools.mdht.uml.hl7.datatypes.CD;
 import org.openhealthtools.mdht.uml.hl7.datatypes.CE;
 import org.openhealthtools.mdht.uml.hl7.datatypes.CS;
 import org.openhealthtools.mdht.uml.hl7.datatypes.DatatypesFactory;
+import org.openhealthtools.mdht.uml.hl7.datatypes.ED;
 import org.openhealthtools.mdht.uml.hl7.datatypes.IVL_TS;
 import org.openhealthtools.mdht.uml.hl7.datatypes.PQ;
 import org.openhealthtools.mdht.uml.hl7.datatypes.ST;
@@ -45,6 +48,7 @@ import org.openmrs.module.CDAGenerator.api.CDAHelper;
 
 public class PregnancyHistorySection extends BaseCdaSectionHandler 
 {
+	private static Log log = LogFactory.getLog(PregnancyHistorySection.class);
 	public PregnancyHistorySection()
 	{
 		this.sectionName="HISTORY OF PREGNANCIES";
@@ -114,13 +118,61 @@ public class PregnancyHistorySection extends BaseCdaSectionHandler
 		for (Concept concept : ConceptsList) 
 		{
 			obsList.addAll(Context.getObsService().getObservationsByPersonAndConcept(patient, concept));	
-			if(obsList.isEmpty())
-			{
-				throw new APIException(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoObservationsFound",new Object[]{concept.getConceptId(),concept.getName()},null));
-			}
 		}
 
+		if(obsList.isEmpty())
+		{
+			Concept concept= service.getConceptByMapping(entry.getKey(),entry.getValue(),false);
+			 log.error(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoObservationsFound",new Object[]{concept.getConceptId(),concept.getName()},null));
+			 
+			 builder.append("<tr>"+delimeter);
+				builder.append("<td> No Observation Element with concept id: "+concept.getId()+" was found</td>"+delimeter);	
+				builder.append("<td>");
+				
+				builder.append("NULL"+"</td>"+delimeter);
+				builder.append("<td>"+"NULL"+"</td>"+delimeter);
+				builder.append("</tr>"+delimeter);
+				
+				Entry e=CDAFactory.eINSTANCE.createEntry();
+		         e.setTypeCode(x_ActRelationshipEntry.DRIV);
+		        Organizer organizer=CDAFactory.eINSTANCE.createOrganizer();
+		        organizer.setClassCode(x_ActClassDocumentEntryOrganizer.CLUSTER);
+		        organizer.setMoodCode(ActMood.EVN);
+		        organizer.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.13.5.1",null,null));
+		        
+		        organizer.getIds().add(CDAHelper.buildTemplateID("94881010-5830-47f7-ba32-e82bbb64f83a",null,null));
+		        organizer.setCode(CDAHelper.buildCodeCD("118185001", "2.16.840.1.113883.6.96","Pregnancy Finding", "SNOMED CT"));
+		        
+		    	organizer.setStatusCode(CDAHelper.getStatusCode("completed"));
+		    	organizer.setEffectiveTime(CDAHelper.buildDateTime(new Date()));
+		    	
+		    	Component4 component=CDAFactory.eINSTANCE.createComponent4();
+		    	
+		    	 Observation observation=CDAFactory.eINSTANCE.createObservation();
+			     observation.setClassCode(ActClassObservation.OBS);
+			     observation.setMoodCode(x_ActMoodDocumentObservation.EVN);
+			     	
+			     observation.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.13",null,null));
+			     observation.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.13.5",null,null));
+			     observation.getIds().add(CDAHelper.buildTemplateID("94881010-5830-47f7-ba32-e82bbb64f83a",null,null));
+			     observation.setCode(CDAHelper.buildCodeCE(entry.getKey(),CDAHelper.getCodeSystemByName(entry.getValue()),"NULL",entry.getValue()));
+			     
+			     observation.setText(CDAHelper.buildEDText("#_No Observation"));
+			     observation.setStatusCode(CDAHelper.getStatusCode("completed"));
+				 observation.setEffectiveTime(CDAHelper.buildDateTime(new Date()));
+				 
+				 ED value1=DatatypesFactory.eINSTANCE.createED(" No Observation");
+				 observation.getValues().add(value1);
+				 
+				 component.setObservation(observation); 
+			     organizer.getComponents().add(component);
+			    	
+			        e.setOrganizer(organizer);
+					section.getEntries().add(e);
 
+		}
+		else
+		{
 		for (Obs obs : obsList) 
 		 { 			 
 			    builder.append("<tr>"+delimeter);
@@ -128,10 +180,7 @@ public class PregnancyHistorySection extends BaseCdaSectionHandler
 				builder.append("<td>");
 				int type = obs.getConcept().getDatatype().getId();
 				String value=CDAHelper.getDatatypesValue(type,obs);
-				
-
-				
-				
+			
 				builder.append(value+"</td>"+delimeter);
 				builder.append("<td>"+CDAHelper.getDateFormat().format(obs.getObsDatetime())+"</td>"+delimeter);
 				builder.append("</tr>"+delimeter);
@@ -272,7 +321,8 @@ public class PregnancyHistorySection extends BaseCdaSectionHandler
 			    	
 			        e.setOrganizer(organizer);
 					section.getEntries().add(e);
-		 }
+		     }
+		   }
 		}
 	     builder.append("</tbody>"+delimeter);
 		 builder.append("</table>"+delimeter);

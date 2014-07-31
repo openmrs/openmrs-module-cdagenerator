@@ -133,47 +133,46 @@ public class HistoryOfPastIllnessSection extends BaseCdaSectionHandler
 		         }
 			  }
 		    }
+			if(obsList.isEmpty())
+			{
+				 log.error(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoObservationsFound",new Object[]{concept.getConceptId(),concept.getName()},null));
+				 
+				 EntryRelationship entryRelationship1=CDAFactory.eINSTANCE.createEntryRelationship();
+			        entryRelationship1.setTypeCode(x_ActRelationshipEntryRelationship.SUBJ);
+			        entryRelationship1.setInversionInd(false);
+			            
+			        Observation observation1=CDAFactory.eINSTANCE.createObservation();
+			        observation1.setClassCode(ActClassObservation.OBS);
+			        observation1.setMoodCode(x_ActMoodDocumentObservation.EVN);
+			        observation1.setNegationInd(false);
+			        
+			        observation1.getTemplateIds().add(CDAHelper.buildTemplateID("2.16.840.1.113883.10.20.1.28",null,null));
+			        observation1.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.5",null,null));
+			
+			       
+			    	observation1.getIds().add(CDAHelper.buildID("45e5b079-5f94-4d1e-8707-ebc207200fd3",null));
+			    	
+			    	observation1.setCode(CDAHelper.buildCodeCD(mapentry.getKey(),"2.16.840.1.113883.6.96",null,"SNOMED CT"));
+			        ED answerTxt=DatatypesFactory.eINSTANCE.createED(); 
+			        observation1.setText(answerTxt.addText("No Observations found for concept Name:"+concept.getName()+"and Concept id:"+concept.getId()));
+			        observation1.setStatusCode(CDAHelper.getStatusCode("completed"));
+			        observation1.setEffectiveTime(CDAHelper.buildEffectiveTimeinIVL(null, null));
+			        
+			        CD codecd=DatatypesFactory.eINSTANCE.createCD();
+			        codecd.setCode("396782006");
+			        codecd.setCodeSystem("2.16.840.1.113883.6.96");
+			        codecd.setDisplayName("Past Medical History Unknown");
+			        codecd.setCodeSystemName("SNOMED CT");
+			        observation1.getValues().add(codecd);
+			    
+			        entryRelationship1.setObservation(observation1);
+			        act.getEntryRelationships().add(entryRelationship1);
+			
+			}
 	     }
 	
-		if(obsList.isEmpty())
-		{
-			Concept concept= service.getConceptByMapping(mapentry.getKey(),mapentry.getValue());
-			 log.error(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoObservationsFound",new Object[]{concept.getConceptId(),concept.getName()},null));
-			 
-			 EntryRelationship entryRelationship1=CDAFactory.eINSTANCE.createEntryRelationship();
-		        entryRelationship1.setTypeCode(x_ActRelationshipEntryRelationship.SUBJ);
-		        entryRelationship1.setInversionInd(false);
-		            
-		        Observation observation1=CDAFactory.eINSTANCE.createObservation();
-		        observation1.setClassCode(ActClassObservation.OBS);
-		        observation1.setMoodCode(x_ActMoodDocumentObservation.EVN);
-		        observation1.setNegationInd(false);
-		        
-		        observation1.getTemplateIds().add(CDAHelper.buildTemplateID("2.16.840.1.113883.10.20.1.28",null,null));
-		        observation1.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.5",null,null));
 		
-		       
-		    	observation1.getIds().add(CDAHelper.buildID("45e5b079-5f94-4d1e-8707-ebc207200fd3",null));
-		    	
-		    	observation1.setCode(CDAHelper.buildCodeCD(mapentry.getKey(),"2.16.840.1.113883.6.96",null,"SNOMED CT"));
-		        ED answerTxt=DatatypesFactory.eINSTANCE.createED(); 
-		        observation1.setText(answerTxt.addText("No Observations found for concept Name:"+concept.getName()+"and Concept id:"+concept.getId()));
-		        observation1.setStatusCode(CDAHelper.getStatusCode("completed"));
-		        observation1.setEffectiveTime(CDAHelper.buildEffectiveTimeinIVL(null, null));
-		        
-		        CD codecd=DatatypesFactory.eINSTANCE.createCD();
-		        codecd.setCode("396782006");
-		        codecd.setCodeSystem("2.16.840.1.113883.6.96");
-		        codecd.setDisplayName("Past Medical History Unknown");
-		        codecd.setCodeSystemName("SNOMED CT");
-		        observation1.getValues().add(codecd);
-		    
-		        entryRelationship1.setObservation(observation1);
-		        act.getEntryRelationships().add(entryRelationship1);
 		
-		}
-		else
-		{
     for (Obs obs : obsList) 
 	 { 
     
@@ -217,7 +216,6 @@ public class HistoryOfPastIllnessSection extends BaseCdaSectionHandler
     entryRelationship1.setObservation(observation1);
     act.getEntryRelationships().add(entryRelationship1);
 	   }
-	  }
 	}
     e.setAct(act);
     section.getEntries().add(e);
