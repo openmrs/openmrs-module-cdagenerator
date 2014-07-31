@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openhealthtools.mdht.uml.cda.CDAFactory;
 import org.openhealthtools.mdht.uml.cda.Entry;
 import org.openhealthtools.mdht.uml.cda.Observation;
@@ -15,6 +17,7 @@ import org.openhealthtools.mdht.uml.hl7.datatypes.CD;
 import org.openhealthtools.mdht.uml.hl7.datatypes.CE;
 import org.openhealthtools.mdht.uml.hl7.datatypes.CS;
 import org.openhealthtools.mdht.uml.hl7.datatypes.DatatypesFactory;
+import org.openhealthtools.mdht.uml.hl7.datatypes.ED;
 import org.openhealthtools.mdht.uml.hl7.datatypes.ST;
 import org.openhealthtools.mdht.uml.hl7.vocab.ActClassObservation;
 import org.openhealthtools.mdht.uml.hl7.vocab.x_ActMoodDocumentObservation;
@@ -29,6 +32,7 @@ import org.openmrs.module.CDAGenerator.api.CDAHelper;
 
 public class HistoryOfInfectionSection extends BaseCdaSectionHandler 
 {
+	private static Log log = LogFactory.getLog(HistoryOfInfectionSection.class);
 public HistoryOfInfectionSection()
 {
 	this.sectionName="HISTORY OF INFECTION";
@@ -70,9 +74,9 @@ public static Section buildHistoryOfInfectionSection(Patient patient)
 	mappings.put("235871004", "SNOMED CT");
 	mappings.put("235872006","SNOMED CT");
 	mappings.put("15628003","SNOMED CT");
-	mappings.put("8098009 ","SNOMED CT");
+	mappings.put("8098009","SNOMED CT");
 	mappings.put("312099009","SNOMED CT");
-	mappings.put("302812006 ","SNOMED CT");
+	mappings.put("302812006","SNOMED CT");
 	mappings.put("165816005","SNOMED CT");
 	mappings.put("76272004","SNOMED CT");
 	
@@ -100,13 +104,54 @@ public static Section buildHistoryOfInfectionSection(Patient patient)
 			if(!concept.getDatatype().getName().equals("N/A"))
 			{
 			obsList.addAll(Context.getObsService().getObservationsByPersonAndConcept(patient, concept));	
-			if(obsList.isEmpty())
-			{
-				throw new APIException(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoObservationsFound",new Object[]{concept.getConceptId(),concept.getName()},null));
 			}
-			}
+		
+		if(obsList.isEmpty())
+		{
+			 log.error(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoObservationsFound",new Object[]{concept.getConceptId(),concept.getName()},null));
+			 
+			    builder.append("<tr>"+delimeter);
+				builder.append("<td> No Observation Element with concept id: "+concept.getId()+" was found</td>"+delimeter);	
+				builder.append("<td>");
+				
+				builder.append("NULL"+"</td>"+delimeter);
+				builder.append("<td>"+"NULL"+"</td>"+delimeter);
+				builder.append("</tr>"+delimeter);
+				
+				Entry entry = CDAFactory.eINSTANCE.createEntry();
+				entry.setTypeCode(x_ActRelationshipEntry.DRIV);
+				Observation observation = CDAFactory.eINSTANCE.createObservation();
+				observation.setClassCode(ActClassObservation.OBS);
+				observation.setMoodCode(x_ActMoodDocumentObservation.EVN);
+				observation.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.4.13",null ,null ));
+				observation.getTemplateIds().add(CDAHelper.buildTemplateID("1.3.6.1.4.1.19376.1.5.3.1.1.16.5.6",null ,null ));
+				observation.getIds().add(CDAHelper.buildID("34a09968-82ea-49ce-a830-0bf8e3ff19b9",null));
+				
+				observation.setCode(CDAHelper.buildCodeCD(mapentry.getKey(),CDAHelper.getCodeSystemByName(mapentry.getValue()),"Null", mapentry.getValue()));
+				observation.setText(CDAHelper.buildEDText("#_No Observation"));
+				
+				observation.setStatusCode(CDAHelper.getStatusCode("completed"));
+				
+				observation.setEffectiveTime(CDAHelper.buildDateTime(new Date()));
+				
+				ED value1=DatatypesFactory.eINSTANCE.createED(" No Observation");
+				observation.getValues().add(value1);
+				
+				CE interpretationcode=CDAHelper.buildCodeCE("N", "2.16.840.1.113883.5.83", null, null);
+				observation.getInterpretationCodes().add(interpretationcode);
+				
+				CE methodcode=CDAHelper.buildCodeCE(null,CDAHelper.getCodeSystemByName(mapentry.getValue()),null,mapentry.getValue());
+				observation.getMethodCodes().add(methodcode);
+				
+				CE targetsite=CDAHelper.buildCodeCE(null,CDAHelper.getCodeSystemByName(mapentry.getValue()),null,mapentry.getValue());
+				observation.getTargetSiteCodes().add(targetsite);
+				
+				
+				entry.setObservation(observation);
+				section.getEntries().add(entry);
 		}
-
+		}
+		
 		for (Obs obs : obsList) 
 		 { 
 			
@@ -137,12 +182,7 @@ public static Section buildHistoryOfInfectionSection(Patient patient)
 				
 				observation.setEffectiveTime(CDAHelper.buildDateTime(new Date()));
 				
-				
-				CD value1=DatatypesFactory.eINSTANCE.createCD();
-				value1.setCode(mapentry.getKey());
-				value1.setCodeSystem(CDAHelper.getCodeSystemByName(mapentry.getValue()));
-				value1.setDisplayName(obs.getConcept().getName().toString());
-				value1.setCodeSystemName(mapentry.getValue());
+				ED value1=DatatypesFactory.eINSTANCE.createED(" No Observation");
 				observation.getValues().add(value1);
 				
 				CE interpretationcode=CDAHelper.buildCodeCE("N", "2.16.840.1.113883.5.83", null, null);
@@ -157,8 +197,8 @@ public static Section buildHistoryOfInfectionSection(Patient patient)
 				
 				entry.setObservation(observation);
 				section.getEntries().add(entry);
-		 }			
-		 }
+		     }			
+		   }
 
 	     builder.append("</tbody>"+delimeter);
 		 builder.append("</table>"+delimeter);
