@@ -28,12 +28,25 @@ public class APSHandler extends BaseCdaTypeHandler
 	this.templateid="1.3.6.1.4.19376.1.5.3.1.1.11.2";
 	this.formatCode="urn:ihe:pcc:aps:2007";
 	}
+	/**
+     * Create or Generate APS Message
+     *
+     * @param patient
+     * @param handler
+     *              type of cda document(APHP or APS or Some other)
+     * @return a Clinical Document(APS) or Report errors
+     * @should return a Clinical Document(APS),if document passes validation
+     * @should return errors in CDA(APS) document
+     */
 	public ClinicalDocument buildAPSMessage(Patient patient,BaseCdaTypeHandler handler)
 	{
 		ClinicalDocument doc = CDAFactory.eINSTANCE.createClinicalDocument();
-		CdaHeaderBuilder header=new CdaHeaderBuilder();
 		
+		//Builds header part of APHP CDA message
+		CdaHeaderBuilder header=new CdaHeaderBuilder();
 		doc=header.buildHeader(doc, handler, patient);
+		
+		//builds a dummy section for APS message
 		Section section=CDAFactory.eINSTANCE.createSection();
 	    section.getTemplateIds().add(CDAHelper.buildTemplateID(templateid,null ,null ));
 	    section.setCode(CDAHelper.buildCodeCE(null,null,null,null));

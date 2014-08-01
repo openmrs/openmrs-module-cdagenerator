@@ -35,13 +35,35 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface CDAGeneratorService extends OpenmrsService {
      
-	/*
-	 * Add service methods here
-	 * 
-	 */
+	/**
+      * Gets all child handlers (Profiles like APHP,APS,e.t.c)
+      *
+      * @return List of Child handlers or empty list
+      * @should return list of Child handlers that extends BaseCdaTypeHandler,if exists
+      * @should return empty list if does not exist
+      */
 		public List<BaseCdaTypeHandler> getAllCdaTypeChildHandlers();
+		
+		/**
+	      * Gets all section child handlers (Sections like Chief Complaint,Vital signs,e.t.c)
+	      *
+	      * @return List of section Child handlers or empty list
+	      * @should return list of Child handlers that extends BaseCdaSectionHandler,if exists
+	      * @should return empty list if does not exist
+	      */
         public List<BaseCdaSectionHandler> getAllCdaSectionHandlers();
-        public ClinicalDocument produceCDA(Patient p,BaseCdaTypeHandler bh);
+        
+        /**
+	      * Create or Generate CDA Document
+	      *
+	      * @param patient
+	      * @param CdaProfileType
+	      * 
+	      * @return a Clinical Document(CDA) or Report errors
+	      * @should return a Clinical Document(CDA),if document passes validation
+	      * @should return errors in CDA document
+	      */
+        public ClinicalDocument produceCDA(Patient patient,BaseCdaTypeHandler CdaProfileType);
         
 	
 	

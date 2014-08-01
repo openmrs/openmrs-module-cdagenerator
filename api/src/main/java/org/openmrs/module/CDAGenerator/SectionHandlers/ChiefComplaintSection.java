@@ -33,6 +33,13 @@ public ChiefComplaintSection()
 	this.sectionDescription="This contains a narrative description of the patient's chief complaint";
 	this.code="10154-3";
 }
+/**
+ * Create CDA section(Chief Complaint section)
+ * @param patient
+ * @return CDA section or Report errors
+ * @should return CDA section
+ * @should return errors in Section
+ */
 public static Section buildChiefComplaintSection(Patient patient)
 {
 	Section section=CDAFactory.eINSTANCE.createSection();

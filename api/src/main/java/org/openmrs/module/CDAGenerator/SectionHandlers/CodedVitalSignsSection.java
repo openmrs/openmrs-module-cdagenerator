@@ -60,7 +60,13 @@ public class CodedVitalSignsSection extends VitalSignsSection
 		this.code="8716-3";
 		this.sectionDescription="The vital signs section contains coded measurement results of a patient’s vital signs.";
 	}
-
+	/**
+	 * Create CDA section(Vital Signs section)
+	 * @param patient
+	 * @return CDA section or Report errors
+	 * @should return CDA section
+	 * @should return errors in Section
+	 */
 	public static Section buildCodedVitalSignsSection(Patient patient)
 	{
 		Map<String,String> mappings=new HashMap<String,String>();

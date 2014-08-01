@@ -29,6 +29,15 @@ public class CDAHelper
 		SimpleDateFormat simpledateformat = new SimpleDateFormat("MM-dd-yyyy");
 		return simpledateformat;
 	}
+	
+	 /**
+	    * Create Date Time attribute for cda message
+	    * @param d
+	    *  @param d1            
+	    * @return effective date time element
+	    * @should return effective date time element with low value and high value when input is not null,otherwise
+	       @should return effective date time element with null flavor
+	    */
 	public static IVL_TS  buildEffectiveTimeinIVL(Date d , Date d1)
 	{
 		IVL_TS effectiveTime = DatatypesFactory.eINSTANCE.createIVL_TS();
@@ -70,6 +79,13 @@ public class CDAHelper
 		effectiveTime.setLow(low);
 		return effectiveTime;
 	}
+	/**
+	    * Create Template id
+	    * @param root
+	    * @param extension
+	    * @param assigningAuthorityName
+	    * @return Template id
+	    */
 	public static   II buildTemplateID(String root , String extension ,String assigningAuthorityName)
 	{
 
@@ -90,13 +106,23 @@ public class CDAHelper
 			return templateID;
 
 	}
+	/**
+	    * Create ST
+	    * @param title
+	    * @return  st
+	    */
 	public static ST buildTitle(String title)
 	{
 		ST displayTitle = DatatypesFactory.eINSTANCE.createST();
 		displayTitle.addText(title);
 		return displayTitle;
 	}
-
+	/**
+	    * Create Id
+	    * @param root
+	    * @param extension
+	    * @return  id
+	    */
 	public static II buildID(String root , String extension)
 	{
 		II id = DatatypesFactory.eINSTANCE.createII();
@@ -111,7 +137,14 @@ public class CDAHelper
 		return id;
 		
 	}
-	
+	/**
+	    * Create CE attribute
+	    * @param code
+	    * @param codeSystem
+	    * @param displayString
+	    * @param codeSystemName
+	    * @return ce attribute
+	    */
 	public static CE buildCodeCE(String code , String codeSystem, String displayString, String codeSystemName)
 	{
 		CE e = DatatypesFactory.eINSTANCE.createCE();
@@ -134,6 +167,14 @@ public class CDAHelper
 		return e;
 
 	}
+	/**
+	    * Create CD attribute
+	    * @param code
+	    * @param codeSystem
+	    * @param displayString
+	    * @param codeSystemName
+	    * @return cd attribute
+	    */
 	public static CD buildCodeCD(String code , String codeSystem, String displayString, String codeSystemName)
 	{
 		CD e = DatatypesFactory.eINSTANCE.createCD();
@@ -177,6 +218,17 @@ public class CDAHelper
 		text.addText("<reference value=\""+value+"\"/>");
 		return text;
 	}
+	
+	/**
+	    * Get Latest Obs
+	    *
+	    * @param observationList
+	    *                        List of observations to fetch latest obs from
+	    * @return latest obs or null
+	    * @should return null if observationList is empty otherwise
+	       @should return latest obs
+	    */
+	
 	public static String getDatatypesValue(Integer datatypeId,Obs obs)
 	{
 		String value = "";
@@ -221,6 +273,16 @@ public class CDAHelper
 		return value;
 	}
 	
+	/**
+	    * Get Latest Obs
+	    *
+	    * @param observationList
+	    *                        List of observations to fetch latest obs from
+	    * @return latest obs or null
+	    * @should return null if observationList is empty otherwise
+	       @should return latest obs
+	    */
+	
 	public static Obs getLatestObs(List<Obs> observationList)
 	{
 		Map<String,Obs> latestObsdate=new HashMap<String,Obs>();
@@ -248,6 +310,16 @@ public class CDAHelper
 		return latestObsdate.get("Latest date");
 		}
 	}
+	/**
+	    * Create Status code
+	    *
+	    * @param statusCode
+	    *                      it is string which indicates status(Active,Completed.e.t.c)
+	    * @return StatusCode or Completed
+	    * @should return StatusCode when input is not null,otherwise
+	       @should return Completed
+	    */
+	
    public static CS getStatusCode(String statusCode)
    {
 	   if(statusCode==null)
@@ -257,6 +329,15 @@ public class CDAHelper
 	   cs.setCode(statusCode);
 	   return cs;
    }
+   /**
+    * Create Date Time attribute for cda message
+    *
+    * @param date
+    *              
+    * @return effective date time element
+    * @should return effective date time element with date value when input is not null,otherwise
+       @should return effective date time element with null flavor
+    */
    public static IVL_TS buildDateTime(Date date)
    {
 	   IVL_TS effectiveTime = DatatypesFactory.eINSTANCE.createIVL_TS();
@@ -271,6 +352,16 @@ public class CDAHelper
 		   effectiveTime.setNullFlavor(NullFlavor.UNK);
    	    return effectiveTime;
    }
+   /**
+    * Gets CodeSystem by its name
+    *
+    * @param codeSystemName
+    *              
+    * @return code system or null
+    * @should return code system ,if codeSystemName not null otherwise
+       @should return null
+    */
+ 
    public static String getCodeSystemByName(String codeSystemName)
    {
 	   String result="";
@@ -288,6 +379,16 @@ public class CDAHelper
 	   return result;
    }
    
+   /**
+    * Remove dirty value from date time object while retrieving obs 
+    *
+    * @param input
+    *                date time value which must be formatted
+    
+    * @return formatted value or null
+    * @should return formatted value,if input not null otherwise
+       @should return null
+    */
    public static String removeDirtyValue(String input)
 	{
 	   if(input!=null)
@@ -301,6 +402,17 @@ public class CDAHelper
 	   else
 		   return null;
 	}
+   
+   /**
+    * Return Units for numeric value according to IHE TF PCC
+    *
+    * @param unit
+    *               unit that we want to format 
+    
+    * @return formatted unit or null
+    * @should return formatted unit,if unit is in hours or weeks otherwise
+       @should return null
+    */
    public static String getUnitsaccordingto_Tf_PCC(String unit)
    {
 	   if(unit!=null)

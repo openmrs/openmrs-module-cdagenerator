@@ -76,10 +76,10 @@ public class CDAGeneratorServiceImpl extends BaseOpenmrsService implements CDAGe
 				
 				Class cls = Class.forName(component.getBeanClassName());
 			
-				BaseCdaTypeHandler p = (BaseCdaTypeHandler) cls.newInstance();
-				if(p.templateid!=null)
+				BaseCdaTypeHandler cdaProfileType = (BaseCdaTypeHandler) cls.newInstance();
+				if(cdaProfileType.templateid!=null)
 				{
-				handlers.add(p);
+				handlers.add(cdaProfileType);
 				}
 			
 			}
@@ -100,7 +100,8 @@ public class CDAGeneratorServiceImpl extends BaseOpenmrsService implements CDAGe
 	}
 
 	@Override
-	public List<BaseCdaSectionHandler> getAllCdaSectionHandlers() {
+	public List<BaseCdaSectionHandler> getAllCdaSectionHandlers()
+{
 ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(true);
 		
 		provider.addIncludeFilter(new AssignableTypeFilter(BaseCdaSectionHandler.class));
@@ -117,10 +118,10 @@ ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCand
 						
 						Class cls = Class.forName(component.getBeanClassName());
 					
-						BaseCdaSectionHandler p = (BaseCdaSectionHandler) cls.newInstance();
-						if(p.templateid!=null)
+						BaseCdaSectionHandler cdaProfileType = (BaseCdaSectionHandler) cls.newInstance();
+						if(cdaProfileType.templateid!=null)
 						{
-						sectionHandlers.add(p);
+						sectionHandlers.add(cdaProfileType);
 						}
 						
 					
@@ -142,19 +143,19 @@ ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCand
 	}
 
 	@Override
-	public ClinicalDocument produceCDA(Patient p, BaseCdaTypeHandler bh) 
+	public ClinicalDocument produceCDA(Patient patient, BaseCdaTypeHandler cdaProfileType) 
 	{
 		ClinicalDocument cdaDocument = CDAFactory.eINSTANCE.createClinicalDocument();	
 		
-		if(bh.getTemplateid().equals("1.3.6.1.4.1.19376.1.5.3.1.1.16.1.1"))
+		if(cdaProfileType.getTemplateid().equals("1.3.6.1.4.1.19376.1.5.3.1.1.16.1.1"))
 		{
 		APHPHandler aphphandler=new APHPHandler();
-		cdaDocument=aphphandler.buildAPHPMessage(p, bh);
+		cdaDocument=aphphandler.buildAPHPMessage(patient,cdaProfileType );
 		}
-		else if(bh.getTemplateid().equals("1.3.6.1.4.19376.1.5.3.1.1.11.2"))
+		else if(cdaProfileType.getTemplateid().equals("1.3.6.1.4.19376.1.5.3.1.1.11.2"))
 		{
 			APSHandler apshandler=new APSHandler();
-			cdaDocument=apshandler.buildAPSMessage(p, bh);
+			cdaDocument=apshandler.buildAPSMessage(patient, cdaProfileType);
 		}
 			
 		return cdaDocument;

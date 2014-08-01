@@ -51,6 +51,13 @@ public class CodedFamilyMedicalHistorySection extends FamilyMedicalHistorySectio
 		this.code="10157-6";
 		this.sectionDescription="The family history section shall include entries for family history as described in the Entry Content Modules";
 	}
+	/**
+	 * Create CDA section(Family History section)
+	 * @param patient
+	 * @return CDA section or Report errors
+	 * @should return CDA section
+	 * @should return errors in Section
+	 */
 	public static Section buildCodedFamilyMedicalHistorySection(Patient patient)
 	{
 		Section section=CDAFactory.eINSTANCE.createSection();
