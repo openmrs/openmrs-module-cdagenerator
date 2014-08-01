@@ -117,12 +117,23 @@ import org.openmrs.module.CDAGenerator.SectionHandlers.VitalSignsSection;
 
 public class CdaHeaderBuilder 
 {
-	
-	public ClinicalDocument buildHeader(ClinicalDocument doc,BaseCdaTypeHandler bh,Patient p)
+	/**
+     * Create CDA Header
+     *
+     * @param handler
+     *               type of cda document(APHP or APS or Some other)
+     * @param doc 
+     *               CDA document instance on which cda header will be appended
+     * @param patient
+     * @return CDA header appended on document or Report errors
+     * @should return CDA headerappended on document,if document passes validation
+     * @should return errors in CDA header
+     */
+	public ClinicalDocument buildHeader(ClinicalDocument doc,BaseCdaTypeHandler bh,Patient patient)
 	{
 				
 		InfrastructureRootTypeId typeId = CDAFactory.eINSTANCE.createInfrastructureRootTypeId();
-		typeId.setExtension("POCD_HD000040");/*fixed*/
+		typeId.setExtension("POCD_HD000040");
 		typeId.setRoot("2.16.840.1.113883.1.3");
 		doc.setTypeId(typeId);
 		
@@ -170,9 +181,9 @@ public class CdaHeaderBuilder
 		
 		PatientRole patientRole = CDAFactory.eINSTANCE.createPatientRole();
 		patientRole.getIds().add(CDAHelper.buildID(Context.getAdministrationService().getImplementationId().getImplementationId(),
-				p.getPatientIdentifier().getIdentifier()));
+				patient.getPatientIdentifier().getIdentifier()));
 		
-		Set<PersonAddress> addresses = p.getAddresses();
+		Set<PersonAddress> addresses = patient.getAddresses();
 		
 		AD patientAddress = DatatypesFactory.eINSTANCE.createAD();
 		
@@ -186,21 +197,21 @@ public class CdaHeaderBuilder
 		
 		patientRole.setPatient(cdapatient);
 		PN name = DatatypesFactory.eINSTANCE.createPN();
-		if(p.getPersonName().getFamilyNamePrefix()!=null)
+		if(patient.getPersonName().getFamilyNamePrefix()!=null)
 		{
-			name.addPrefix(p.getPersonName().getFamilyNamePrefix());
+			name.addPrefix(patient.getPersonName().getFamilyNamePrefix());
 		}
-		name.addGiven(p.getPersonName().getGivenName());
-		name.addFamily(p.getPersonName().getFamilyName());
-		if(p.getPersonName().getFamilyNameSuffix()!=null)
+		name.addGiven(patient.getPersonName().getGivenName());
+		name.addFamily(patient.getPersonName().getFamilyName());
+		if(patient.getPersonName().getFamilyNameSuffix()!=null)
 		{
-		name.addSuffix(p.getPersonName().getFamilyNameSuffix());
+		name.addSuffix(patient.getPersonName().getFamilyNameSuffix());
 		}
 		cdapatient.getNames().add(name);
 
 		
 		CE gender = DatatypesFactory.eINSTANCE.createCE();
-		gender.setCode(p.getGender());
+		gender.setCode(patient.getGender());
 		gender.setCodeSystem("2.16.840.1.113883.5.1");
 		cdapatient.setAdministrativeGenderCode(gender);
 		
@@ -208,7 +219,7 @@ public class CdaHeaderBuilder
 		
 		TS dateOfBirth = DatatypesFactory.eINSTANCE.createTS();
 		SimpleDateFormat s1 = new SimpleDateFormat("yyyyMMdd");
-		Date dobs=p.getBirthdate();
+		Date dobs=patient.getBirthdate();
 		String dob = s1.format(dobs);
 		dateOfBirth.setValue(dob);
 		cdapatient.setBirthTime(dateOfBirth); 
@@ -218,7 +229,7 @@ public class CdaHeaderBuilder
 		PersonAttribute civil_status=null;
 		PersonAttribute ethnic_code=null;
 		
-		Map<String,PersonAttribute> personattributes=p.getAttributeMap();
+		Map<String,PersonAttribute> personattributes=patient.getAttributeMap();
 		
 		for(Map.Entry<String,PersonAttribute> entry:personattributes.entrySet())
 		{
@@ -341,11 +352,11 @@ public class CdaHeaderBuilder
 		doc.setCustodian(custodian);
 
 		
-		doc.getParticipants().add(buildSpouseElement(civil_status,p));
+		doc.getParticipants().add(buildSpouseElement(civil_status,patient));
 		
-		doc.getParticipants().add(buildNaturalFatherOfFetusElement(p));
+		doc.getParticipants().add(buildNaturalFatherOfFetusElement(patient));
 		
-		doc.getParticipants().addAll(otherParticipants(p));
+		doc.getParticipants().addAll(otherParticipants(patient));
 		
 
 		
@@ -383,6 +394,12 @@ public class CdaHeaderBuilder
 	return doc;
 	}
 	
+	/**
+     * Builds person addresses 
+     * @param documentAddress
+     * @param addresses
+     * @return Complete Address  or empty Address of  a person
+     */
 	public AD buildAddresses(AD documentAddress,Set<PersonAddress> addresses)
 	{
 		for(PersonAddress address : addresses)
@@ -432,6 +449,13 @@ public class CdaHeaderBuilder
 		return documentAddress;
 	}	
 	
+	/**
+     * Builds Spouse data element in cda header
+     * @param civil_status
+     *                    it is person attribute which tells about martial status of patient
+     * @param patient
+     * @return Spouse data element
+     */
 	public Participant1 buildSpouseElement(PersonAttribute civil_status,Patient patient)
 	{
 		Participant1 participant = CDAFactory.eINSTANCE.createParticipant1();
@@ -516,6 +540,13 @@ for(Relationship relation:relationShips)
 	return participant;
 	}
 	
+	/**
+     * Builds Natural Father Of Fetus data element in cda header
+     * @param patient
+     * @throws API Exception
+     *                     Exception will be thrown if No Concept could be found with  '1144-9' SNOMED CT mapping
+     * @return Spouse data element
+     */
 	public Participant1 buildNaturalFatherOfFetusElement(Patient patient)
 	{
 	Concept patientPregnentConcept = Context.getConceptService().getConceptByMapping("11449-6", "SNOMED CT");
@@ -619,6 +650,12 @@ participant.setAssociatedEntity(patientRelationShip);
 	
   }
 	
+	/**
+     * Add other persons/participants information who have relationship with patient in the cda header
+     * @param p
+     *            patient
+     * @return other persons/participants information
+     */
 	public List<Participant1> otherParticipants(Patient p)
 	{
 		List<Relationship> relationShips= Context.getPersonService().getRelationshipsByPerson(p);

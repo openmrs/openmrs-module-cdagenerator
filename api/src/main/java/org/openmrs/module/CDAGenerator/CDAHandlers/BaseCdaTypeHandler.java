@@ -12,9 +12,7 @@ public class BaseCdaTypeHandler
 	public String parentTemplateId;
 	public String templateid;
 	public String formatCode;
-	public Map<String,BaseCdaSectionHandler> requiredSections;
-	public Map<String,BaseCdaSectionHandler> optionalSections;
-	
+		
 	public String getDocumentFullName()
 	{
 	return documentFullName;
@@ -34,7 +32,6 @@ public class BaseCdaTypeHandler
 	{
 	return documentDescription;
 	}
-	
 	
 	public String getTemplateid()
 	{
@@ -75,6 +72,7 @@ public class BaseCdaTypeHandler
 	{
 		this.formatCode=code;
 	}
+	
 	public String toString() 
     {
        return documentFullName+","+documentShortName+","+documentDescription+","+templateid+","

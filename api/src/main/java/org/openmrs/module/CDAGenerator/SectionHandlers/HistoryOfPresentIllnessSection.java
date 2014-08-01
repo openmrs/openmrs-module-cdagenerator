@@ -30,6 +30,13 @@ public HistoryOfPresentIllnessSection()
 	this.sectionDescription="This contains a narrative description of the patient's Present Illness histroy";
 	this.code="10164-2";
 }
+/**
+ * Create CDA section(history of present illness section)
+ * @param patient
+ * @return CDA section or Report errors
+ * @should return CDA section
+ * @should return errors in Section
+ */
 public static Section buildHistoryOfPresentIllnessSection(Patient patient)
 {
 	

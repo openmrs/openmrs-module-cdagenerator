@@ -30,7 +30,13 @@ this.templateid="1.3.6.1.4.1.19376.1.5.3.1.3.18";
 this.code="10187-3";
 this.sectionDescription="The review of systems section shall contain a narrative description of the responses the patient gave to a set of routine questions on the functions of each anatomic body system.";
 }
-
+/**
+ * Create CDA section(review of systems section)
+ * @param patient
+ * @return CDA section or Report errors
+ * @should return CDA section
+ * @should return errors in Section
+ */
 public static Section buildReviewOfSystemsSection(Patient patient)
 {
 List<Concept> ConceptsValueSetList=new ArrayList<Concept>();

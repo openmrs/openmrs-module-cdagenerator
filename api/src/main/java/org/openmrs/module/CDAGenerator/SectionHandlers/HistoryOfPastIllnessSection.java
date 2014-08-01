@@ -56,7 +56,13 @@ public class HistoryOfPastIllnessSection extends BaseCdaSectionHandler
 		this.code="11348-0";
 		this.sectionDescription="The History of Past Illness section shall contain a narrative description of the conditions the patient suffered in the past. It shall include entries for problems as described in the Entry Content Modules";
 	}
-
+	/**
+	 * Create CDA section(History of past illness section)
+	 * @param patient
+	 * @return CDA section or Report errors
+	 * @should return CDA section
+	 * @should return errors in Section
+	 */
 	public static Section buildHistoryOfPastIllnessSection(Patient patient)
 	{
 	Map<String,String> mappings=new HashMap<String,String>();

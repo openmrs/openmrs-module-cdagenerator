@@ -56,7 +56,13 @@ public class PregnancyHistorySection extends BaseCdaSectionHandler
 		this.code="10162-6";
 		this.sectionDescription="The pregnancy history section contains coded entries describing the patient history of pregnancies";
 	}
-
+	/**
+	 * Create CDA section(Pregnancy history section)
+	 * @param patient
+	 * @return CDA section or Report errors
+	 * @should return CDA section
+	 * @should return errors in Section
+	 */
 	public static Section buildPregnancyHistorySection(Patient patient)
 	{
 	Map<String,String> mappings=new HashMap<String,String>();

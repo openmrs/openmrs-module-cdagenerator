@@ -40,7 +40,13 @@ public HistoryOfInfectionSection()
 	this.code="XX-HistoryOfInfection";
 	this.sectionDescription="The history of infection section shall contain a narrative description of any infections the patient may have contracted prior to the patient's current condition";
 }
-
+/**
+ * Create CDA section(History of Infection section)
+ * @param patient
+ * @return CDA section or Report errors
+ * @should return CDA section
+ * @should return errors in Section
+ */
 public static Section buildHistoryOfInfectionSection(Patient patient)
 {
 	

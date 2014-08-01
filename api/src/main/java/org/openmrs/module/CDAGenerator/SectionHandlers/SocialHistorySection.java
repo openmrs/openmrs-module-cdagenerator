@@ -43,7 +43,13 @@ public SocialHistorySection()
 	this.sectionDescription="The social history section shall contain a narrative description of the person’s beliefs, home life, community life, work life, hobbies, and risky habits";
     this.parentTemplateId="2.16.840.1.113883.10.20.1.15";
 }
-
+/**
+ * Create CDA section(social history section)
+ * @param patient
+ * @return CDA section or Report errors
+ * @should return CDA section
+ * @should return errors in Section
+ */
 public static Section buildSocialHistorySection(Patient p)
 {
 	
