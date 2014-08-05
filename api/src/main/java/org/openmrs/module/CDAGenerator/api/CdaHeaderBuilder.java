@@ -129,7 +129,7 @@ public class CdaHeaderBuilder
      * @should return CDA headerappended on document,if document passes validation
      * @should return errors in CDA header
      */
-	public ClinicalDocument buildHeader(ClinicalDocument doc,BaseCdaTypeHandler bh,Patient patient)
+	public ClinicalDocument buildHeader(ClinicalDocument doc,BaseCdaTypeHandler bh,Patient patient) 
 	{
 				
 		InfrastructureRootTypeId typeId = CDAFactory.eINSTANCE.createInfrastructureRootTypeId();

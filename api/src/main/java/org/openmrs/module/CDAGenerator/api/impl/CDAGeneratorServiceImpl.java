@@ -145,6 +145,8 @@ ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCand
 	@Override
 	public ClinicalDocument produceCDA(Patient patient, BaseCdaTypeHandler cdaProfileType) 
 	{
+		if(patient!=null && cdaProfileType!=null)
+		{
 		ClinicalDocument cdaDocument = CDAFactory.eINSTANCE.createClinicalDocument();	
 		
 		if(cdaProfileType.getTemplateid().equals("1.3.6.1.4.1.19376.1.5.3.1.1.16.1.1"))
@@ -159,6 +161,9 @@ ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCand
 		}
 			
 		return cdaDocument;
+		}
+		else
+			return null;
 		
 	}
 	

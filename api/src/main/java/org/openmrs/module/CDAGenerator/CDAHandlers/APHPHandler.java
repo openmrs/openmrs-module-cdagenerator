@@ -75,7 +75,7 @@ public class APHPHandler extends BaseCdaTypeHandler
 		section=PregnancyHistorySection.buildPregnancyHistorySection(patient);
 		doc.addSection(section);
 		
-		//Builds  History Of Infection Section of APHP CDA message
+		//Builds  History Of Infection Section of APHP CDA message 
 		section=HistoryOfInfectionSection.buildHistoryOfInfectionSection(patient);
 		doc.addSection(section);
 
