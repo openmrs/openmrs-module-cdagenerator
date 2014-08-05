@@ -107,12 +107,13 @@ public static Section buildHistoryOfInfectionSection(Patient patient)
 	    List<Obs> obsList = new ArrayList<Obs>();
 		for (Concept concept : ConceptsList) 
 		{
-			if(!concept.getDatatype().getName().equals("N/A"))
+			boolean isDatatypeNA=concept.getDatatype().getName().equals("N/A");
+			if(!isDatatypeNA)
 			{
 			obsList.addAll(Context.getObsService().getObservationsByPersonAndConcept(patient, concept));	
 			}
 		
-		if(obsList.isEmpty())
+		if(!isDatatypeNA && obsList.isEmpty())
 		{
 			 log.error(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoObservationsFound",new Object[]{concept.getConceptId(),concept.getName()},null));
 			 
