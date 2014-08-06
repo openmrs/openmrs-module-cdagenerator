@@ -103,7 +103,6 @@ public class PregnancyHistorySection extends BaseCdaSectionHandler
 	 mappings.put("8665-2","LOINC");
 	 mappings.put("11779-6","LOINC");
 	 
-	 
 	 ConceptService service = Context.getConceptService();
 	    for(Map.Entry<String,String> entry:mappings.entrySet())
 		{

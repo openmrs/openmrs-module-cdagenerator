@@ -189,7 +189,7 @@ public static Section buildHistoryOfInfectionSection(Patient patient)
 				
 				observation.setEffectiveTime(CDAHelper.buildDateTime(new Date()));
 				
-				ED value1=DatatypesFactory.eINSTANCE.createED(" No Observation");
+				ED value1=DatatypesFactory.eINSTANCE.createED(value);
 				observation.getValues().add(value1);
 				
 				CE interpretationcode=CDAHelper.buildCodeCE("N", "2.16.840.1.113883.5.83", null, null);
