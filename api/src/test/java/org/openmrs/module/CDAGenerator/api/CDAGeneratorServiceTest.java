@@ -70,6 +70,4 @@ public class  CDAGeneratorServiceTest extends BaseModuleContextSensitiveTest
 	     Assert.assertNull(document1);
 	     Assert.assertNull(document2);
 	 }
-	
-
 }
