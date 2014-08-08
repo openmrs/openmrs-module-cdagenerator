@@ -116,7 +116,8 @@ public class HistoryOfPastIllnessSection extends BaseCdaSectionHandler
    	 List<Obs> obsList = new ArrayList<Obs>();
 		for (Concept concept : ConceptsList) 
 		{
-			if(!concept.getDatatype().getName().equals("N/A"))
+			boolean isDatatypeNA=concept.getDatatype().getName().equals("N/A");
+			if(!isDatatypeNA)
 			{
 			obsList.addAll(Context.getObsService().getObservationsByPersonAndConcept(patient, concept));	
 			}
@@ -138,8 +139,9 @@ public class HistoryOfPastIllnessSection extends BaseCdaSectionHandler
 		           }
 		         }
 			  }
-		    }
-			if(obsList.isEmpty())
+			}
+		    
+			if(!isDatatypeNA && obsList.isEmpty())
 			{
 				 log.error(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoObservationsFound",new Object[]{concept.getConceptId(),concept.getName()},null));
 				 
@@ -173,8 +175,7 @@ public class HistoryOfPastIllnessSection extends BaseCdaSectionHandler
 			    
 			        entryRelationship1.setObservation(observation1);
 			        act.getEntryRelationships().add(entryRelationship1);
-			
-			}
+			  }
 	     }
 	
 		
