@@ -67,7 +67,7 @@ public static Section buildChiefComplaintSection(Patient patient)
     
     if(observationList.isEmpty())
     {
-    	log.error(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoObservationsFound",new Object[]{concept.getConceptId(),concept.getName()},null));
+    	log.error(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoObservationsFound",new Object[]{CDAHelper.getConceptIdasString(concept.getConceptId()),concept.getName()},null));
     }
     String value="";
     

@@ -143,7 +143,7 @@ public class HistoryOfPastIllnessSection extends BaseCdaSectionHandler
 		    
 			if(!isDatatypeNA && obsList.isEmpty())
 			{
-				 log.error(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoObservationsFound",new Object[]{concept.getConceptId(),concept.getName()},null));
+				 log.error(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoObservationsFound",new Object[]{CDAHelper.getConceptIdasString(concept.getConceptId()),concept.getName()},null));
 				 
 				 EntryRelationship entryRelationship1=CDAFactory.eINSTANCE.createEntryRelationship();
 			        entryRelationship1.setTypeCode(x_ActRelationshipEntryRelationship.SUBJ);
@@ -162,7 +162,7 @@ public class HistoryOfPastIllnessSection extends BaseCdaSectionHandler
 			    	
 			    	observation1.setCode(CDAHelper.buildCodeCD(mapentry.getKey(),"2.16.840.1.113883.6.96",null,"SNOMED CT"));
 			        ED answerTxt=DatatypesFactory.eINSTANCE.createED(); 
-			        observation1.setText(answerTxt.addText("No Observations found for concept Name:"+concept.getName()+"and Concept id:"+concept.getId()));
+			        observation1.setText(answerTxt.addText("No Observations found for concept Name:"+concept.getName()+"and Concept id:"+CDAHelper.getConceptIdasString(concept.getConceptId())));
 			        observation1.setStatusCode(CDAHelper.getStatusCode("completed"));
 			        observation1.setEffectiveTime(CDAHelper.buildEffectiveTimeinIVL(null, null));
 			        

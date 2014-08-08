@@ -104,10 +104,10 @@ public static Section buildSocialHistorySection(Patient p)
 	if(obsList.isEmpty())
 	{
 		Concept concept= service.getConceptByMapping(mapentry.getKey(),mapentry.getValue(),false);
-		 log.error(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoObservationsFound",new Object[]{concept.getConceptId(),concept.getName()},null));
+		 log.error(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoObservationsFound",new Object[]{CDAHelper.getConceptIdasString(concept.getConceptId()),concept.getName()},null));
 		 
 		    builder.append("<tr>"+delimeter);
-			builder.append("<td> No Observation Element with concept id: "+concept.getId()+" was found</td>"+delimeter);	
+			builder.append("<td> No Observation Element with concept id: "+CDAHelper.getConceptIdasString(concept.getId())+" was found</td>"+delimeter);	
 			builder.append("<td>");
 			
 			builder.append("NULL"+"</td>"+delimeter);

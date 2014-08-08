@@ -428,5 +428,13 @@ public class CDAHelper
 	   }
 	   return unit;
    }
-	
+
+   public static String getConceptIdasString(int conceptId)
+   {
+     
+	   String result=""+conceptId;
+	   result=result.replace(",", "");
+	   
+	   return result;
+   }
 }
