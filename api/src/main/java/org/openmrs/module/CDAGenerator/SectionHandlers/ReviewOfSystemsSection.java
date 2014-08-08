@@ -93,7 +93,7 @@ Section section=CDAFactory.eINSTANCE.createSection();
          obsOFAnswersOfReviewSystemConcept.addAll(Context.getObsService().getObservationsByPersonAndConcept(patient, c));
          if(obsOFAnswersOfReviewSystemConcept.isEmpty())
          {
-        	 log.error(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoObservationsFound",new Object[]{concept.getConceptId(),concept.getName()},null));
+        	 log.error(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoObservationsFound",new Object[]{CDAHelper.getConceptIdasString(concept.getConceptId()),concept.getName()},null));
          }
         }
        
@@ -109,7 +109,7 @@ Section section=CDAFactory.eINSTANCE.createSection();
      obsList.addAll(Context.getObsService().getObservationsByPersonAndConcept(patient, concet));
      if(obsList.isEmpty())
      {
-       log.error(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoObservationsFound",new Object[]{concept.getConceptId(),concept.getName()},null));
+       log.error(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoObservationsFound",new Object[]{CDAHelper.getConceptIdasString(concept.getConceptId()),concept.getName()},null));
      }
      }
      
