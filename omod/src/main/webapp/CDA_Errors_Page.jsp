@@ -1,8 +1,8 @@
 <%@ include file="/WEB-INF/template/include.jsp"%>
 <%@ include file="/WEB-INF/template/header.jsp"%>
 <style>
-.oddRow { background-color: Snow; }
-.evenRow { background-color:LightGray   ; }
+.oddRow { background-color:  lightpink; }
+.evenRow { background-color:  lightpink; }
 .tableStlye
 	{
 border-collapse:collapse;
@@ -25,12 +25,18 @@ vertical-align:top;
 height:30px;
 font-size:small;
 }
+
+
 </style>
+
+
+
 <%@ include file="template/localHeader.jsp"%>
 <h4>
-<spring:message code="CDAGenerator.validation.results"/>
+<spring:message code="CDAGenerator.ErrorPage.Title"/>
 </h4>
-<div class="boxHeader"><spring:message code="CDAGenerator.validation.results"/></div>
+<span id="error_msg_pop-Up"><spring:message code="CDAGenerator.validation.results"/></span>
+<div class="boxHeader"><spring:message code="CDAGenerator.validation.failed"/></div>
 <div id="validation_box" class="box">
 <div>
 <table id="validation_results_table" class="tableStlye">
