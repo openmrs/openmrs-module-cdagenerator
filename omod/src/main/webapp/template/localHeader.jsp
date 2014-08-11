@@ -5,6 +5,14 @@
 		href="${pageContext.request.contextPath}/admin">
 		<spring:message code="admin.title.short" /></a></li>
 
+
+
+	<li
+	<c:if test='<%= request.getRequestURI().contains("/exportcda") %>'>class="active"</c:if>>
+	<a href="${pageContext.request.contextPath}/module/CDAGenerator/exportcda.form"><spring:message
+				code="CDAGenerator.export_cda"/></a>
+	</li>
+	
 	
 	<li
 	<c:if test='<%= request.getRequestURI().contains("/configureSections") %>'>class="active"</c:if>>
@@ -12,12 +20,6 @@
 	<spring:message	code="CDAGenerator.manage_sections"/></a>
 				</li>
 				
-				
-	<li
-	<c:if test='<%= request.getRequestURI().contains("/exportcda") %>'>class="active"</c:if>>
-	<a href="${pageContext.request.contextPath}/module/CDAGenerator/exportcda.form"><spring:message
-				code="CDAGenerator.export_cda"/></a>
-				</li>
 				
 			<li
 	<c:if test='<%= request.getRequestURI().contains("/managecdatypes") %>'>class="active"</c:if>>

@@ -46,8 +46,8 @@ public class AdminList extends AdministrationSectionExt {
 	public Map<String, String> getLinks() {
 		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
 		
-		map.put("/module/CDAGenerator/configureSections.form", "CDAGenerator.manage_sections");
 		map.put("/module/CDAGenerator/exportcda.form", "CDAGenerator.export_cda");
+		map.put("/module/CDAGenerator/configureSections.form", "CDAGenerator.manage_sections");
 		map.put("/module/CDAGenerator/managecdatypes.form", "CDAGenerator.manage_cda_types");
 		return map;
 	}
