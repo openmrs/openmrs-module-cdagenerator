@@ -113,8 +113,12 @@ public class CDAHelper
 	    */
 	public static ST buildTitle(String title)
 	{
+		
 		ST displayTitle = DatatypesFactory.eINSTANCE.createST();
+		if(title!=null)
+		{
 		displayTitle.addText(title);
+		}
 		return displayTitle;
 	}
 	/**
@@ -232,6 +236,8 @@ public class CDAHelper
 	public static String getDatatypesValue(Integer datatypeId,Obs obs)
 	{
 		String value = "";
+		if(datatypeId!=null && obs!=null)
+		{
 		switch(datatypeId)
 		{
 		case 1:
@@ -270,6 +276,7 @@ public class CDAHelper
 			value = obs.getValueComplex();
 			break;
 		}
+		}
 		return value;
 	}
 	
@@ -286,6 +293,8 @@ public class CDAHelper
 	public static Obs getLatestObs(List<Obs> observationList)
 	{
 		Map<String,Obs> latestObsdate=new HashMap<String,Obs>();
+		if(observationList!=null)
+		{
 		if(observationList.isEmpty())
 		{
 			return null;
@@ -309,6 +318,11 @@ public class CDAHelper
 		}
 		return latestObsdate.get("Latest date");
 		}
+		}
+		
+		else
+			return null;
+			
 	}
 	/**
 	    * Create Status code
