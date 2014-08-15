@@ -1,0 +1,189 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+
+<concept concept_id="1" retired="false" datatype_id="3" class_id="5" is_set="false" creator="1" date_created="2008-08-18 12:34:26.0" version="" changed_by="1" date_changed="2008-08-18 12:34:58.0" uuid="e64bc0e3-7ba6-40ca-afdf-30fbee75d93"/>
+<concept concept_id="2" retired="false" datatype_id="3" class_id="5" is_set="false" creator="1" date_created="2008-08-18 12:34:26.0" version="" changed_by="1" date_changed="2008-08-18 12:34:58.0" uuid="6bf770ea-16fe-45ce-be2e-f4195f8ee99e"/>
+<concept concept_id="3" retired="false" datatype_id="2" class_id="7" is_set="false" creator="1" date_created="2008-08-18 12:34:26.0" version="" changed_by="1" date_changed="2008-08-18 12:34:58.0" uuid="25ba9eeb-79c8-4060-ab47-3848a91defac"/>
+<concept concept_id="4" retired="false" datatype_id="2" class_id="7" is_set="false" creator="1" date_created="2008-08-18 12:34:26.0" version="" changed_by="1" date_changed="2008-08-18 12:34:58.0" uuid="16f1ce79-ef8a-47ca-bc40-fee648a835b4"/>
+<concept concept_id="5" retired="false" datatype_id="2" class_id="7" is_set="false" creator="1" date_created="2008-08-18 12:34:26.0" version="" changed_by="1" date_changed="2008-08-18 12:34:58.0" uuid="9b251fd0-b900-4b11-9b77-b5174a0368b8"/>
+<concept concept_id="6" retired="false" datatype_id="2" class_id="7" is_set="false" creator="1" date_created="2008-08-18 12:34:26.0" version="" changed_by="1" date_changed="2008-08-18 12:34:58.0" uuid="fa952fb2-0167-4fc2-b829-c8c96b026f8d"/>
+<concept concept_id="7" retired="false" datatype_id="3" class_id="7" is_set="false" creator="1" date_created="2008-08-18 12:34:26.0" version="" changed_by="1" date_changed="2008-08-18 12:34:58.0" uuid="4e483341-a52e-427a-8653-7379367a7450"/>
+<concept concept_id="8" retired="false" datatype_id="2" class_id="7" is_set="false" creator="1" date_created="2008-08-18 12:34:26.0" version="" changed_by="1" date_changed="2008-08-18 12:34:58.0" uuid="fde1d3e6-6317-4edd-9720-417769fa117f"/>
+<concept concept_id="9" retired="false" datatype_id="2" class_id="7" is_set="false" creator="1" date_created="2008-08-18 12:34:26.0" version="" changed_by="1" date_changed="2008-08-18 12:34:58.0" uuid="2f22a65b-c755-451d-8ccc-55395c8e06e4"/>
+<concept concept_id="10" retired="false" datatype_id="2" class_id="7" is_set="false" creator="1" date_created="2008-08-18 12:34:26.0" version="" changed_by="1" date_changed="2008-08-18 12:34:58.0" uuid="affd0352-8240-4f94-b6b1-2853a8291fb0"/>
+<concept concept_id="11" retired="false" datatype_id="10" class_id="7" is_set="false" creator="1" date_created="2008-08-18 12:34:26.0" version="" changed_by="1" date_changed="2008-08-18 12:34:58.0" uuid="ebefd088-1379-4545-9397-fa9ef1de7115"/>
+<concept concept_id="12" retired="false" datatype_id="2" class_id="7" is_set="false" creator="1" date_created="2008-08-18 12:34:26.0" version="" changed_by="1" date_changed="2008-08-18 12:34:58.0" uuid="a8f03299-ab40-49ea-91df-d034d0de009c"/>
+<concept concept_id="13" retired="false" datatype_id="2" class_id="7" is_set="false" creator="1" date_created="2008-08-18 12:34:26.0" version="" changed_by="1" date_changed="2008-08-18 12:34:58.0" uuid="e3d2a6d1-9518-44f4-875c-40b8a83fd7e8"/>
+<concept concept_id="14" retired="false" datatype_id="2" class_id="7" is_set="false" creator="1" date_created="2008-08-18 12:34:26.0" version="" changed_by="1" date_changed="2008-08-18 12:34:58.0" uuid="be8a2442-3083-4060-91f7-bc0412831222"/>
+
+
+<concept concept_id="101" retired="false" datatype_id="3" class_id="7" is_set="false" creator="1" date_created="2008-08-18 12:34:26.0" version="" changed_by="1" date_changed="2008-08-18 12:34:58.0" uuid="4f7cc36b-713f-47ba-b3f0-75ec7884694a"/>
+<concept concept_id="102" retired="false" datatype_id="3" class_id="7" is_set="false" creator="1" date_created="2008-08-18 12:34:26.0" version="" changed_by="1" date_changed="2008-08-18 12:34:58.0" uuid="d021435d-3fff-47bd-86fe-ebcb20643383"/>
+<concept concept_id="103" retired="false" datatype_id="3" class_id="7" is_set="false" creator="1" date_created="2008-08-18 12:34:26.0" version="" changed_by="1" date_changed="2008-08-18 12:34:58.0" uuid="b5bc8f95-6e0b-4c01-942f-ece104124140"/>
+<concept concept_id="104" retired="false" datatype_id="3" class_id="7" is_set="false" creator="1" date_created="2008-08-18 12:34:26.0" version="" changed_by="1" date_changed="2008-08-18 12:34:58.0" uuid="27aa1945-ea09-4ff8-8162-875accf63840"/>
+<concept concept_id="105" retired="false" datatype_id="3" class_id="7" is_set="false" creator="1" date_created="2008-08-18 12:34:26.0" version="" changed_by="1" date_changed="2008-08-18 12:34:58.0" uuid="a6bc2223-2522-4cdf-b930-5da97fa22f25"/>
+<concept concept_id="106" retired="false" datatype_id="3" class_id="7" is_set="false" creator="1" date_created="2008-08-18 12:34:26.0" version="" changed_by="1" date_changed="2008-08-18 12:34:58.0" uuid="c8757063-5c50-4813-9c53-2c5cf6672794"/>
+<concept concept_id="107" retired="false" datatype_id="3" class_id="7" is_set="false" creator="1" date_created="2008-08-18 12:34:26.0" version="" changed_by="1" date_changed="2008-08-18 12:34:58.0" uuid="de16a18c-6e0e-49bc-8bb5-1505470882ea"/>
+<concept concept_id="108" retired="false" datatype_id="3" class_id="7" is_set="false" creator="1" date_created="2008-08-18 12:34:26.0" version="" changed_by="1" date_changed="2008-08-18 12:34:58.0" uuid="02f7621e-3538-49af-bff0-abe4b7738fc1"/>
+<concept concept_id="109" retired="false" datatype_id="3" class_id="7" is_set="false" creator="1" date_created="2008-08-18 12:34:26.0" version="" changed_by="1" date_changed="2008-08-18 12:34:58.0" uuid="dfb3de9d-3f28-49e1-a40f-bd40effe2106"/>
+<concept concept_id="110" retired="false" datatype_id="3" class_id="7" is_set="false" creator="1" date_created="2008-08-18 12:34:26.0" version="" changed_by="1" date_changed="2008-08-18 12:34:58.0" uuid="217483f5-f521-43a3-92c4-9f260e753ef0"/>
+<concept concept_id="111" retired="false" datatype_id="3" class_id="7" is_set="false" creator="1" date_created="2008-08-18 12:34:26.0" version="" changed_by="1" date_changed="2008-08-18 12:34:58.0" uuid="91eda049-2bcb-49a9-a76c-d144ca8975ca"/>
+<concept concept_id="112" retired="false" datatype_id="3" class_id="7" is_set="false" creator="1" date_created="2008-08-18 12:34:26.0" version="" changed_by="1" date_changed="2008-08-18 12:34:58.0" uuid="69eee62a-451f-4f21-8855-797ce81ad53f"/>
+
+
+
+ <concept_class concept_class_id="1" name="Test" description="Acq. during patient encounter (vitals, labs, etc.)" creator="1" date_created="2004-02-02 00:00:00.0" retired="false" uuid="97097dd9-b092-4b68-a2dc-e5e5be961d42"/>
+  <concept_class concept_class_id="2" name="Procedure" description="Describes a clinical procedure" creator="1" date_created="2004-03-02 00:00:00.0" retired="false" uuid="77177ce7-1410-40ee-bbad-ff6905ee3095"/>
+  <concept_class concept_class_id="3" name="Drug" description="Drug" creator="1" date_created="2004-02-02 00:00:00.0" retired="false" uuid="3d065ed4-b0b9-4710-9a17-6d8c4fd259b7"/>
+  <concept_class concept_class_id="4" name="Diagnosis" description="Conclusion drawn through findings" creator="1" date_created="2004-02-02 00:00:00.0" retired="false" uuid="938834bf-a745-4dbd-b611-f06a9a5a3060"/>
+  <concept_class concept_class_id="5" name="Finding" description="Practitioner observation/finding"  creator="1" date_created="2004-03-02 00:00:00.0" retired="false" uuid="04a0c64e-4e96-4d09-b7a9-c16966bc1240"/>
+  <concept_class concept_class_id="6" name="Anatomy" description="Anatomic sites / descriptors" creator="1" date_created="2004-03-02 00:00:00.0" retired="false" uuid="c4ed9081-fc7f-4474-84aa-99a969e40e7d"/>
+  <concept_class concept_class_id="7" name="Question" description="Question (eg, patient history, SF36 items)" creator="1" date_created="2004-03-02 00:00:00.0" retired="false" uuid="a82ef63c-e4e4-48d6-988a-fdd74d7541a7"/>
+  <concept_class concept_class_id="8" name="LabSet" description="Term to describe laboratory sets" creator="1" date_created="2004-03-02 00:00:00.0" retired="false" uuid="4719138c-8553-4c81-bb92-753f41f8be16"/>
+  <concept_class concept_class_id="9" name="MedSet" description="Term to describe medication sets" creator="1" date_created="2004-02-02 00:00:00.0" retired="false" uuid="f9c24ce5-fe85-4128-9b07-1c4ea980a539"/>
+  <concept_class concept_class_id="10" name="ConvSet" description="Term to describe convenience sets" creator="1" date_created="2004-03-02 00:00:00.0" retired="false" uuid="0248f513-d023-40b6-a274-235a33f6e25f"/>
+  <concept_class concept_class_id="11" name="Misc" description="Terms which don&apos;t fit other categories" creator="1" date_created="2004-03-02 00:00:00.0" retired="false" uuid="ecdee8a7-d741-4fe7-8e01-f79cacbe97bc"/>
+  <concept_class concept_class_id="12" name="Symptom" description="Patient-reported observation" creator="1" date_created="2004-10-04 00:00:00.0" retired="false" uuid="833bf0ff-c436-47ff-b868-2c249e8b2ff6"/>
+  <concept_class concept_class_id="13" name="Symptom/Finding" description="Observation that can be reported from patient or found on exam" creator="1" date_created="2004-10-04 00:00:00.0" retired="false" uuid="074f33db-4888-4e0c-be87-073635b3d70d"/>
+  <concept_class concept_class_id="14" name="Specimen" description="Body or fluid specimen" creator="1" date_created="2004-12-02 00:00:00.0" retired="false" uuid="d2339229-bc47-480b-bf20-548e2ed7c786"/>
+  <concept_class concept_class_id="15" name="Misc Order" description="Orderable items which aren&apos;t tests or drugs" creator="1" date_created="2005-02-17 00:00:00.0" retired="false" uuid="a5c73192-ad13-4040-97ee-f3b606717705"/>
+  <concept_class concept_class_id="16" name="Program" description="A treatment program" creator="1" date_created="2008-08-15 13:55:59.0" retired="false" uuid="2a3738f5-26f0-4f97-ae7a-f99e42fa6d44"/>
+  <concept_class concept_class_id="17" name="Workflow" description="A workflow within a treatment program" creator="1" date_created="2008-08-15 13:56:30.0" retired="false" uuid="dbdf1b12-dbcb-4d41-a8eb-39a551f56e6d"/>
+  <concept_class concept_class_id="18" name="State" description="A state within a workflow" creator="1" date_created="2008-08-15 13:56:55.0" retired="false" uuid="ac3feb09-e120-4d8c-97ee-f7544720efb8"/>
+
+  <concept_datatype concept_datatype_id="1" name="Numeric" hl7_abbreviation="NM" description="Numeric value, including integer or float (e.g., creatinine, weight)" creator="1" date_created="2004-02-02 00:00:00.0" retired="false" uuid="749b5078-8371-4849-aeab-181e3aed9415"/>
+  <concept_datatype concept_datatype_id="2" name="Coded" hl7_abbreviation="CWE" description="Value determined by term dictionary lookup (i.e., term identifier)" creator="1" date_created="2004-02-02 00:00:00.0" retired="false" uuid="ef301729-eec1-4de9-8bb9-3532e3abb9bc"/>
+  <concept_datatype concept_datatype_id="3" name="Text" hl7_abbreviation="ST" description="Free text" creator="1" date_created="2004-02-02 00:00:00.0" retired="false" uuid="c5f90600-cdf2-4085-bb61-8952bbbe8cab"/>
+  <concept_datatype concept_datatype_id="4" name="N/A" hl7_abbreviation="ZZ" description="Not associated with a datatype (e.g., term answers, sets)" creator="1" date_created="2004-02-02 00:00:00.0" retired="false" uuid="bf51481d-9b76-4a88-8ca4-88dd082ddf90"/>
+  <concept_datatype concept_datatype_id="5" name="Document" hl7_abbreviation="RP" description="Pointer to a binary or text-based document (e.g., clinical document, RTF, XML, EKG, image, etc.) stored in complex_obs table" creator="1" date_created="2004-04-15 00:00:00.0" retired="false" uuid="534eb4de-5e7d-44d6-ad18-89b1034875d3"/>
+  <concept_datatype concept_datatype_id="6" name="Date" hl7_abbreviation="DT" description="Absolute date" creator="1" date_created="2004-07-22 00:00:00.0" retired="false" uuid="c87d52c4-141f-4672-a3f6-48e9f8ce1336"/>
+  <concept_datatype concept_datatype_id="7" name="Time" hl7_abbreviation="TM" description="Absolute time of day" creator="1" date_created="2004-07-22 00:00:00.0" retired="false" uuid="8414667b-71f6-40c5-9ec9-289037dfb8db"/>
+  <concept_datatype concept_datatype_id="8" name="Datetime" hl7_abbreviation="TS" description="Absolute date and time" creator="1" date_created="2004-07-22 00:00:00.0" retired="false" uuid="736dca27-7b69-428b-872c-df7274e00e69"/>
+  <concept_datatype concept_datatype_id="10" name="Boolean" hl7_abbreviation="BIT" description="Boolean value (yes/no, true/false)" creator="1" date_created="2004-08-26 00:00:00.0" retired="false" uuid="bd9813c4-e111-49cd-b7ff-fd08aacadfb7"/>
+  <concept_datatype concept_datatype_id="11" name="Rule" hl7_abbreviation="ZZ" description="Value derived from other data" creator="1" date_created="2006-09-11 13:22:00.0" retired="false" uuid="d9137a3c-b9c6-4fa9-a12e-9ea03da812de"/>
+  <concept_datatype concept_datatype_id="12" name="Structured Numeric" hl7_abbreviation="SN" description="Complex numeric values possible (ie, &lt;5, 1-10, etc.)" creator="1" date_created="2005-08-06 00:00:00.0" retired="false" uuid="afd0c2e9-e81c-44f4-a5d4-ae0c4d28d0fb"/>
+  <concept_datatype concept_datatype_id="13" name="Complex" hl7_abbreviation="ED" description="Complex value.  Analogous to HL7 Embedded Datatype" creator="1" date_created="2008-06-11 13:22:00.0" retired="false" uuid="f33f4a89-72ee-4b2e-90f6-53252c8594c1"/>
+
+<concept_name concept_id="1" name="Chief Complaint (Text)" locale="en" creator="1" date_created="2004-08-12 00:00:00.0" concept_name_id="1" voided="false" uuid="f7398b34-2032-416c-bbff-954212a5ba88" locale_preferred="true"/>
+<concept_name concept_id="2" name="History Of Present Illness" locale="en" creator="1" date_created="2004-08-12 00:00:00.0" concept_name_id="2" voided="false" uuid="2df49702-9db2-4717-80a6-d9e1a0be81f2" locale_preferred="true"/>
+<concept_name concept_id="3" name="Pregnancy Status" locale="en" creator="1" date_created="2004-08-12 00:00:00.0" concept_name_id="3" voided="false" uuid="b48372f5-9358-4751-974d-d54cbc7c067" locale_preferred="true"/>
+<concept_name concept_id="101" name="YES" locale="en" creator="1" date_created="2004-08-12 00:00:00.0" concept_name_id="4" voided="false" uuid="73bf6a71-6b54-4dd1-9128-31c33c345f81" locale_preferred="true"/>
+<concept_name concept_id="102" name="NO" locale="en" creator="1" date_created="2004-08-12 00:00:00.0" concept_name_id="5" voided="false" uuid="95a38f84-5b4d-4821-8244-e572488eb263" locale_preferred="true"/>
+<concept_name concept_id="103" name="UNKNOWN" locale="en" creator="1" date_created="2004-08-12 00:00:00.0" concept_name_id="6" voided="false" uuid="570f6e16-edca-4537-b48a-1eab118cc2d5" locale_preferred="true"/>
+<concept_name concept_id="4" name="Alcohol use status" locale="en" creator="1" date_created="2004-08-12 00:00:00.0" concept_name_id="7" voided="false" uuid="da24e53a-7605-4911-9fc0-724be3b8d7f9" locale_preferred="true"/>  
+<concept_name concept_id="104" name="In The Past" locale="en" creator="1" date_created="2004-08-12 00:00:00.0" concept_name_id="8" voided="false" uuid="f66d20c2-f287-44ab-958f-53979a2ab466" locale_preferred="true"/> <concept_name concept_id="105" name="Currently" locale="en" creator="1" date_created="2004-08-12 00:00:00.0" concept_name_id="8" voided="false" uuid="c1eed0e5-4963-41e0-8c94-4c7b76f7702" locale_preferred="true"/>
+<concept_name concept_id="105" name="Currently" locale="en" creator="1" date_created="2004-08-12 00:00:00.0" concept_name_id="9" voided="false" uuid="fd8c8c64-f85d-4f2a-aff4-faf8b1765d7b" locale_preferred="true"/>
+<concept_name concept_id="106" name="Never" locale="en" creator="1" date_created="2004-08-12 00:00:00.0" concept_name_id="10" voided="false" uuid="f6e1a9e4-ce00-4a33-b22e-40a9ab636439" locale_preferred="true"/>
+<concept_name concept_id="107" name="Modern Cigarette" locale="en" creator="1" date_created="2004-08-12 00:00:00.0" concept_name_id="11" voided="false" uuid="2409d27f-450a-4a42-b3b5-e33e1df6fad7" locale_preferred="true"/> 
+<concept_name concept_id="108" name="Traditional Tobacco Product" locale="en" creator="1" date_created="2004-08-12 00:00:00.0" concept_name_id="12" voided="false" uuid="2aef3f83-f4af-4a88-8119-5922eb71bcca" locale_preferred="true"/>   
+<concept_name concept_id="109" name="Pipe Tobacco" locale="en" creator="1" date_created="2004-08-12 00:00:00.0" concept_name_id="13" voided="false" uuid="44517ffd-908d-49ae-833f-68c1aa01da67" locale_preferred="true"/>
+ <concept_name concept_id="110" name="Other NON-CODED" locale="en" creator="1" date_created="2004-08-12 00:00:00.0" concept_name_id="14" voided="false" uuid="90928958-3cb0-44f7-b8b1-93da170c7845" locale_preferred="true"/>
+<concept_name concept_id="5" name="Tobacco Use" locale="en" creator="1" date_created="2004-08-12 00:00:00.0" concept_name_id="15" voided="false" uuid="eba3cc73-fb2a-4091-b14d-9dd95cb2fe64" locale_preferred="true"/>  
+<concept_name concept_id="6" name="Illicit Drug Consumption" locale="en" creator="1" date_created="2004-08-12 00:00:00.0" concept_name_id="16" voided="false" uuid="653dc33d-23cb-4557-8458-c9a23b4eb57a" locale_preferred="true"/>
+<concept_name concept_id="7" name="Social History Section(TEXT)" locale="en" creator="1" date_created="2004-08-12 00:00:00.0" concept_name_id="17" voided="false" uuid="5fcdae84-2f10-4548-8114-18170f7c163c" locale_preferred="true"/>
+<concept_name concept_id="8" name="Condition" locale="en" creator="1" date_created="2004-08-12 00:00:00.0" concept_name_id="18" voided="false" uuid="5f9a1f6f-e06e-46b7-8a17-eb3d04218db2" locale_preferred="true"/>
+<concept_name concept_id="111" name="Good" locale="en" creator="1" date_created="2004-08-12 00:00:00.0" concept_name_id="19" voided="false" uuid="25af71e6-15ee-4fa5-acbf-32389dab5270" locale_preferred="true"/>
+<concept_name concept_id="112" name="BAD" locale="en" creator="1" date_created="2004-08-12 00:00:00.0" concept_name_id="20" voided="false" uuid="5a356c2b-af5b-4aa5-b0a0-783a1abba067" locale_preferred="true"/>
+<concept_name concept_id="9" name="Findings" locale="en" creator="1" date_created="2004-08-12 00:00:00.0" concept_name_id="21" voided="false" uuid="5c69133f-e98f-41c7-aa6d-0a66a8ab8de5" locale_preferred="true"/>
+<concept_name concept_id="10" name="Functional limitation" locale="en" creator="1" date_created="2004-08-12 00:00:00.0" concept_name_id="22" voided="false" uuid="caef32eb-d9a2-4200-9db2-8e2d77d66d10" locale_preferred="true"/>
+<concept_name concept_id="11" name="NEW COMPLAINTS" locale="en" creator="1" date_created="2004-08-12 00:00:00.0" concept_name_id="22" voided="false" uuid="2d1c7f40-14df-465e-8e38-fe704ae1e45e" locale_preferred="true"/>
+<concept_name concept_id="12" name="DIAGNOSIS LIST" locale="en" creator="1" date_created="2004-08-12 00:00:00.0" concept_name_id="23" voided="false" uuid="b70cd963-756f-4792-92d8-2b3ecad843aa" locale_preferred="true"/>
+<concept_name concept_id="13" name="Signs and Symtomps" locale="en" creator="1" date_created="2004-08-12 00:00:00.0" concept_name_id="24" voided="false" uuid="e9c0814c-9361-41af-83f9-b4a869359450" locale_preferred="true"/>
+<concept_name concept_id="14" name="Past Medical History" locale="en" creator="1" date_created="2004-08-12 00:00:00.0" concept_name_id="25" voided="false" uuid="660184e4-4c56-4de2-a149-7847c102332" locale_preferred="true"/>
+       
+  
+  <concept_answer concept_answer_id="1" concept_id="3" answer_concept="101" creator="1" date_created="2008-08-18 12:34:26.0" uuid="c7b61b0c-f7f5-4e6b-8b57-7b0328fb28ab"/>
+  <concept_answer concept_answer_id="2" concept_id="3" answer_concept="102" creator="1" date_created="2008-08-18 12:34:26.0" uuid="658d0d8b-9337-4d9c-b105-6ea492011743"/>
+  <concept_answer concept_answer_id="3" concept_id="3" answer_concept="103" creator="1" date_created="2008-08-18 12:34:58.0" uuid="2d3ec167-bcd0-4e69-9604-f1cb73100f6f"/>
+  <concept_answer concept_answer_id="4" concept_id="4" answer_concept="104" creator="1" date_created="2008-08-18 12:34:26.0" uuid="04f03290-8a99-49a4-8787-b1d58f3ed2eb"/>
+  <concept_answer concept_answer_id="5" concept_id="4" answer_concept="105" creator="1" date_created="2008-08-18 12:34:26.0" uuid="53597280-b81d-4fe3-9973-8076314a8af9"/>
+  <concept_answer concept_answer_id="6" concept_id="4" answer_concept="106" creator="1" date_created="2008-08-18 12:34:58.0" uuid="d6509716-5281-4d42-b435-8969babbf9dc"/>
+  <concept_answer concept_answer_id="7" concept_id="5" answer_concept="107" creator="1" date_created="2008-08-18 12:34:26.0" uuid="90ebc3ff-0ba8-41a9-9c92-be9406f2b194"/>
+  <concept_answer concept_answer_id="8" concept_id="5" answer_concept="108" creator="1" date_created="2008-08-18 12:34:26.0" uuid="a1a2e78f-7b95-4561-a41c-9026b9180ea0"/>
+  <concept_answer concept_answer_id="9" concept_id="5" answer_concept="109" creator="1" date_created="2008-08-18 12:34:58.0" uuid="5fd5e188-65ae-44c9-9f2d-6769a87a80e9"/>
+  <concept_answer concept_answer_id="10" concept_id="5" answer_concept="103" creator="1" date_created="2008-08-18 12:34:58.0" uuid="0cad3469-30c1-4509-9f7c-3b3f283a10f0"/>
+  <concept_answer concept_answer_id="11" concept_id="5" answer_concept="110" creator="1" date_created="2008-08-18 12:34:58.0" uuid="76dc8d22-b202-4c0f-94cc-c9164df6eb3c"/>
+  <concept_answer concept_answer_id="12" concept_id="6" answer_concept="104" creator="1" date_created="2008-08-18 12:34:26.0" uuid="09af64c0-ae44-454c-9cad-704d64b27a17"/>
+  <concept_answer concept_answer_id="13" concept_id="6" answer_concept="105" creator="1" date_created="2008-08-18 12:34:26.0" uuid="1c6fc5-262c-4bb4-b536-5a14283bfc21"/>
+  <concept_answer concept_answer_id="14" concept_id="6" answer_concept="106" creator="1" date_created="2008-08-18 12:34:58.0" uuid="3f471986-b8f0-4f96-9773-a638b1ce7932"/>
+   <concept_answer concept_answer_id="15" concept_id="8" answer_concept="111" creator="1" date_created="2008-08-18 12:34:58.0" uuid="4f674b85-f4ac-4098-bd4a-d9b0dd643044"/>
+   <concept_answer concept_answer_id="16" concept_id="8" answer_concept="112" creator="1" date_created="2008-08-18 12:34:58.0" uuid="fdfeac79-2c01-4c56-a9f3-92d5021580e1"/>
+   <concept_answer concept_answer_id="17" concept_id="8" answer_concept="103" creator="1" date_created="2008-08-18 12:34:58.0" uuid="bc498027-00a6-4aa4-9adc-c1399755fcdc"/>
+  
+<concept_reference_source concept_source_id="1" name="SNOMED CT" description="Systematized Nomenclature of Medicine--Clinical Terms is a comprehensive clinical terminology" hl7_code="SNOMED-CT" creator="1" date_created="2005-02-24 00:00:00.0" uuid="j3nfjk33-639f-4cb4-961f-1e025b90" retired="false"/>
+<concept_reference_source concept_source_id="2" name="LOINC" description="Logical Observation Identifiers Names and Codes" hl7_code="LOINC" creator="1" date_created="2005-02-24 00:00:00.0" uuid="55e0044dc-639f-4cb4-aadd-1e025b90" retired="false"/>
+<concept_map_type concept_map_type_id="2" name="same-as" description="Indicates similarity" is_hidden="0" retired="0" creator="1" date_created="2004-08-12 00:00:00.0" uuid="35543629-7d8c-11e1-909d-c80aa9edcf4e"/>
+
+
+<concept_reference_term concept_reference_term_id="1" code="10154-3" name="chiefcomplaintsect_concept_test" concept_source_id="2" retired="0" creator="1" date_created="2014-01-01 00:00:00.0" uuid="aa901f80-eac7-55e0-aadd-00248140a5ft" />
+<concept_reference_term concept_reference_term_id="2" code="10164-2" name="History_of_present_Illness_sect_concept_test" concept_source_id="2" retired="0" creator="1" date_created="2014-01-01 00:00:00.0" uuid="bb098g29-bac7-66d9-aadd-00248140a5ft" />
+<concept_reference_term concept_reference_term_id="3" code="11449-6" name="Pregnancy_status_concept_test" concept_source_id="1" retired="0" creator="1" date_created="2014-01-01 00:00:00.0" uuid="005ae3a6-55a1-4ce9-852c-2d8b732ce646" />
+<concept_reference_term concept_reference_term_id="4" code="160573003" name="Alcohol_consumption_concept_test" concept_source_id="1" retired="0" creator="1" date_created="2014-01-01 00:00:00.0" uuid="7b2d105b-00c5-4941-a0f8-b2cdf5a0e42f" />
+<concept_reference_term concept_reference_term_id="5" code="266918002" name="tobacco_use_concept_test" concept_source_id="1" retired="0" creator="1" date_created="2014-01-01 00:00:00.0" uuid="215c6a4e-fd52-4c8e-8b46-5c8309c58814" />
+<concept_reference_term concept_reference_term_id="6" code="xx-illicitdrugs" name="tobacco_use_concept_test" concept_source_id="1" retired="0" creator="1" date_created="2014-01-01 00:00:00.0" uuid="6fa03d62-bc69-48b7-b18e-dc25a5c0c80e" />
+<concept_reference_term concept_reference_term_id="7" code="29762-2" name="social_history_concept_test" concept_source_id="2" retired="0" creator="1" date_created="2014-01-01 00:00:00.0" uuid="121f28e6-327d-43c0-b367-38b6c2b1d850" />
+<concept_reference_term concept_reference_term_id="8" code="64572001" name="HistoryPastIllness_condition_concept" concept_source_id="1" retired="0" creator="1" date_created="2014-01-01 00:00:00.0" uuid="4fb75f49-489e-4ebf-b14d-e5058f4f8077" />
+<concept_reference_term concept_reference_term_id="9" code="248536006" name="HistoryPastIllness_functionLimitation_concept" concept_source_id="1" retired="0" creator="1" date_created="2014-01-01 00:00:00.0" uuid="1a3dbb1c-1b35-4970-877f-cd3e3029f860" />
+<concept_reference_term concept_reference_term_id="10" code="404684003" name="HistoryPastIllness_finding_concept" concept_source_id="1" retired="0" creator="1" date_created="2014-01-01 00:00:00.0" uuid="6e9a3f71-412a-4666-9ef8-888d92d942a5"/>
+<concept_reference_term concept_reference_term_id="11" code="409586006" name="HistoryPastIllness_complaints_concept" concept_source_id="1" retired="0" creator="1" date_created="2014-01-01 00:00:00.0" uuid="565bac81-572b-4f18-ac1b-db935b6dcf"/>
+<concept_reference_term concept_reference_term_id="12" code="282291009" name="HistoryPastIllness_Diagnosis_concept" concept_source_id="1" retired="0" creator="1" date_created="2014-01-01 00:00:00.0" uuid="be448432-01fd-4a4a-9166-7b1efa767530"/>
+<concept_reference_term concept_reference_term_id="13" code="418799008" name="HistoryPastIllness_Signs_concept" concept_source_id="1" retired="0" creator="1" date_created="2014-01-01 00:00:00.0" uuid="8670d89c-4ca9-4b96-9e88-8bd55350e34e"/>
+<concept_reference_term concept_reference_term_id="14" code="11348-0" name="HistoryPastIllness_concept" concept_source_id="2" retired="0" creator="1" date_created="2014-01-01 00:00:00.0" uuid="45a00f29-86f7-46cc-954a-b5c8843997dd"/>
+
+
+<concept_reference_map concept_map_id="1" concept_id="1" concept_reference_term_id="1" concept_map_type_id="2" creator="1" date_created="2004-08-12 00:00:00.0" uuid="23b6e712-49d8-11e0-8fed-18a905e044dc"/>
+<concept_reference_map concept_map_id="2" concept_id="2" concept_reference_term_id="2" concept_map_type_id="2" creator="1" date_created="2004-08-12 00:00:00.0" uuid="e0d66c8d-ec66-4014-9c8a-b17ae429d3b7"/>
+<concept_reference_map concept_map_id="3" concept_id="3" concept_reference_term_id="3" concept_map_type_id="2" creator="1" date_created="2004-08-12 00:00:00.0" uuid="614715bc-4f41-45a5-8c97-f7cd8cb49a11"/>
+<concept_reference_map concept_map_id="4" concept_id="4" concept_reference_term_id="4" concept_map_type_id="2" creator="1" date_created="2004-08-12 00:00:00.0" uuid="906288cf-f24f-459e-9b42-665b661f4e6a"/>
+<concept_reference_map concept_map_id="5" concept_id="5" concept_reference_term_id="5" concept_map_type_id="2" creator="1" date_created="2004-08-12 00:00:00.0" uuid="a5435e96-73f3-4ad9-b4f4-7548839e1907"/>
+<concept_reference_map concept_map_id="6" concept_id="6" concept_reference_term_id="6" concept_map_type_id="2" creator="1" date_created="2004-08-12 00:00:00.0" uuid="6ec520a9-bf70-4950-9e9e-dd5d3e2ca8b6"/>
+<concept_reference_map concept_map_id="7" concept_id="7" concept_reference_term_id="7" concept_map_type_id="2" creator="1" date_created="2004-08-12 00:00:00.0" uuid="08d06fb3-b8ee-4ea6-8cb2-e9e0d1465bab"/>
+<concept_reference_map concept_map_id="8" concept_id="8" concept_reference_term_id="8" concept_map_type_id="2" creator="1" date_created="2004-08-12 00:00:00.0" uuid="3c2cf40f-af75-4644-abd5-ff9822e9d0de"/>
+<concept_reference_map concept_map_id="9" concept_id="9" concept_reference_term_id="9" concept_map_type_id="2" creator="1" date_created="2004-08-12 00:00:00.0" uuid="f854bb34-abaa-4e7f-8bc3-730f94f401b8"/>
+<concept_reference_map concept_map_id="10" concept_id="10" concept_reference_term_id="10" concept_map_type_id="2" creator="1" date_created="2004-08-12 00:00:00.0" uuid="1b56b032-18b9-4c13-a0d0-d4c98858d83a"/>
+<concept_reference_map concept_map_id="11" concept_id="11" concept_reference_term_id="11" concept_map_type_id="2" creator="1" date_created="2004-08-12 00:00:00.0" uuid="70471ffa-245c-4dc5-b8c0-e4a49a219299"/>
+<concept_reference_map concept_map_id="12" concept_id="12" concept_reference_term_id="12" concept_map_type_id="2" creator="1" date_created="2004-08-12 00:00:00.0" uuid="514148f3-33f6-4f95-ba20-90ecdb04c3de"/>
+<concept_reference_map concept_map_id="13" concept_id="13" concept_reference_term_id="13" concept_map_type_id="2" creator="1" date_created="2004-08-12 00:00:00.0" uuid="88adfcf9-11e8-4a4f-a900-7d7da2b6aa5"/>
+<concept_reference_map concept_map_id="14" concept_id="14" concept_reference_term_id="14" concept_map_type_id="2" creator="1" date_created="2004-08-12 00:00:00.0" uuid="26863738-ec82-4525-8bec-ab3d12deae7e"/>
+
+
+<person person_id="1" gender="F" birthdate="1960-01-29 00:00:00.0" birthdate_estimated="1" dead="false" creator="1" date_created="2006-01-18 00:00:00.0" voided="false" uuid="cf3e08cf-9fdd-4dfd-8fe9-53405ebf0928"/>
+
+<person_address person_address_id="1" person_id="1" preferred="false" address1="Surya Apartments,Flat 701,R.T.C X roads" address2="Chikkadpally" city_village="Hyderabad" state_province="500310" postal_code="" country="India" latitude="" longitude="" start_date="2005-01-01 00:00:00.0" creator="1" date_created="2006-01-18 00:00:00.0" voided="false" void_reason="" uuid="683f3549-da4c-428e-9e5a-3921d7f7edcc"/>
+
+<person_attribute_type person_attribute_type_id="1" name="Race" description="Group of persons related by common descent or heredity" format="java.lang.String" searchable="false" creator="1" date_created="2007-05-04 09:59:23.0" retired="true" retired_by="1" date_retired="2008-08-15 00:00:00.0" retire_reason="test" uuid="dcf857c4-1c2a-4a8c-831f-edfa0c670757" sort_weight="1"/>
+<person_attribute_type person_attribute_type_id="2" name="Birthplace" description="Location of persons birth" format="java.lang.String" searchable="false" creator="1" date_created="2007-05-04 09:59:23.0" retired="false" uuid="b2cdce41-24c0-438e-a96d-3c3717f00840" sort_weight="3"/>
+<person_attribute_type person_attribute_type_id="3" name="Civil Status" description="Marriage status of this person" format="org.openmrs.Concept" searchable="false" creator="1" date_created="2008-08-15 15:53:36.0" retired="false" uuid="e5d1aa1e-dcd8-4de8-b560-4c0914ee5fbe" sort_weight="2"/>
+
+
+<person_attribute person_attribute_id="1" person_id="1" value="Asian" person_attribute_type_id="1" creator="1" date_created="2008-08-15 15:57:09.0" voided="false" uuid="309d1646-928a-4f5f-8634-4e8b695a8063"/>
+<person_attribute person_attribute_id="2" person_id="1" value="Delhi" person_attribute_type_id="2" creator="1" date_created="2008-08-15 15:57:09.0" voided="false" uuid="a851fa37-1a87-4743-bb0e-6202f379080f"/>
+<person_attribute person_attribute_id="3" person_id="1" value="Married" person_attribute_type_id="3" creator="1" date_created="2008-08-15 15:57:09.0" voided="false" uuid="c8f1afee-5ca8-46fe-8235-662ee926a6d"/>
+
+
+<person_name person_name_id="1" preferred="true" person_id="1" prefix="Mrs." given_name="Aditi" middle_name="Gurupreet" family_name="Singh" family_name_suffix="" creator="1" date_created="2005-09-22 00:00:00.0" voided="false" void_reason="" uuid="35072ab4-bcd7-4509-89ea-cdcecbea3657"/>
+
+<patient patient_id="1" creator="1" date_created="2005-09-22 00:00:00.0" changed_by="1" date_changed="2008-08-18 12:29:59.0" voided="false" void_reason=""/>
+
+<patient_identifier_type patient_identifier_type_id="1" name="OpenMRS Identification Number" description="Unique number used in OpenMRS" format="" check_digit="true" creator="1" date_created="2005-09-22 00:00:00.0" required="false" validator="org.openmrs.patient.impl.LuhnIdentifierValidator" retired="false" uuid="d34673c2-b064-448a-88ad-7abd5a40aa85"/>
+  <patient_identifier_type patient_identifier_type_id="2" name="Old Identification Number" description="Number given out prior to the OpenMRS system (No check digit)" format="" check_digit="false" creator="1" date_created="2005-09-22 00:00:00.0" required="false" retired="false" uuid="87c7f270-414e-4064-82a7-07cc10078012"/>
+  <patient_identifier_type patient_identifier_type_id="4" name="Social Security Number" description="Soc security ID" format="" check_digit="false" creator="1" date_created="2008-08-15 15:59:20.0" required="false" format_description="" validator="" retired="true" retired_by="1" date_retired="2008-08-15 00:00:00.0" retire_reason="test" uuid="5d585760-fdbc-4896-b831-99e06f05d722"/>
+  
+<patient_identifier patient_identifier_id="1" patient_id="1" identifier="878208-TS" identifier_type="1" preferred="1" location_id="1" creator="1" date_created="2005-09-22 00:00:00.0" voided="false" void_reason="" uuid="e170cfac-6325-4895-9e63-5ab568f57009"/>
+
+<form form_id="1" name="Basic Form" version="0.1" build="0" published="0" description="Test form" creator="1" date_created="2005-08-07 00:00:00.0" changed_by="1" date_changed="2007-10-24 14:51:53.0" retired="false" retired_reason="" uuid="31a9251f-42c2-4db9-83a1-d3c26bde3f99"/>
+
+ <location location_id="1" name="Unknown Location" description="The default location used when limited information is known" address1="" address2="" city_village="" state_province="" postal_code="" country="" creator="1" date_created="2005-09-22 00:00:00.0" retired="false" uuid="257e4d34-3958-44aa-90f4-868fa84de21f"/>
+
+<encounter_type encounter_type_id="1" name="Scheduled" description="Scheduled Visit" creator="1" date_created="2005-02-24 00:00:00.0" retired="false" uuid="c8ee5600-0755-411f-a9c6-93635898fcc9"/>
+  <encounter_type encounter_type_id="2" name="Emergency" description="Emergency visit" creator="1" date_created="2005-02-24 00:00:00.0" retired="false" uuid="91b544bd-7a2b-4aff-85da-525ae8784dba"/>
+  <encounter_type encounter_type_id="6" name="Laboratory" description="Visit to the laboratory" creator="1" date_created="2008-08-15 15:39:55.0" retired="true" retired_by="1" date_retired="2008-08-15 00:00:00.0" retire_reason="for testing" uuid="419a59da-795a-4278-9a3e-be30a7c1f3d2"/>
+  
+
+<encounter encounter_id="1" encounter_type="1" patient_id="1" location_id="1" form_id="1" encounter_datetime="2008-08-15 00:00:00.0" creator="1" date_created="2008-08-18 14:22:17.0" voided="false" void_reason="" uuid="d8bc6045-150b-457d-97f4-4ada15face12"/>
+
+
+<obs obs_id="1" person_id="1" concept_id="1" encounter_id="1" obs_datetime="2014-08-15 00:00:00.0" location_id="1" value_numeric="[NULL]" comments="" creator="1" date_created="2008-08-18 14:09:35.0" voided="false" value_coded="[NULL]" value_coded_name_id="[NULL]" value_complex="[NULL]" value_text="This is chief complaint of patient" value_datetime="[NULL]" value_drug="[NULL]" uuid="b436f5b7-7987-4664-86dd-b17cd6e8b1b9"/>
+<obs obs_id="2" person_id="1" concept_id="3" encounter_id="1" obs_datetime="2014-08-15 00:00:00.0" location_id="1" value_coded="102" comments="" creator="1" date_created="2008-08-19 12:32:59.0" voided="false" uuid="32450806-181a-4334-a8fc-0b4b0d0ecc3f"/>
+
+</dataset>

@@ -131,7 +131,8 @@ public class CdaHeaderBuilder
      */
 	public ClinicalDocument buildHeader(ClinicalDocument doc,BaseCdaTypeHandler bh,Patient patient) 
 	{
-				
+		if(doc!=null && bh!=null && patient!=null)
+		{
 		InfrastructureRootTypeId typeId = CDAFactory.eINSTANCE.createInfrastructureRootTypeId();
 		typeId.setExtension("POCD_HD000040");
 		typeId.setRoot("2.16.840.1.113883.1.3");
@@ -394,6 +395,11 @@ public class CdaHeaderBuilder
 	return doc;
 	}
 	
+	else
+	{
+		return null;
+	}
+}
 	/**
      * Builds person addresses 
      * @param documentAddress
