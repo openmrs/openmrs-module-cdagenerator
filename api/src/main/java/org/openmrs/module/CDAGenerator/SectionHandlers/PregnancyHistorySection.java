@@ -109,7 +109,7 @@ public class PregnancyHistorySection extends BaseCdaSectionHandler
 	    	
 	    	List<Concept> ConceptsList=new ArrayList<Concept>();
 	    Concept concepts=service.getConceptByMapping(entry.getKey(), entry.getValue(),false);
-	    System.out.println("Mapping :"+entry.getKey()+":: concept is :"+concepts);
+	   
 	    if(concepts==null)
 	    {
 	    	throw new APIException(Context.getMessageSourceService().getMessage("CDAGenerator.error.NoSuchConcept",new Object[]{entry.getKey(),entry.getValue()},null));
@@ -311,16 +311,6 @@ public class PregnancyHistorySection extends BaseCdaSectionHandler
 
 					}	
 					
-				 //not needed	
-				  /*	CE interpretationcode=CDAHelper.buildCodeCE("N", "2.16.840.1.113883.5.83", null, null);
-					observation.getInterpretationCodes().add(interpretationcode);
-					
-					CE methodcode=CDAHelper.buildCodeCE(null,CDAHelper.getCodeSystemByName(entry.getValue()),null,entry.getValue());
-					observation.getMethodCodes().add(methodcode);
-					
-					CE targetsite=CDAHelper.buildCodeCE(null,CDAHelper.getCodeSystemByName(entry.getValue()),null,entry.getValue());
-					observation.getTargetSiteCodes().add(targetsite);
-					*/
 					component.setObservation(observation); 
 			        organizer.getComponents().add(component);
 			    	

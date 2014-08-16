@@ -39,9 +39,9 @@ this.sectionDescription="The review of systems section shall contain a narrative
  */
 public static Section buildReviewOfSystemsSection(Patient patient)
 {
-List<Concept> ConceptsValueSetList=new ArrayList<Concept>();
-Map<String,String> mappings=new HashMap<String,String>();
-Section section=CDAFactory.eINSTANCE.createSection();
+    List<Concept> ConceptsValueSetList=new ArrayList<Concept>();
+    Map<String,String> mappings=new HashMap<String,String>();
+    Section section=CDAFactory.eINSTANCE.createSection();
         ReviewOfSystemsSection ccs=new ReviewOfSystemsSection();
         section.getTemplateIds().add(CDAHelper.buildTemplateID(ccs.getTemplateid(),null ,null ));
         section.setCode(CDAHelper.buildCodeCE(ccs.getCode(),ccs.getCodeSystem(),ccs.getSectionName(),ccs.getCodeSystemName()));
@@ -52,14 +52,14 @@ Section section=CDAFactory.eINSTANCE.createSection();
         String delimeter="\n";
         builder.append(delimeter);
         builder.append("<table>"+delimeter);
-     builder.append("<thead>"+delimeter);
-     builder.append("<tr>"+delimeter);
-     builder.append("<th>Review of System Element</th>"+delimeter);
-     builder.append("<th>Description</th>"+delimeter);
-     builder.append("<th>Effective Dates</th>"+delimeter);
-     builder.append("</tr>"+delimeter);
-     builder.append("</thead>"+delimeter);
-     builder.append("<tbody>"+delimeter);
+        builder.append("<thead>"+delimeter);
+        builder.append("<tr>"+delimeter);
+        builder.append("<th>Review of System Element</th>"+delimeter);
+        builder.append("<th>Description</th>"+delimeter);
+        builder.append("<th>Effective Dates</th>"+delimeter);
+        builder.append("</tr>"+delimeter);
+        builder.append("</thead>"+delimeter);
+        builder.append("<tbody>"+delimeter);
             
         ConceptService service = Context.getConceptService();
         mappings.put("21840007", "SNOMED CT");
