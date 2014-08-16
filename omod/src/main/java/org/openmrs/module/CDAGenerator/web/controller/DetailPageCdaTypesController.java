@@ -59,12 +59,4 @@ public class DetailPageCdaTypesController {
 				
 			}
 			
-		/*	@RequestMapping(value = "/module/CDAGenerator/savecdatypes")
-			public void save(@ModelAttribute(value="detailcda")BaseCdaTypeHandler bct,ModelMap model) {
-				
-				model.addAttribute("detailcda", bct);
-				
-			}*/
-			
 		}
-
