@@ -9,6 +9,11 @@ for more resources follow below links
 
 [CDA Generator Module Wiki Page](https://wiki.openmrs.org/display/projects/OpenMRS+CDA+Generator)
 
+###Documentation Page
+
+[CDA Generator Module Documentation](https://wiki.openmrs.org/display/projects/CDA+Generator+Module+Documentation)
+
+
 ###Sample of generated CDA Document
 
 [How CDA message looks like!](https://wiki.openmrs.org/display/projects/Sample+Aphp+messages+for+review)
