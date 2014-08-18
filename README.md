@@ -11,7 +11,7 @@ for more resources follow below links
 
 ###Documentation Page
 
-[CDA Generator Module Documentation](https://wiki.openmrs.org/display/projects/CDA+Generator+Module+Documentation)
+[CDA Generator Module Documentation Page](https://wiki.openmrs.org/display/projects/CDA+Generator+Module+Documentation)
 
 
 ###Sample of generated CDA Document
